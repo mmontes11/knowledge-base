@@ -6,3 +6,4 @@ Projects in the Kubernetes domain.
 | ------- | ----------- |
 | [cloudnative-pg](cloudnative-pg/) | Kubernetes operator for PostgreSQL that manages clustered deployments with high availability, WAL archiving and point-in-time recovery, in-place major upgrades, PgBouncer pooling, and declarative databases, roles, publications, and subscriptions. |
 | [mariadb-operator](mariadb-operator/) | Kubernetes operator that provisions, runs, and maintains MariaDB clusters (standalone, Galera, replication, and multi-cluster topologies) along with their SQL objects, MaxScale proxies, and backup/restore infrastructure. |
+| [seaweedfs-operator](seaweedfs-operator/) | Kubernetes operator that deploys and maintains SeaweedFS clusters (master, volume, and filer services) with a standalone S3-compatible API, embedded IAM, CSI mounts, declarative buckets and lifecycle policies, scheduled admin scripts, and metadata backup/restore with continuous data mirroring. |
