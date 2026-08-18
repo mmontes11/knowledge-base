@@ -119,7 +119,8 @@ For each tracked project, in order:
 | ------------ | ---------------------------------------------------------- | ----------------------------------------------------- |
 | `kubernetes` | [cert-manager](kubernetes/cert-manager/)                   | [jetstack/cert-manager](https://github.com/jetstack/cert-manager)                             |
 | `kubernetes` | [cloudnative-pg](kubernetes/cloudnative-pg/)               | [cloudnative-pg/cloudnative-pg](https://github.com/cloudnative-pg/cloudnative-pg)             |
-| `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/) | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator) |
+| `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/)                   | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator)        |
+| `ai`         | [open-webui](ai/open-webui/)                                       | [open-webui/open-webui](https://github.com/open-webui/open-webui)                                |
 | `kubernetes` | [tailscale](kubernetes/tailscale/) | [tailscale/tailscale](https://github.com/tailscale/tailscale) |
 | `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/)           | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator)     |
 | `kubernetes` | [metallb](kubernetes/metallb/)                             | [metallb/metallb](https://github.com/metallb/metallb)                                          |
