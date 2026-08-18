@@ -118,6 +118,8 @@ For each tracked project, in order:
 | Category     | Project                                                    | Upstream                                              |
 | ------------ | ---------------------------------------------------------- | ----------------------------------------------------- |
 | `kubernetes` | [cloudnative-pg](kubernetes/cloudnative-pg/)               | [cloudnative-pg/cloudnative-pg](https://github.com/cloudnative-pg/cloudnative-pg)             |
+| `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/) | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator) |
+| `kubernetes` | [tailscale](kubernetes/tailscale/) | [tailscale/tailscale](https://github.com/tailscale/tailscale) |
 | `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/)           | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator)     |
 | `kubernetes` | [topolvm](kubernetes/topolvm/)                             | [topolvm/topolvm](https://github.com/topolvm/topolvm)                                         |
 | `kubernetes` | [traefik](kubernetes/traefik/)                             | [traefik/traefik](https://github.com/traefik/traefik)                                           |
