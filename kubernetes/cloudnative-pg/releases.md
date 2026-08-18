@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/cloudnative-pg/cloudnative-pg
-last_updated: 2026-08-15
+last_updated: 2026-08-16
 ---
 
 # cloudnative-pg — releases

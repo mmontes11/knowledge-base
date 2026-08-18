@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/cloudnative-pg/cloudnative-pg
-last_updated: 2026-08-15
+last_updated: 2026-08-16
 ---
 
 # cloudnative-pg — features
@@ -35,7 +35,7 @@ Key feature areas, each linked to the upstream documentation covering it. The do
 
 ## Upgrades
 
-- **Major version upgrades**: in-place PostgreSQL major upgrades via `pg_upgrade` (to PG 18 and, in 1.30.0, up to PG 19), plus minor version updates through image catalog updates. [docs/postgres_upgrades](https://cloudnative-pg.io/docs/1.30/postgres_upgrades)
+- **Major version upgrades**: in-place PostgreSQL major upgrades via `pg_upgrade` (to PG 18 and, in 1.30.0, up to PG 19 for clusters using Image Volume extensions), plus minor version updates through image catalog updates. [docs/postgres_upgrades](https://cloudnative-pg.io/docs/1.30/postgres_upgrades)
 
 ## Image catalogs
 
