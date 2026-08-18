@@ -121,6 +121,7 @@ For each tracked project, in order:
 | `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/) | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator) |
 | `kubernetes` | [tailscale](kubernetes/tailscale/) | [tailscale/tailscale](https://github.com/tailscale/tailscale) |
 | `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/)           | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator)     |
+| `kubernetes` | [synology-csi](kubernetes/synology-csi/)                   | [SynologyOpenSource/synology-csi](https://github.com/SynologyOpenSource/synology-csi)         |
 | `kubernetes` | [topolvm](kubernetes/topolvm/)                             | [topolvm/topolvm](https://github.com/topolvm/topolvm)                                         |
 | `kubernetes` | [traefik](kubernetes/traefik/)                             | [traefik/traefik](https://github.com/traefik/traefik)                                           |
 | `kubernetes` | [trust-manager](kubernetes/trust-manager/)                 | [cert-manager/trust-manager](https://github.com/cert-manager/trust-manager)                    |
