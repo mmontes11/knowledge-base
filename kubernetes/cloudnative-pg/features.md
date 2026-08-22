@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/cloudnative-pg/cloudnative-pg
-last_updated: 2026-08-16
+last_updated: 2026-08-22
 ---
 
 # cloudnative-pg — features
@@ -22,7 +22,7 @@ Key feature areas, each linked to the upstream documentation covering it. The do
 
 - **Physical backups** (`Backup`, `ScheduledBackup`) and continuous **WAL archiving**: base backups plus WAL to S3-compatible, Azure Blob, GCS, NFS, or in-cluster storage, with retention policies. [docs/backup_recovery](https://cloudnative-pg.io/docs/1.30/backup_recovery), [docs/wal_archiving](https://cloudnative-pg.io/docs/1.30/wal_archiving)
 - **Recovery**: point-in-time recovery to the `Cluster` itself (there is no separate `Restore` kind). [docs/recovery](https://cloudnative-pg.io/docs/1.30/recovery)
-- ⚠️ **Built-in (in-tree) Barman Cloud is deprecated**: it is removed in `1.31.0`; migrate to the [Barman Cloud plugin](https://github.com/cloudnative-pg/barman-cloud-plugin). Deprecation announced in 1.29.0, schedule changed twice (1.30.0 → 1.31.0). [release v1.29.0](https://github.com/cloudnative-pg/cloudnative-pg/releases/tag/v1.29.0), [release v1.30.0](https://github.com/cloudnative-pg/cloudnative-pg/releases/tag/v1.30.0)
+- ⚠️ **Built-in (in-tree) Barman Cloud is deprecated**: it is removed in `1.31.0`; migrate to the [Barman Cloud plugin](https://github.com/cloudnative-pg/plugin-barman-cloud). Deprecation announced in 1.29.0, schedule changed twice (1.30.0 → 1.31.0). [release v1.29.0](https://github.com/cloudnative-pg/cloudnative-pg/releases/tag/v1.29.0), [release v1.30.0](https://github.com/cloudnative-pg/cloudnative-pg/releases/tag/v1.30.0)
 
 ## Connection pooling
 

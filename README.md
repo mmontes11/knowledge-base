@@ -119,6 +119,7 @@ For each tracked project, in order:
 | ------------ | ---------------------------------------------------------- | ----------------------------------------------------- |
 | `kubernetes` | [cert-manager](kubernetes/cert-manager/)                   | [jetstack/cert-manager](https://github.com/jetstack/cert-manager)                             |
 | `kubernetes` | [cloudnative-pg](kubernetes/cloudnative-pg/)               | [cloudnative-pg/cloudnative-pg](https://github.com/cloudnative-pg/cloudnative-pg)             |
+| `kubernetes` | [plugin-barman-cloud](kubernetes/plugin-barman-cloud/)     | [cloudnative-pg/plugin-barman-cloud](https://github.com/cloudnative-pg/plugin-barman-cloud)   |
 | `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/) | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator) |
 | `kubernetes` | [tailscale](kubernetes/tailscale/) | [tailscale/tailscale](https://github.com/tailscale/tailscale) |
 | `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/)           | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator)     |
