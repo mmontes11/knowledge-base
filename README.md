@@ -131,5 +131,6 @@ For each tracked project, in order:
 | `kubernetes` | [seaweedfs-operator](kubernetes/seaweedfs-operator/)       | [seaweedfs/seaweedfs-operator](https://github.com/seaweedfs/seaweedfs-operator)               |
 | `kubernetes` | [volsync](kubernetes/volsync/)                             | [backube/volsync](https://github.com/backube/volsync)                                         |
 | `kubernetes` | [rook](kubernetes/rook/)                                   | [rook/rook](https://github.com/rook/rook)                                                     |
+| `ai`         | [llama-cpp](ai/llama-cpp/)                                 | [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp)                                    |
 
 > The `kubernetes/` tree is bootstrapped by the first maintenance run: the folder, the category index, and the four standard documents for `mariadb-operator` are created and populated from upstream.
