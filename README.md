@@ -123,6 +123,7 @@ For each tracked project, in order:
 | `kubernetes` | [tailscale](kubernetes/tailscale/) | [tailscale/tailscale](https://github.com/tailscale/tailscale) |
 | `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/)           | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator)     |
 | `kubernetes` | [metallb](kubernetes/metallb/)                             | [metallb/metallb](https://github.com/metallb/metallb)                                          |
+| `kubernetes` | [prometheus-blackbox-exporter](kubernetes/prometheus-blackbox-exporter/) | [prometheus/blackbox_exporter](https://github.com/prometheus/blackbox_exporter) |
 | `kubernetes` | [snapscheduler](kubernetes/snapscheduler/)                 | [backube/snapscheduler](https://github.com/backube/snapscheduler)                             |
 | `kubernetes` | [synology-csi](kubernetes/synology-csi/)                   | [SynologyOpenSource/synology-csi](https://github.com/SynologyOpenSource/synology-csi)         |
 | `kubernetes` | [topolvm](kubernetes/topolvm/)                             | [topolvm/topolvm](https://github.com/topolvm/topolvm)                                         |
