@@ -131,6 +131,7 @@ For each tracked project, in order:
 | `kubernetes` | [seaweedfs-operator](kubernetes/seaweedfs-operator/)       | [seaweedfs/seaweedfs-operator](https://github.com/seaweedfs/seaweedfs-operator)               |
 | `kubernetes` | [volsync](kubernetes/volsync/)                             | [backube/volsync](https://github.com/backube/volsync)                                         |
 | `kubernetes` | [rook](kubernetes/rook/)                                   | [rook/rook](https://github.com/rook/rook)                                                     |
+| `kubernetes` | [kube-prometheus-stack](kubernetes/kube-prometheus-stack/) | [prometheus-community/kube-prometheus-stack](https://github.com/prometheus-community/kube-prometheus-stack) |
 | `ai`         | [multica](ai/multica/)                                     | [multica-ai/multica](https://github.com/multica-ai/multica)                                   |
 
 > The `kubernetes/` tree is bootstrapped by the first maintenance run: the folder, the category index, and the four standard documents for `mariadb-operator` are created and populated from upstream.
