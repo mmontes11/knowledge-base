@@ -138,6 +138,7 @@ For each tracked project, in order:
 | `kubernetes` | [seaweedfs-operator](kubernetes/seaweedfs-operator/)       | [seaweedfs/seaweedfs-operator](https://github.com/seaweedfs/seaweedfs-operator)               |
 | `kubernetes` | [volsync](kubernetes/volsync/)                             | [backube/volsync](https://github.com/backube/volsync)                                         |
 | `kubernetes` | [rook](kubernetes/rook/)                                   | [rook/rook](https://github.com/rook/rook)                                                     |
+| `ai` | [mcp-mariadb](ai/mcp-mariadb/)                             | [mmontes11/mcp-mariadb](https://github.com/mmontes11/mcp-mariadb)                             |
 | `ai`         | [kubernetes-mcp-server](ai/kubernetes-mcp-server/)          | [containers/kubernetes-mcp-server](https://github.com/containers/kubernetes-mcp-server)        |
 | `ai`         | [mcp-grafana](ai/mcp-grafana/)                             | [grafana/mcp-grafana](https://github.com/grafana/mcp-grafana)                                  |
 | `ai` | [lws](ai/lws/)                                              | [kubernetes-sigs/lws](https://github.com/kubernetes-sigs/lws)                                  |

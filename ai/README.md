@@ -1,9 +1,11 @@
 # ai
 
-Projects in the AI domain.
+Projects in the AI domain: Model Context Protocol (MCP) servers and the LLM-related infrastructure around them.
 
 | Project | Description |
 | ------- | ----------- |
+| [mcp-mariadb](mcp-mariadb/) | MariaDB MCP server in Python that exposes a MariaDB server to AI agents as MCP tools — database and table discovery, table schemas (optionally with foreign-key relations), and parameterized read-only SQL queries — shipped as a container image with SSE/HTTP transports. |
+Projects in the AI domain.
 | [kubernetes-mcp-server](kubernetes-mcp-server/) | Go-native Model Context Protocol server for Kubernetes and OpenShift that exposes cluster operations (generic resource CRUD, pods, events, nodes, Helm, plus optional toolsets for KubeVirt, Kiali, Tekton, NetObserv, and kcp) as MCP tools, prompts, and configuration, with multi-cluster support, read-only/destructive-safe modes, OIDC authentication, and OTel observability. |
 Projects in the AI / LLM tooling domain.
 | [mcp-grafana](mcp-grafana/) | Model Context Protocol (MCP) server for Grafana: exposes dashboards, datasources, and the surrounding observability ecosystem (Prometheus, Loki, Pyroscope, Alerting, OnCall, Sift, Incident, Annotations, Snapshots, Rendering, and more) as a large set of typed MCP tools that LLM clients such as Claude Desktop, Cursor, and VS Code can call over `stdio`, `sse`, or `streamable-http`. |
