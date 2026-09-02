@@ -117,12 +117,18 @@ For each tracked project, in order:
 
 | Category     | Project                                                    | Upstream                                              |
 | ------------ | ---------------------------------------------------------- | ----------------------------------------------------- |
+| `ai`         | [comfyui](ai/comfyui/)                                     | [comfyanonymous/ComfyUI](https://github.com/comfyanonymous/ComfyUI)                          |
 | `kubernetes` | [cert-manager](kubernetes/cert-manager/)                   | [jetstack/cert-manager](https://github.com/jetstack/cert-manager)                             |
 | `kubernetes` | [cloudnative-pg](kubernetes/cloudnative-pg/)               | [cloudnative-pg/cloudnative-pg](https://github.com/cloudnative-pg/cloudnative-pg)             |
+| `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/)                   | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator)        |
+| `ai`         | [open-webui](ai/open-webui/)                                       | [open-webui/open-webui](https://github.com/open-webui/open-webui)                                |
+| `kubernetes` | [gateway-api](kubernetes/gateway-api/)                     | [kubernetes-sigs/gateway-api](https://github.com/kubernetes-sigs/gateway-api)                 |
 | `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/) | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator) |
 | `kubernetes` | [tailscale](kubernetes/tailscale/) | [tailscale/tailscale](https://github.com/tailscale/tailscale) |
-| `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/)           | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator)     |
 | `kubernetes` | [metallb](kubernetes/metallb/)                             | [metallb/metallb](https://github.com/metallb/metallb)                                          |
+| `kubernetes` | [sealed-secrets](kubernetes/sealed-secrets/)               | [bitnami-labs/sealed-secrets](https://github.com/bitnami-labs/sealed-secrets)                 |
+| `kubernetes` | [nvidia-device-plugin](kubernetes/nvidia-device-plugin/)   | [NVIDIA/k8s-device-plugin](https://github.com/NVIDIA/k8s-device-plugin)                         |
+| `kubernetes` | [metrics-server](kubernetes/metrics-server/) | [kubernetes-sigs/metrics-server](https://github.com/kubernetes-sigs/metrics-server) |
 | `kubernetes` | [snapscheduler](kubernetes/snapscheduler/)                 | [backube/snapscheduler](https://github.com/backube/snapscheduler)                             |
 | `kubernetes` | [synology-csi](kubernetes/synology-csi/)                   | [SynologyOpenSource/synology-csi](https://github.com/SynologyOpenSource/synology-csi)         |
 | `kubernetes` | [topolvm](kubernetes/topolvm/)                             | [topolvm/topolvm](https://github.com/topolvm/topolvm)                                         |
@@ -132,5 +138,14 @@ For each tracked project, in order:
 | `kubernetes` | [volsync](kubernetes/volsync/)                             | [backube/volsync](https://github.com/backube/volsync)                                         |
 | `kubernetes` | [rook](kubernetes/rook/)                                   | [rook/rook](https://github.com/rook/rook)                                                     |
 | `ai`         | [kserve](ai/kserve/)                                       | [kserve/kserve](https://github.com/kserve/kserve)                                             |
+| `ai`         | [llama-cpp](ai/llama-cpp/)                                 | [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp)                                    |
+| `ai`         | [n8n](ai/n8n/)                                             | [n8n-io/n8n](https://github.com/n8n-io/n8n)                                                   |
+| `kubernetes` | [redis-operator](kubernetes/redis-operator/)               | [OT-CONTAINER-KIT/redis-operator](https://github.com/OT-CONTAINER-KIT/redis-operator)         |
+| `kubernetes` | [nvidia-dcgm-exporter](kubernetes/nvidia-dcgm-exporter/)   | [NVIDIA/dcgm-exporter](https://github.com/NVIDIA/dcgm-exporter)                               |
+| `kubernetes` | [charts](kubernetes/charts/)                               | [mmontes11/charts](https://github.com/mmontes11/charts)                                        |
+| `kubernetes` | [csi-driver-nfs](kubernetes/csi-driver-nfs/)               | [kubernetes-csi/csi-driver-nfs](https://github.com/kubernetes-csi/csi-driver-nfs)             |
+| `ai`         | [multica](ai/multica/)                                     | [multica-ai/multica](https://github.com/multica-ai/multica)                                   |
+| `ai`         | [vllm](ai/vllm/)                                           | [vllm-project/vllm](https://github.com/vllm-project/vllm)                                     |
+| `ai`         | [opencode](ai/opencode/)                                    | [anomalyco/opencode](https://github.com/anomalyco/opencode)                                   |
 
 > The `kubernetes/` tree is bootstrapped by the first maintenance run: the folder, the category index, and the four standard documents for `mariadb-operator` are created and populated from upstream.
