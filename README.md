@@ -137,6 +137,7 @@ For each tracked project, in order:
 | `kubernetes` | [seaweedfs-operator](kubernetes/seaweedfs-operator/)       | [seaweedfs/seaweedfs-operator](https://github.com/seaweedfs/seaweedfs-operator)               |
 | `kubernetes` | [volsync](kubernetes/volsync/)                             | [backube/volsync](https://github.com/backube/volsync)                                         |
 | `kubernetes` | [rook](kubernetes/rook/)                                   | [rook/rook](https://github.com/rook/rook)                                                     |
+| `ai` | [lws](ai/lws/)                                              | [kubernetes-sigs/lws](https://github.com/kubernetes-sigs/lws)                                  |
 | `ai`         | [kserve](ai/kserve/)                                       | [kserve/kserve](https://github.com/kserve/kserve)                                             |
 | `ai`         | [llama-cpp](ai/llama-cpp/)                                 | [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp)                                    |
 | `ai`         | [n8n](ai/n8n/)                                             | [n8n-io/n8n](https://github.com/n8n-io/n8n)                                                   |

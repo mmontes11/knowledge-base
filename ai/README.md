@@ -1,9 +1,11 @@
 # ai
 
-Projects in the AI / machine-learning serving domain.
+Projects in the AI / machine-learning domain: workloads, schedulers, and operators that run ML inference and training on Kubernetes.
 
 | Project | Description |
 | ------- | ----------- |
+| [lws](lws/) | Kubernetes API (LeaderWorkerSet) that deploys a leader pod plus N worker pods as a single unit of replication for distributed workloads (LLM inference, train/serve stacks), with gang-aware rollout, restart policies, and multi-role disaggregated inference (DisaggregatedSet) plus per-role autoscaling. |
+Projects in the AI / machine-learning serving domain.
 | [kserve](kserve/) | CNCF-incubating, Kubernetes-native platform for deploying and scaling traditional ML models and LLMs: a single `InferenceService` API covering standard (Knative serverless, scale-to-zero, canary) and raw (`Deployment`) modes, a multi-framework serving-runtime ecosystem (TensorFlow, PyTorch, ONNX, XGBoost, scikit-learn, Hugging Face, vLLM), the Gateway-API-based `LLMInferenceService` for LLM inference pooling, local model caching, and multi-node / multi-GPU serving. |
 Projects in the AI / local-inference domain.
 | [llama-cpp](llama-cpp/) | Plain C/C++ LLM and VLM inference engine built on the ggml tensor library: GGUF quantized models (1.5–8-bit), an OpenAI-compatible HTTP server with built-in web UI, and hardware backends from Apple Silicon Metal to CUDA, Vulkan, SYCL, and OpenVINO. |
