@@ -144,6 +144,7 @@ For each tracked project, in order:
 | `kubernetes` | [charts](kubernetes/charts/)                               | [mmontes11/charts](https://github.com/mmontes11/charts)                                        |
 | `kubernetes` | [csi-driver-nfs](kubernetes/csi-driver-nfs/)               | [kubernetes-csi/csi-driver-nfs](https://github.com/kubernetes-csi/csi-driver-nfs)             |
 | `ai`         | [multica](ai/multica/)                                     | [multica-ai/multica](https://github.com/multica-ai/multica)                                   |
+| `ai`         | [vllm](ai/vllm/)                                           | [vllm-project/vllm](https://github.com/vllm-project/vllm)                                     |
 | `ai`         | [opencode](ai/opencode/)                                    | [anomalyco/opencode](https://github.com/anomalyco/opencode)                                   |
 
 > The `kubernetes/` tree is bootstrapped by the first maintenance run: the folder, the category index, and the four standard documents for `mariadb-operator` are created and populated from upstream.
