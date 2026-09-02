@@ -1,9 +1,11 @@
 # ai
 
-Projects in the AI domain.
+Projects in the AI / LLM tooling domain.
 
 | Project | Description |
 | ------- | ----------- |
+| [mcp-grafana](mcp-grafana/) | Model Context Protocol (MCP) server for Grafana: exposes dashboards, datasources, and the surrounding observability ecosystem (Prometheus, Loki, Pyroscope, Alerting, OnCall, Sift, Incident, Annotations, Snapshots, Rendering, and more) as a large set of typed MCP tools that LLM clients such as Claude Desktop, Cursor, and VS Code can call over `stdio`, `sse`, or `streamable-http`. |
+Projects in the AI domain.
 | [github-mcp-server](github-mcp-server/) | GitHub's official Model Context Protocol (MCP) server that connects AI agents and assistants directly to the GitHub platform — repositories and code, issues, pull requests, Actions/CI, code security, Projects, and teams — as a catalog of typed MCP tools grouped into toolsets, delivered over stdio or HTTP. |
 Projects in the AI / machine-learning domain: workloads, schedulers, and operators that run ML inference and training on Kubernetes.
 | [lws](lws/) | Kubernetes API (LeaderWorkerSet) that deploys a leader pod plus N worker pods as a single unit of replication for distributed workloads (LLM inference, train/serve stacks), with gang-aware rollout, restart policies, and multi-role disaggregated inference (DisaggregatedSet) plus per-role autoscaling. |
