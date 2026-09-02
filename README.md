@@ -124,6 +124,7 @@ For each tracked project, in order:
 | `kubernetes` | [tailscale](kubernetes/tailscale/) | [tailscale/tailscale](https://github.com/tailscale/tailscale) |
 | `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/)           | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator)     |
 | `kubernetes` | [metallb](kubernetes/metallb/)                             | [metallb/metallb](https://github.com/metallb/metallb)                                          |
+| `kubernetes` | [nvidia-device-plugin](kubernetes/nvidia-device-plugin/)   | [NVIDIA/k8s-device-plugin](https://github.com/NVIDIA/k8s-device-plugin)                         |
 | `kubernetes` | [metrics-server](kubernetes/metrics-server/) | [kubernetes-sigs/metrics-server](https://github.com/kubernetes-sigs/metrics-server) |
 | `kubernetes` | [snapscheduler](kubernetes/snapscheduler/)                 | [backube/snapscheduler](https://github.com/backube/snapscheduler)                             |
 | `kubernetes` | [synology-csi](kubernetes/synology-csi/)                   | [SynologyOpenSource/synology-csi](https://github.com/SynologyOpenSource/synology-csi)         |
