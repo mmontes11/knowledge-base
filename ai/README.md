@@ -1,9 +1,11 @@
 # ai
 
-Projects in the AI / local-inference domain.
+Projects in the AI / machine-learning serving domain.
 
-| Project   | Description |
-| --------- | ----------- |
+| Project | Description |
+| ------- | ----------- |
+| [kserve](kserve/) | CNCF-incubating, Kubernetes-native platform for deploying and scaling traditional ML models and LLMs: a single `InferenceService` API covering standard (Knative serverless, scale-to-zero, canary) and raw (`Deployment`) modes, a multi-framework serving-runtime ecosystem (TensorFlow, PyTorch, ONNX, XGBoost, scikit-learn, Hugging Face, vLLM), the Gateway-API-based `LLMInferenceService` for LLM inference pooling, local model caching, and multi-node / multi-GPU serving. |
+Projects in the AI / local-inference domain.
 | [llama-cpp](llama-cpp/) | Plain C/C++ LLM and VLM inference engine built on the ggml tensor library: GGUF quantized models (1.5–8-bit), an OpenAI-compatible HTTP server with built-in web UI, and hardware backends from Apple Silicon Metal to CUDA, Vulkan, SYCL, and OpenVINO. |
 Projects in the AI domain.
 | [n8n](n8n/) | Fair-code (Sustainable Use License) workflow automation platform with native AI capabilities: a visual canvas with 400+ built-in integration nodes, triggers (webhook, schedule, chat, MCP server), a LangChain-based AI Agent node with MCP tools, an AI Assistant that edits workflows by chat, a REST API + CLI, built-in data tables, RBAC, and queue-mode horizontal scaling. Deploy with Docker or Helm (OCI chart `oci://ghcr.io/n8n-io/n8n-helm-chart/n8n`). |
