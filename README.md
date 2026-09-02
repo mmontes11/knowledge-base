@@ -124,8 +124,8 @@ For each tracked project, in order:
 | `kubernetes` | [gateway-api](kubernetes/gateway-api/)                     | [kubernetes-sigs/gateway-api](https://github.com/kubernetes-sigs/gateway-api)                 |
 | `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/) | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator) |
 | `kubernetes` | [tailscale](kubernetes/tailscale/) | [tailscale/tailscale](https://github.com/tailscale/tailscale) |
-| `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/)           | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator)     |
 | `kubernetes` | [metallb](kubernetes/metallb/)                             | [metallb/metallb](https://github.com/metallb/metallb)                                          |
+| `kubernetes` | [sealed-secrets](kubernetes/sealed-secrets/)               | [bitnami-labs/sealed-secrets](https://github.com/bitnami-labs/sealed-secrets)                 |
 | `kubernetes` | [nvidia-device-plugin](kubernetes/nvidia-device-plugin/)   | [NVIDIA/k8s-device-plugin](https://github.com/NVIDIA/k8s-device-plugin)                         |
 | `kubernetes` | [metrics-server](kubernetes/metrics-server/) | [kubernetes-sigs/metrics-server](https://github.com/kubernetes-sigs/metrics-server) |
 | `kubernetes` | [snapscheduler](kubernetes/snapscheduler/)                 | [backube/snapscheduler](https://github.com/backube/snapscheduler)                             |
