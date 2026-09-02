@@ -137,6 +137,7 @@ For each tracked project, in order:
 | `kubernetes` | [seaweedfs-operator](kubernetes/seaweedfs-operator/)       | [seaweedfs/seaweedfs-operator](https://github.com/seaweedfs/seaweedfs-operator)               |
 | `kubernetes` | [volsync](kubernetes/volsync/)                             | [backube/volsync](https://github.com/backube/volsync)                                         |
 | `kubernetes` | [rook](kubernetes/rook/)                                   | [rook/rook](https://github.com/rook/rook)                                                     |
+| `ai`         | [llama-cpp](ai/llama-cpp/)                                 | [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp)                                    |
 | `ai`         | [n8n](ai/n8n/)                                             | [n8n-io/n8n](https://github.com/n8n-io/n8n)                                                   |
 | `kubernetes` | [redis-operator](kubernetes/redis-operator/)               | [OT-CONTAINER-KIT/redis-operator](https://github.com/OT-CONTAINER-KIT/redis-operator)         |
 | `kubernetes` | [nvidia-dcgm-exporter](kubernetes/nvidia-dcgm-exporter/)   | [NVIDIA/dcgm-exporter](https://github.com/NVIDIA/dcgm-exporter)                               |

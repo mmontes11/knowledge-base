@@ -1,9 +1,11 @@
 # ai
 
-Projects in the AI domain.
+Projects in the AI / local-inference domain.
 
-| Project | Description |
-| ------- | ----------- |
+| Project   | Description |
+| --------- | ----------- |
+| [llama-cpp](llama-cpp/) | Plain C/C++ LLM and VLM inference engine built on the ggml tensor library: GGUF quantized models (1.5–8-bit), an OpenAI-compatible HTTP server with built-in web UI, and hardware backends from Apple Silicon Metal to CUDA, Vulkan, SYCL, and OpenVINO. |
+Projects in the AI domain.
 | [n8n](n8n/) | Fair-code (Sustainable Use License) workflow automation platform with native AI capabilities: a visual canvas with 400+ built-in integration nodes, triggers (webhook, schedule, chat, MCP server), a LangChain-based AI Agent node with MCP tools, an AI Assistant that edits workflows by chat, a REST API + CLI, built-in data tables, RBAC, and queue-mode horizontal scaling. Deploy with Docker or Helm (OCI chart `oci://ghcr.io/n8n-io/n8n-helm-chart/n8n`). |
 Projects in the AI / machine-learning domain.
 | [comfyui](comfyui/) | Modular diffusion-model GUI, API and backend built around a visual node graph: composes image, video, audio, 3D, and text generation workflows without code, with an async queue, smart VRAM/RAM management, broad native model support, custom nodes, and a local HTTP API for production pipelines. |
