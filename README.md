@@ -133,6 +133,7 @@ For each tracked project, in order:
 | `kubernetes` | [seaweedfs-operator](kubernetes/seaweedfs-operator/)       | [seaweedfs/seaweedfs-operator](https://github.com/seaweedfs/seaweedfs-operator)               |
 | `kubernetes` | [volsync](kubernetes/volsync/)                             | [backube/volsync](https://github.com/backube/volsync)                                         |
 | `kubernetes` | [rook](kubernetes/rook/)                                   | [rook/rook](https://github.com/rook/rook)                                                     |
+| `kubernetes` | [nvidia-dcgm-exporter](kubernetes/nvidia-dcgm-exporter/)   | [NVIDIA/dcgm-exporter](https://github.com/NVIDIA/dcgm-exporter)                               |
 | `kubernetes` | [charts](kubernetes/charts/)                               | [mmontes11/charts](https://github.com/mmontes11/charts)                                        |
 | `kubernetes` | [csi-driver-nfs](kubernetes/csi-driver-nfs/)               | [kubernetes-csi/csi-driver-nfs](https://github.com/kubernetes-csi/csi-driver-nfs)             |
 | `ai`         | [multica](ai/multica/)                                     | [multica-ai/multica](https://github.com/multica-ai/multica)                                   |
