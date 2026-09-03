@@ -4,6 +4,8 @@ A curated knowledge base of open-source projects available on GitHub. Each track
 
 This README is the **contract of the knowledge base**: it defines the layout, the naming conventions, the standard documents, and the maintenance rules that both humans and the maintenance agent must follow. Anything in this repository that contradicts this document is the thing that is wrong.
 
+**Last updated:** 2026-09-03 (UTC) — date of the most recent maintenance commit to `main`. Per-file freshness is tracked by the `last_updated` frontmatter in [Metadata](#metadata).
+
 ## Goals
 
 - Answer, per project, four questions from one stable place: *what is it*, *what is its API surface*, *what is the latest release*, and *what features does it have*.
@@ -80,9 +82,15 @@ last_updated: 2026-08-15
 - `upstream`: canonical repository URL. Required.
 - `last_updated`: UTC date the content was last verified or changed. It is the only staleness signal the agent relies on; files older than the re-check threshold (default: **90 days**) are re-verified on the next run even if no new release appeared.
 
+## Update schedule
+
+- **Cadence:** weekly — every Monday at 09:00 (Europe/Madrid). Driven by the `Update Knowledge Base` Multica autopilot.
+- **Per run:** for every tracked project, compare the latest upstream GitHub releases against the project's `releases.md`; for each project with an untracked release, the autopilot creates a low-priority Multica issue (a sub-issue of the run) assigned to the maintenance agent.
+- **Per issue:** the agent applies the [maintenance rules](#maintenance-rules-ai-agent) to that one project and pushes directly to `main` — no pull request.
+
 ## Maintenance rules (AI agent)
 
-The agent runs on a periodic schedule (operator-configured, e.g. weekly). Every run must be **idempotent**: unchanged upstream state produces an empty diff.
+The agent runs on the [update schedule](#update-schedule). Every run must be **idempotent**: unchanged upstream state produces an empty diff.
 
 For each tracked project, in order:
 
@@ -94,7 +102,7 @@ For each tracked project, in order:
 6. Update the project `README.md` only if description, license, or upstream URLs changed.
 7. Bump `last_updated` in the frontmatter of every file that was modified.
 8. Commit once per project with a conventional message: `docs(<category>/<project>): <summary>` (e.g. `docs(kubernetes/mariadb-operator): add release v1.5.0`).
-9. Open a pull request against `main`; a human reviews and merges.
+9. Push directly to `main` — no pull request. Once the push lands, mark the triggering Multica issue as *Done*.
 
 **Adding a project**
 
