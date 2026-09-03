@@ -1,11 +1,11 @@
 ---
 upstream: https://github.com/multica-ai/multica
-last_updated: 2026-08-23
+last_updated: 2026-09-03
 ---
 
 # multica
 
-Multica is an open-source workspace for assigning work to AI coding agents the way you'd assign it to a teammate: an agent is picked as issue assignee, picks the task up on a runtime you control, comments progress as it goes, and hands the work back at review. It is self-hostable (Docker Compose or Helm), works with 23 agent CLIs (Claude Code, Codex, Cursor, Kimi, OpenCode, and more), and ships web, desktop, and mobile clients plus the `multica` CLI that agents themselves use to drive the platform.
+Multica is an open-source workspace for assigning work to AI coding agents the way you'd assign it to a teammate: an agent is picked as issue assignee, picks the task up on a runtime you control, comments progress as it goes, and hands the work back at review. It is self-hostable (Docker Compose or Helm), works with 26 agent CLIs (Claude Code, Codex, Cursor, Kimi, OpenCode, and more), and ships web, desktop, and mobile clients plus the `multica` CLI that agents themselves use to drive the platform.
 
 - Upstream repository: [multica-ai/multica](https://github.com/multica-ai/multica)
 - Documentation: [multica.ai/docs](https://multica.ai/docs); website and cloud: [multica.ai](https://multica.ai); self-hosting guide: [SELF_HOSTING.md](https://github.com/multica-ai/multica/blob/main/SELF_HOSTING.md)

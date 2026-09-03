@@ -1,11 +1,54 @@
 ---
 upstream: https://github.com/multica-ai/multica
-last_updated: 2026-08-23
+last_updated: 2026-09-03
 ---
 
 # multica — releases
 
 Latest 10 official releases, newest first. Multica ships daily patch releases; check the ⚠️ entries before upgrading.
+
+## v0.4.38 — 2026-09-02
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.38)
+
+- `multica issue runs` now exposes active and cross-issue agent runs; issue property filters gain operator matching on scalar properties, indexed behind a bigram prefilter.
+- Claude Fable 5.1 model added with pricing; Claude Code's model catalog is now discovered from the CLI; workspaces get notified about autopilot quota.
+
+## v0.4.37 — 2026-08-31
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.37)
+
+- Native iPad support in the mobile client; new Huawei Cloud CodeArts agent runtime.
+- Server hardening: read-header and idle timeouts on the main HTTP server; skill-file loads batched; WeCom replies carry an operator-countable delivery reason and route to the replica holding the bot's socket.
+
+## v0.4.36 — 2026-08-28
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.36)
+
+- Issue property filters extended to text / number / date / url values; Cloud workspaces get enforced issue-count limits with an upgrade prompt before quick create.
+- "Import from local" added to the New skill dialog; MCP config for the Oh-My-Pi runtime; daemon agent inactivity budget raised to 2h with the tool budget derived from it.
+
+## v0.4.35 — 2026-08-26
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.35)
+
+- Per-agent conversation starters, discoverable from the chat they run in; channels gain `/new` and `/clear` conversation controls; inbox gains From and unread-only filters.
+- Qwen/Kimi/Ark models priced (with `:` provider prefixes stripped); private runtimes hidden from non-owners.
+- Note: two features (Codex capacity retry, editable live HTML preview) landed and were reverted within this release.
+
+## v0.4.34 — 2026-08-25
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.34)
+
+- Sub-issues preserve their source context; creating custom issue statuses is now always allowed; full-UUID issue refs resolve locally without a resolver GET.
+- Billing: seats purchasable from the invite flow and prepaid member seat capacity enforced; self-hosting docs route `/health` through the proxy with a single-origin example.
+
+## v0.4.33 — 2026-08-24
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.33)
+
+- ZeroClaw added as a native ACP runtime; the workspace status catalog is injected into the agent brief; a local dev environment becomes a named object with one verb per lifecycle step.
+- Plugin Public API v1 foundation exposed (globally versioned) with durable scheduled plugin hooks; self-hosting gains a daemon server URL override and `MULTICA_TASK_QUEUED_TTL` for task queue expiry.
 
 ## v0.4.32 — 2026-08-21
 
@@ -26,7 +69,7 @@ Latest 10 official releases, newest first. Multica ships daily patch releases; c
 
 [Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.30)
 
-- Custom issue status UI (picker, board, filters, settings); revision-aware concurrency guards on issues; entitlement-backed autopilot quotas with a fail-open policy provider.
+ - Custom issue status UI (picker, board, filters, settings); revision-aware concurrency guards on issues; entitlement-backed autopilot quotas with a fail-open policy provider.
 - Plugin system rebuild (parts 1/2); semantic issue activity timestamps; provider secrets redacted from command logs.
 
 ## v0.4.29 — 2026-08-18
@@ -34,40 +77,3 @@ Latest 10 official releases, newest first. Multica ships daily patch releases; c
 [Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.29)
 
 - MiniMax Code ACP runtime; issue-status board fetches by category (archive retires without migration); tasks preserved through runtime network partitions; cache reads now billed in daily/weekly cost charts.
-
-## v0.4.28 — 2026-08-17
-
-[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.28)
-
-- Per-workspace custom issue statuses over 7 canonical categories; actor / multi_actor custom property types (members); bulk skill update from source.
-
-## v0.4.27 — 2026-08-17
-
-[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.27)
-
-- Workspace-level MCP configuration (resolution contract, write-only API, Settings UI, CLI) with per-agent assignment; workspace share-link invite system; run trace rebuilt around steps, lanes, and outcome.
-- ⚠️ **Behavior change**: private runtimes are owner-only in both the API and the CLI.
-
-## v0.4.26 — 2026-08-14
-
-[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.26)
-
-- Workspace Billing settings UI backed by the Stripe subscription proxy; DeepSeek Harness runtime; private skill plugin developer loop; daemon workspaces root configurable.
-
-## v0.4.25 — 2026-08-13
-
-[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.25)
-
-- First official Plugin V1 product slice shipped (execution chain completed); worktree mode for `local_directory` project resources; imported skills updatable from their source; DingTalk groups routable to different agents.
-
-## v0.4.24 — 2026-08-12
-
-[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.24)
-
-- Web/WeCom agents can read photos, files, and videos from chat; `multica chat history` reads back web-chat history; daemon identifies itself on `/health`; bulk edit and env-file paste for agent environment variables.
-
-## v0.4.23 — 2026-08-11
-
-[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.23)
-
-- Sub-issues inherit the parent's project and assignee; Hermes agents keep memory across tasks; browser-style Cmd+[ / Cmd+] history navigation; ACP `thinking_level` driven from backend `configOptions`.
