@@ -148,6 +148,7 @@ For each tracked project, in order:
 | `kubernetes` | [nvidia-device-plugin](kubernetes/nvidia-device-plugin/) | [NVIDIA/k8s-device-plugin](https://github.com/NVIDIA/k8s-device-plugin)                       |
 | `ai`         | [open-webui](ai/open-webui/)                             | [open-webui/open-webui](https://github.com/open-webui/open-webui)                             |
 | `ai`         | [opencode](ai/opencode/)                                 | [anomalyco/opencode](https://github.com/anomalyco/opencode)                                   |
+| `database`   | [qdrant](database/qdrant/)                               | [qdrant/qdrant](https://github.com/qdrant/qdrant)                                             |
 | `kubernetes` | [redis-operator](kubernetes/redis-operator/)             | [OT-CONTAINER-KIT/redis-operator](https://github.com/OT-CONTAINER-KIT/redis-operator)         |
 | `kubernetes` | [rook](kubernetes/rook/)                                 | [rook/rook](https://github.com/rook/rook)                                                     |
 | `kubernetes` | [sealed-secrets](kubernetes/sealed-secrets/)             | [bitnami-labs/sealed-secrets](https://github.com/bitnami-labs/sealed-secrets)                 |
@@ -158,6 +159,8 @@ For each tracked project, in order:
 | `kubernetes` | [topolvm](kubernetes/topolvm/)                           | [topolvm/topolvm](https://github.com/topolvm/topolvm)                                         |
 | `kubernetes` | [traefik](kubernetes/traefik/)                           | [traefik/traefik](https://github.com/traefik/traefik)                                         |
 | `kubernetes` | [trust-manager](kubernetes/trust-manager/)               | [cert-manager/trust-manager](https://github.com/cert-manager/trust-manager)                   |
+| `database`   | [vitess](database/vitess/)                               | [vitessio/vitess](https://github.com/vitessio/vitess)                                         |
+| `kubernetes` | [vitess-operator](kubernetes/vitess-operator/)           | [planetscale/vitess-operator](https://github.com/planetscale/vitess-operator)                 |
 | `ai`         | [vllm](ai/vllm/)                                         | [vllm-project/vllm](https://github.com/vllm-project/vllm)                                     |
 | `kubernetes` | [volsync](kubernetes/volsync/)                           | [backube/volsync](https://github.com/backube/volsync)                                         |
 
