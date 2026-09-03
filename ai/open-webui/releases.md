@@ -1,11 +1,35 @@
 ---
 upstream: https://github.com/open-webui/open-webui
-last_updated: 2026-08-18
+last_updated: 2026-09-03
 ---
 
 # open-webui — releases
 
 Latest 10 official releases, newest first. Check the ⚠️ entries before upgrading.
+
+## v0.11.3 — 2026-08-31
+
+[Release page](https://github.com/open-webui/open-webui/releases/tag/v0.11.3)
+
+- Fix: a failed database upgrade now stops at the migration error instead of starting half-migrated (upgrades from v0.11.0–v0.11.2 previously came up reporting a missing `chat.timer_at` column).
+- Fix: chat branches stay linked to their parent message across reloads, exports, and later edits; chats saved with the link missing are repaired on open.
+- Accessibility mode now covers dropdown menus and the model picker; general performance, stability, and security improvements.
+
+## v0.11.2 — 2026-08-31
+
+[Release page](https://github.com/open-webui/open-webui/releases/tag/v0.11.2)
+
+- ⚠️ **Security**: this release includes security and access-control fixes (not all of them are enumerated); upstream recommends updating production deployments at the earliest convenience.
+- **New `request` filter step**: filter authors can now adjust the payload right before each model call, including follow-up calls after tool use; the existing `inlet`/`stream`/`outlet` steps are unchanged.
+- The "High Contrast Mode" setting is now named "Accessibility Mode" (same switch); streaming no longer stalls on reasoning models, and stopping a reply now works across instances on Redis-cluster deployments.
+
+## v0.11.1 — 2026-08-25
+
+[Release page](https://github.com/open-webui/open-webui/releases/tag/v0.11.1)
+
+- ⚠️ **Database migrations**: this release includes database schema changes — back up before upgrading in production, and rolling updates are not supported (all instances must be updated simultaneously). It also includes security and access-control fixes.
+- **Human in the loop tool approval** (admin opt-in): a conversation can be switched to ask before each tool call, with allow/deny choices remembered per conversation; a new built-in tool also lets a model pause and ask the user up to three multiple-choice questions.
+- **Streaming rebuilt from the ground up**: replies stream as deltas instead of resending the whole message (up to 1000x less data on long replies), and an in-progress reply is held on the server so a refresh resumes it instead of showing a blank message (Redis-backed deployments). Behavior changes: `ENABLE_REALTIME_CHAT_SAVE` no longer has any effect, `THREAD_POOL_SIZE` now sizes both background worker pools, and forms in embedded pages are allowed by default (new settings to lock them off).
 
 ## v0.11.0 — 2026-07-27
 
@@ -56,21 +80,3 @@ Latest 10 official releases, newest first. Check the ⚠️ entries before upgra
 [Release page](https://github.com/open-webui/open-webui/releases/tag/v0.9.4)
 
 - Fix: chat scroll position on load (regression from `content-visibility: auto` prevented initial scroll to bottom).
-
-## v0.9.3 — 2026-05-09
-
-[Release page](https://github.com/open-webui/open-webui/releases/tag/v0.9.3)
-
-- Voice Mode mute control ("M" shortcut, auto-unmute after playback); faster prompt-list and chat-history loading for large libraries; delete-conversation from chat menu; scroll-to-top action for long conversations.
-
-## v0.9.2 — 2026-04-24
-
-[Release page](https://github.com/open-webui/open-webui/releases/tag/v0.9.2)
-
-- PaddleOCR-vl as a document content-extraction engine; Firecrawl v2 API with retry/backoff; `reminder_minutes` for calendar events; `CUSTOM_API_KEY_HEADER` env for API key auth (useful behind auth proxies that use `Authorization`); OAuth session disconnect endpoint (e.g. MCP re-auth); model list payload trimmed of base64 profile images.
-
-## v0.9.1 — 2026-04-21
-
-[Release page](https://github.com/open-webui/open-webui/releases/tag/v0.9.1)
-
-- Fix: missing `aiosqlite` and `asyncpg` dependencies in `pyproject.toml` caused startup crashes for pip/uv and PostgreSQL installs respectively.

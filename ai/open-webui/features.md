@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/open-webui/open-webui
-last_updated: 2026-08-18
+last_updated: 2026-09-03
 ---
 
 # open-webui — features
@@ -17,7 +17,7 @@ Open WebUI fronts any Ollama or OpenAI-compatible API (plus first-party adapters
 
 ## Chat and conversations
 
-Multi-model conversations (mention `@model` in one chat), web search with many providers (Bing, Brave, Exa, Firecrawl, SearXNG, ...), image generation and editing (ComfyUI, Automatic1111, OpenAI, Gemini, ...), audio (TTS, speech-to-text, Voice Mode with real-time voice calls), reasoning-model display, and automatic context compaction (v0.10.0).
+Multi-model conversations (mention `@model` in one chat), web search with many providers (Bing, Brave, Exa, Firecrawl, SearXNG, ...), image generation and editing (ComfyUI, Automatic1111, OpenAI, Gemini, ...), audio (TTS, speech-to-text, Voice Mode with real-time voice calls), reasoning-model display, automatic context compaction (v0.10.0), and human-in-the-loop tool approval that asks before each tool call (v0.11.1).
 
 - [Chat features](https://docs.openwebui.com/features/chat-conversations/)
 - [Web search](https://docs.openwebui.com/features/chat-conversations/web-search)
@@ -52,7 +52,7 @@ Team collaboration surfaces: `@model`-aware channels, shared notes, and a calend
 
 ## Extensibility: plugins, pipelines, tools, MCP
 
-Python plugin system with **Filters** (pre/post-process requests), **Actions** (intercept), **Pipes** (custom LLM backends), and **Tools** (server-side function calling, with Rich UI); tool servers over OpenAPI and MCP (Model Context Protocol) so external MCP servers can be plugged in directly.
+Python plugin system with **Filters** (pre/post-process requests; a `request` step added in v0.11.2 adjusts the payload before each model call), **Actions** (intercept), **Pipes** (custom LLM backends), and **Tools** (server-side function calling, with Rich UI); tool servers over OpenAPI and MCP (Model Context Protocol) so external MCP servers can be plugged in directly.
 
 - [Plugin system](https://docs.openwebui.com/features/extensibility/plugin/)
 - [Functions (filter/action/event/pipe)](https://docs.openwebui.com/features/extensibility/plugin/functions/)
