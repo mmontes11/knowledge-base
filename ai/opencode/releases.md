@@ -1,11 +1,58 @@
 ---
 upstream: https://github.com/anomalyco/opencode
-last_updated: 2026-08-23
+last_updated: 2026-09-03
 ---
 
 # opencode — releases
 
 Latest 10 official releases, newest first. OpenCode ships small, frequent patch releases (roughly every few days); note the API-generation ("v1" vs "v2") entries before upgrading an embedded or remote setup.
+
+## v1.18.27 — 2026-09-02
+
+[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.27)
+
+- Provider header and streamed-chunk timeouts now default to five minutes (slower model startups fail less often); the streamed-chunk timeout can be disabled with `false`.
+- Anthropic thinking-block binding is limited to Claude 5.1+ models and can be opted out of via config, so older deployments no longer reject requests.
+- Unhandled errors when cancelling timed-out SSE reads are avoided.
+
+## v1.18.26 — 2026-09-01
+
+[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.26)
+
+- Claude 5 sessions tolerate stale thinking blocks instead of failing after prompt or tool changes.
+- Azure CLI sign-in now asks for the resource name directly instead of querying Azure management APIs; Bedrock GPT-5.6 accepts `none` reasoning effort and Bedrock reasoning/replay handling is more reliable.
+- Desktop: session renames save reliably from the title editor and tab context menu.
+
+## v1.18.25 — 2026-08-28
+
+[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.25)
+
+- Azure CLI sign-in fixed to work without requiring Bun (follow-up to the Azure CLI auth path added in v1.18.24).
+
+## v1.18.24 — 2026-08-28
+
+[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.24)
+
+- The Azure provider can now sign in with Microsoft Entra ID through the Azure CLI instead of requiring an API key.
+- V1 now reads supported V2 config fields so newer config files keep working in more mixed setups.
+- Bedrock reasoning responses no longer get cached into unreplayable empty messages.
+- Desktop: archived sessions disappear from the Home list immediately.
+
+## v1.18.23 — 2026-08-25
+
+[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.23)
+
+- Cloudflare AI Gateway now routes third-party (non-Workers) models through the REST API, and converts Anthropic dotted model IDs (e.g. `claude-haiku-4.5`) to the dashed slug the provider expects.
+- Parent session IDs no longer sent in request headers for session-aware providers.
+- TUI: GitHub auth fixed for immutable OIDC subject tokens.
+
+## v1.18.22 — 2026-08-24
+
+[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.22)
+
+- OpenCode device-login links fixed when servers return relative verification URLs or use a base path; outdated OpenCode Go first-month discount messaging and pricing removed.
+- Amazon Bedrock provider updated for compatibility fixes; `textVerbosity` no longer sent to OpenAI-compatible providers that do not support it.
+- Desktop: model provider headers stay visible while scrolling the model picker.
 
 ## v1.18.21 — 2026-08-21
 
@@ -36,45 +83,3 @@ Latest 10 official releases, newest first. OpenCode ships small, frequent patch 
 
 - Kimi system prompt selected correctly for official Moonshot and Kimi providers; `xhigh` reasoning effort fixed for xAI models.
 - *Note: this is the version deployed in this stack ([k8s-ai apps/opencode](https://github.com/mmontes11/k8s-ai) image tag `v1.18.18`).*
-
-## v1.18.17 — 2026-08-12
-
-[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.17)
-
-- Session compaction keeps complete recent turns and writes clearer summaries for smaller models.
-- Automatic session retries capped with jitter (fewer retry storms); MERGE Gateway reasoning variants; PDF attachments enabled for GitHub Copilot models with PDF vision; DeepSeek V4 Flash sampling defaults; Muse family models routed to the Meta system prompt.
-
-## v1.18.16 — 2026-08-10
-
-[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.16)
-
-- Unknown top-level config fields are ignored instead of failing config parsing; projects opened from Home are registered with the rest of the app.
-- Desktop: right-click opens the project menu; local-directory fallback when the project picker server lacks search; macOS app keeps running after the last window closes.
-
-## v1.18.15 — 2026-08-07
-
-[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.15)
-
-- Chronological message ordering fixed for imported/legacy IDs; revert and fork now use real message chronology; repeated compaction keeps earlier tool-call history.
-- Blob-based attachments load correctly in the web UI; desktop gains much broader locale coverage and full session transcript export to JSON from the UI.
-
-## v1.18.14 — 2026-08-05
-
-[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.14)
-
-- xAI login simplified to a single device-code flow (headless/remote-friendly).
-- Structured mid-stream provider errors preserved so providers can retry; more transient provider/network errors retried; ACP usage totals now count cache writes; remote-workspace proxying fixed (host `directory` no longer forwarded; upstream 5xx bodies logged).
-
-## v1.18.13 — 2026-08-04
-
-[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.13)
-
-- TUI: GitHub pull request reviews include the PR number and URL in context.
-- Desktop: early right-to-left layout support, locale-aware plural rules, expanded translations; markdown parsing moved off the main thread; untitled sessions fall back to generated names.
-
-## v1.18.12 — 2026-08-04
-
-[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.12)
-
-- Azure GPT-5.5+ completion requests with reasoning enabled fixed.
-- ⚠️ **Behavior**: legacy config reads are skipped against v2 servers (clients must use the v2 config surface); desktop composer lag from large pasted images reduced; project search covers all known recent projects, not just the first five.
