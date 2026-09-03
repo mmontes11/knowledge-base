@@ -152,5 +152,6 @@ For each tracked project, in order:
 | `ai`         | [multica](ai/multica/)                                     | [multica-ai/multica](https://github.com/multica-ai/multica)                                   |
 | `ai`         | [vllm](ai/vllm/)                                           | [vllm-project/vllm](https://github.com/vllm-project/vllm)                                     |
 | `ai`         | [opencode](ai/opencode/)                                    | [anomalyco/opencode](https://github.com/anomalyco/opencode)                                   |
+| `ai`         | [ollama](ai/ollama/)                                        | [ollama/ollama](https://github.com/ollama/ollama)                                             |
 
 > The `kubernetes/` tree is bootstrapped by the first maintenance run: the folder, the category index, and the four standard documents for `mariadb-operator` are created and populated from upstream.
