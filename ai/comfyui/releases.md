@@ -1,11 +1,19 @@
 ---
 upstream: https://github.com/comfyanonymous/ComfyUI
-last_updated: 2026-08-18
+last_updated: 2026-09-03
 ---
 
 # comfyui — Releases
 
-ComfyUI tags versions in `v0.x.y` form on the `master` branch (default branch). Releases are frequent — roughly every 1–3 weeks — combining core sampling/model support, performance work (comfy-kitchen, comfy-aimdo), and third-party "partner" node updates. The ten most recent releases as of 2026-08-18:
+ComfyUI tags versions in `v0.x.y` form on the `master` branch (default branch). Releases are frequent — roughly every 1–3 weeks — combining core sampling/model support, performance work (comfy-kitchen, comfy-aimdo), and third-party "partner" node updates. The ten most recent releases as of 2026-09-03:
+
+## v0.34.0 (2026-08-26)
+
+Release notes: [v0.34.0](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.34.0)
+
+- ⚠️ **Python 3.10 reaches end-of-life soon** — upstream now warns at startup to upgrade; plan to move off 3.10.
+- MiniMax-H3 grows (new `MiniMaxH3AddGuide` node, per-token video/audio latent noise masks, prompt embeddings, `taeh3` support); 3D generation gains Pixal3d and TRELLIS2 (CORE-278) plus Sam3d-body (CORE-35); HDR video saving with AV1, mkv, and webm and h264 HDR color-space options.
+- Partner-node refresh — ByteDance Seedance 2.5 (1080p) / Seedream Fast Mode / Wan 3.0 video, Pixverse V6, Flux Video Upscale, Meshy-7, Gemini 3.7 Flash, FishAudio; removes the Kling v2 image and retired Tripo Refine/v2.0 models; frontend bump to 1.49.6 and a Gemma4 text-generation speedup.
 
 ## v0.33.1 (2026-08-13)
 
@@ -69,9 +77,3 @@ Release notes: [v0.26.0](https://github.com/comfyanonymous/ComfyUI/releases/tag/
 
 - New job-management surface: `POST /api/jobs/{job_id}/cancel` and `POST /api/jobs/cancel` (cancel one job or all non-running jobs in a namespace).
 - New model support (SCAIL-2 multireference, Qwen3-VL as text encoders, Boogu-Image); node renames and model blueprint updates.
-
-## v0.25.1 (2026-06-18)
-
-Release notes: [v0.25.1](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.25.1)
-
-- Point release: adds support for the Kling V3-Turbo model in the partner-node set.

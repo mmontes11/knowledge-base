@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/comfyanonymous/ComfyUI
-last_updated: 2026-08-18
+last_updated: 2026-09-03
 ---
 
 # comfyui — Features
@@ -21,7 +21,7 @@ ComfyUI is model-agnostic by design — one graph runs whatever checkpoint exist
 
 - **Images**: Stable Diffusion 1/SDXL/SD3, FLUX.1 (fill/kontext/dev), Z-Image, Boogu, krea 2, Hunyuan Image, Lumina 2, NoVA, JoyImageEdit.
 - **Video**: LTX/LTXV, Wan (+ Wan-Animate2), Hunyuan Video, AnimateDiff, Phigent, Sana; LTX 2.5 added in v0.32.0; MiniMax H3 multimodal.
-- **Audio** (including MiniMax Music 3) and **3D** (TripoSR, TripoSplat).
+- **Audio** (including MiniMax Music 3) and **3D** (TripoSR, TripoSplat, Pixal3d, TRELLIS2, Sam3d-body).
 - **Text/LLM**: Llama-family models via GGUF, Gemma4, Qwen3-VL (as text encoders and for text generation).
 - Weight sharing formats: FP16, FP8, NF4, and **int8 (convrot)** since v0.27.0 — a major memory/throughput improvement backed by the `comfy-kitchen` kernel package (NVIDIA + AMD).
 
@@ -47,7 +47,7 @@ ComfyUI is model-agnostic by design — one graph runs whatever checkpoint exist
 
 ## Media processing toolkit
 
-Built-in post-processing nodes, not just generation: inpainting/outpainting, upscaling, mask and layer compositing (ImageCompositor, bounding-box canvas), image/video blending and frame interpolation, model merging (krea 2 advanced merge), segmentation and depth (SAM, Z-Depth), text overlays, GLSL shaders, and video transcode/export with CRF control.
+Built-in post-processing nodes, not just generation: inpainting/outpainting, upscaling, mask and layer compositing (ImageCompositor, bounding-box canvas), image/video blending and frame interpolation, model merging (krea 2 advanced merge), segmentation and depth (SAM, Z-Depth), text overlays, GLSL shaders, and video transcode/export with CRF control, plus HDR video saving (AV1, mkv, webm).
 
 ## Installation and distribution
 
