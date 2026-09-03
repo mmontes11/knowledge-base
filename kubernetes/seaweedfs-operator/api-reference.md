@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/seaweedfs/seaweedfs-operator
-last_updated: 2026-08-17
+last_updated: 2026-09-03
 ---
 
 # seaweedfs-operator — API reference
@@ -9,7 +9,7 @@ The operator registers 13 custom resource kinds under API group/version **`seawe
 
 | Kind | Short name | Purpose |
 | ---- | ---------- | ------- |
-| `Seaweed` | — | Core kind: declares a full SeaweedFS cluster — master, volume, and filer services (StatefulSets), S3 gateway, CSI driver enablement, IAM configuration, storage layout, TLS, backup/restore defaults. |
+| `Seaweed` | — | Core kind: declares a full SeaweedFS cluster — master, volume, and filer services (StatefulSets), S3 gateway, CSI driver enablement, IAM configuration, storage layout, TLS, JWT signing (security.toml), Lance Namespace API, backup/restore defaults. |
 | `SeaweedBackup` | `swbk` | Point-in-time backup of a cluster's filer metadata (a `fs.meta.save` snapshot to a configured storage). |
 | `SeaweedRestore` | `swr` | Restores a previously taken snapshot into a cluster (referenced by `backupName` or a remote `backupSource`). |
 | `SeaweedCSIDriver` | `swcsi` | Deploys [seaweedfs-csi-driver](https://github.com/seaweedfs/seaweedfs-csi-driver) so pods can mount SeaweedFS-backed PersistentVolumes; the controller is off by default (`ENABLE_CSI_DRIVER=true` to enable). |
