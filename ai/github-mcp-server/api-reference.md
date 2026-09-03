@@ -1,13 +1,13 @@
 ---
 upstream: https://github.com/github/github-mcp-server
-last_updated: 2026-08-22
+last_updated: 2026-09-03
 ---
 
 # github-mcp-server — API reference
 
 The API surface is the set of MCP **tools** the server exposes, grouped into **toolsets**. The canonical, auto-generated catalog (tool names, descriptions, and input parameters) is the [Tools section of the upstream README](https://github.com/github/github-mcp-server#tools); parameter-level documentation is intentionally not duplicated here — the catalog is authoritative. Toolsets are selected with `--toolsets`/`GITHUB_TOOLSETS` or the per-tool allow-list `--tools`/`GITHUB_TOOLS`; see the [Server Configuration Guide](https://github.com/github/github-mcp-server/blob/main/docs/server-configuration.md).
 
-As of 2026-08-22 the local (stdio/HTTP) catalog lists **87 tools across 21 toolsets**; the [remote server](https://api.githubcopilot.com/mcp/) adds 4 more (see below).
+As of 2026-09-03 the local (stdio/HTTP) catalog lists **87 tools across 21 toolsets**; the [remote server](https://api.githubcopilot.com/mcp/) adds 4 more (see below).
 
 ## Toolsets
 
@@ -114,7 +114,7 @@ The `default` toolset (used when none is specified) is `context`, `repos`, `issu
 | `add_issue_comment` | Add a comment to an issue or PR, or react to an issue/PR/comment | [catalog](https://github.com/github/github-mcp-server#tools) |
 | `get_label` | Get a specific label from a repository (also listed under `labels`) | [catalog](https://github.com/github/github-mcp-server#tools) |
 | `issue_read` | Read an issue: details, comments, sub-issues, parent, closing PRs, fields | [catalog](https://github.com/github/github-mcp-server#tools) |
-| `issue_write` | Create or update an issue (title, labels, assignees, milestone, type, custom issue fields) | [catalog](https://github.com/github/github-mcp-server#tools) |
+| `issue_write` | Create or update an issue (title, labels, assignees, milestone, type, custom issue fields; atomic parent attachment via `parent_issue_number`/`parent_owner`/`parent_repo` since v1.11.0) | [catalog](https://github.com/github/github-mcp-server#tools) |
 | `list_issue_fields` | List issue fields | [catalog](https://github.com/github/github-mcp-server#tools) |
 | `list_issue_types` | List available issue types (org or repo scoped) | [catalog](https://github.com/github/github-mcp-server#tools) |
 | `list_issues` | List issues in a repository with state/label/date filters | [catalog](https://github.com/github/github-mcp-server#tools) |
@@ -229,7 +229,7 @@ From the upstream [CLI utilities](https://github.com/github/github-mcp-server#cl
 | Command | Purpose |
 | ------- | ------- |
 | `github-mcp-server stdio` | Run the server over stdio (default MCP transport) |
-| `github-mcp-server http` | Run the server over HTTP (`--port`, `--base-url`, `--base-path`, custom listen address since v1.4.0, `--read-only`, `--scope-challenge`, ...) |
+| `github-mcp-server http` | Run the server over HTTP (`--port`, `--base-url`, `--base-path`, custom listen address since v1.4.0, `--authorization-server` OAuth AS override since v1.11.0, `--read-only`, `--scope-challenge`, ...) |
 | `github-mcp-server tool-search "<query>"` | Search tools by name, description, and input parameter names; `--max-results N` |
 
 ## HTTP endpoints

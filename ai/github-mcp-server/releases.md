@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/github/github-mcp-server
-last_updated: 2026-08-22
+last_updated: 2026-09-03
 ---
 
 # github-mcp-server — Releases
@@ -8,6 +8,14 @@ last_updated: 2026-08-22
 Official release pages live in the [upstream repository](https://github.com/github/github-mcp-server/releases). The table below tracks the 10 most recent releases; check the upstream page for older history. Full patch notes are kept on the release page — only high-signal changes are summarized here, with ⚠️ marking breaking or behavior-changing items.
 
 > Operator note: the homelab deployment (`k8s-ai/infrastructure/mcp-github`) is pinned to `ghcr.io/github/github-mcp-server:1.0.4`, which predates every release listed below.
+
+## v1.11.0 — 2026-08-25
+
+[Release page](https://github.com/github/github-mcp-server/releases/tag/v1.11.0)
+
+- ⚠️ Behavior change: per-call OAuth scope checks — each tool invocation now requests only the permissions it needs, with runtime checks where required, instead of upfront challenges ([PR #3128](https://github.com/github/github-mcp-server/pull/3128)).
+- Browser OAuth improvements: new `--authorization-server` flag on `http` to override the OAuth authorization-server URL, and CORS is preserved across OAuth discovery routes ([PR #2900](https://github.com/github/github-mcp-server/pull/2900), [PR #3147](https://github.com/github/github-mcp-server/pull/3147)).
+- `issue_write` (create) now accepts `parent_issue_number`/`parent_owner`/`parent_repo` to create an issue and attach it to a parent atomically ([PR #3134](https://github.com/github/github-mcp-server/pull/3134)); stdio REST responses support ETag conditional requests for better HTTP caching ([PR #3026](https://github.com/github/github-mcp-server/pull/3026)); runtime upgraded to Go 1.27 plus routine security and dependency updates.
 
 ## v1.10.1 — 2026-08-20
 
@@ -77,11 +85,3 @@ Official release pages live in the [upstream repository](https://github.com/gith
 - `pull_request_read` gains a `get_commits` method to fetch commit lists; `get_file_blame` added (insiders mode).
 - Better, AI-agent-friendly error messages when hitting GitHub API rate limits ([PR #2386](https://github.com/github/github-mcp-server/pull/2386)).
 - Cursor-based pagination for Dependabot alert listing.
-
-## v1.2.0 — 2026-06-08
-
-[Release page](https://github.com/github/github-mcp-server/releases/tag/v1.2.0)
-
-- `projects_write` gains `create_project` and `create_iteration_field` operations; MCP Apps align with the 2026-01-26 stable spec.
-- `confidence` parameter added to issue mutation tools; `get_commit` optionally returns the patch.
-- Bug fixes: team reviewer filtering and empty assignee arrays now properly clear assignees.

@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/github/github-mcp-server
-last_updated: 2026-08-22
+last_updated: 2026-09-03
 ---
 
 # github-mcp-server — Features
@@ -9,14 +9,14 @@ Feature areas of the GitHub MCP Server. Each entry links to the canonical upstre
 
 ## Transports & hosting
 
-- **stdio transport** — default MCP transport for local agent runtimes (Claude Code, VS Code, Copilot CLI, ...); `github-mcp-server stdio`.
+- **stdio transport** — default MCP transport for local agent runtimes (Claude Code, VS Code, Copilot CLI, ...); `github-mcp-server stdio`. REST responses support ETag conditional requests for better HTTP caching (since [v1.11.0](https://github.com/github/github-mcp-server/releases/tag/v1.11.0)).
 - **HTTP transport** — multi-client hosting; `github-mcp-server http` with `--port`, `--base-url`, `--base-path`, and a configurable listen address (since [v1.4.0](https://github.com/github/github-mcp-server/releases/tag/v1.4.0)). Used by the [remote server](https://api.githubcopilot.com/mcp/) and by the homelab deployment.
 - **Docker image** — `ghcr.io/github/github-mcp-server`; supports stdio (default), `http` subcommand, GH-host configuration, and MCP Apps UI via `MCP_APPS` — see the upstream [README](https://github.com/github/github-mcp-server#run-with-docker) and [Dockerfile](https://github.com/github/github-mcp-server/blob/main/Dockerfile).
 - **GitHub-hosted remote server** — fully managed at `https://api.githubcopilot.com/mcp/` with data residency options on `*.ghe.com` — [remote-server.md](https://github.com/github/github-mcp-server/blob/main/docs/remote-server.md).
 
 ## Authentication
 
-- **OAuth 2.1, built-in for stdio** — browser-based (with device-code fallback for headless environments); the access token stays in memory and is never persisted; no `GITHUB_PERSONAL_ACCESS_TOKEN` needed for `github.com` (since [v1.5.0](https://github.com/github/github-mcp-server/releases/tag/v1.5.0)) — [oauth-login.md](https://github.com/github/github-mcp-server/blob/main/docs/oauth-login.md).
+- **OAuth 2.1, built-in for stdio** — browser-based (with device-code fallback for headless environments); the access token stays in memory and is never persisted; no `GITHUB_PERSONAL_ACCESS_TOKEN` needed for `github.com` (since [v1.5.0](https://github.com/github/github-mcp-server/releases/tag/v1.5.0)) — [oauth-login.md](https://github.com/github/github-mcp-server/blob/main/docs/oauth-login.md). Since [v1.11.0](https://github.com/github/github-mcp-server/releases/tag/v1.11.0) scope checks are per-call (each tool invocation requests only the permissions it needs, with runtime checks where required), CORS works across OAuth discovery routes, and the authorization-server URL is configurable via `--authorization-server` on `http`.
 - **Personal Access Tokens** — `GITHUB_PERSONAL_ACCESS_TOKEN`; takes precedence over the built-in OAuth flow; scope requirements and scope challenges documented in the [README](https://github.com/github/github-mcp-server#personal-access-tokens); `--scope-challenge` flag on `http`.
 - **GitHub App, server-to-server** — unauthenticated S2S auth over stdio for enterprise/cloud tooling (since [v1.7.0](https://github.com/github/github-mcp-server/releases/tag/v1.7.0)) — [github-app-auth.md](https://github.com/github/github-mcp-server/blob/main/docs/github-app-auth.md).
 - **GHES & GitHub Enterprise Cloud** — `--gh-host` / `GITHUB_HOST`; GHES support including issue-fields fallback and, since v1.10.0, enforced HTTPS for GHES and `ghe.com` hosts.
@@ -42,6 +42,10 @@ Write tools can render interactive UIs instead of blind argument entry: forms fo
 - File writes: plain-text content only; symlink writes are blocked unless `allow_symlink_write: true` (v1.10.0); binary content requires separate file download then base64/encode write.
 - `delete_repository` requires confirmed, multi-round-trip eligibility checks that persist across sessions (v1.10.0); destructive tools mark that in their metadata (e.g. notification subscription tools).
 - OAuth tokens held in memory only; no local state or token persistence.
+
+## Issues & sub-issues
+
+- **Atomic parent + sub-issue creation** — `issue_write` (create) accepts `parent_issue_number` (plus `parent_owner`/`parent_repo`), creating a new issue and attaching it to its parent in a single operation (since [v1.11.0](https://github.com/github/github-mcp-server/releases/tag/v1.11.0)).
 
 ## Copilot integration
 
