@@ -1,11 +1,35 @@
 ---
 upstream: https://github.com/grafana/mcp-grafana
-last_updated: 2026-08-21
+last_updated: 2026-09-03
 ---
 
 # mcp-grafana — releases
 
 Latest 10 official releases, newest first. Check the ⚠️ entries before upgrading.
+
+## v1.3.0 — 2026-08-28
+
+[Release page](https://github.com/grafana/mcp-grafana/releases/tag/v1.3.0)
+
+- **Dynamic multi-org**: per-call `orgId` argument on applicable tools via the opt-in `--dynamic-multi-org` flag, plus proxied-datasource tool discovery across every org the credential can access; new `user_info` tool reports the current identity, admin status, and accessible organizations with roles ([#943](https://github.com/grafana/mcp-grafana/pull/943)).
+- **Documentation tools**: `search_docs` and `get_doc` (backed by `mcp-doc-server`) for querying Grafana product documentation — no RBAC required ([#1116](https://github.com/grafana/mcp-grafana/pull/1116)).
+- **Query gating**: new `--disable-query` flag removes every datasource query tool (metadata/discovery tools stay); raw-SQL query tools (ClickHouse, Snowflake, Athena, MSSQL, PostgreSQL) are now gated behind `--disable-write` by default and can be kept with `--enable-query` ([#1085](https://github.com/grafana/mcp-grafana/pull/1085)).
+- ⚠️ **Behavior change**: `get_panel_image` no longer declares its own `orgId` argument (superseded by the per-call `orgId` above); without `--dynamic-multi-org`, a call passing `orgId` is rejected as an unknown argument. The dashboard deeplink is also only returned when it opens in the organization the image was rendered from ([#943](https://github.com/grafana/mcp-grafana/pull/943)).
+- Incident custom fields for create/update; `grafana_api_request` supports POST to `/api/ds/query` when query tools are enabled ([#1131](https://github.com/grafana/mcp-grafana/pull/1131), [#1125](https://github.com/grafana/mcp-grafana/pull/1125)).
+- Fixes: `sqlstring` dashboard variables in `run_panel_query`; structured panel targets (e.g. CloudWatch, Elasticsearch) no longer silently dropped; proxied tools no longer leak non-published MCP clients ([#1132](https://github.com/grafana/mcp-grafana/pull/1132), [#1130](https://github.com/grafana/mcp-grafana/pull/1130), [#1128](https://github.com/grafana/mcp-grafana/pull/1128)).
+
+## v1.2.0 — 2026-08-25
+
+[Release page](https://github.com/grafana/mcp-grafana/releases/tag/v1.2.0)
+
+- **New tools**: `alerting_manage_silences` (opt-in, read/write-gated), `update_incident`, and `update_alert_group` (acknowledge/resolve OnCall alert groups); `get_alert_group` now returns the last alert payload ([#991](https://github.com/grafana/mcp-grafana/pull/991), [#1080](https://github.com/grafana/mcp-grafana/pull/1080), [#1083](https://github.com/grafana/mcp-grafana/pull/1083), [#1081](https://github.com/grafana/mcp-grafana/pull/1081)).
+- **Loki cost guardrail**: opt-in `--loki-guardrail-mode` (`off`/`shadow`/`enforce`) for `query_loki_logs` — requires a selective stream selector, caps the time range, and pre-checks the `index/stats` byte estimate against a budget; OTel counters record guardrail decisions ([#1031](https://github.com/grafana/mcp-grafana/pull/1031), [#1095](https://github.com/grafana/mcp-grafana/pull/1095)).
+- **Agent Observability**: `agento11y_manage_experiments` and `agento11y_manage_test_suites` in the opt-in `agento11y` category ([#1062](https://github.com/grafana/mcp-grafana/pull/1062)).
+- **`run_panel_query`** gains PostgreSQL and MSSQL datasource support ([#1112](https://github.com/grafana/mcp-grafana/pull/1112), [#1042](https://github.com/grafana/mcp-grafana/pull/1042)).
+- **Distribution and networking**: an MCP Bundle (`.mcpb`) for Claude Desktop is attached to every release ([#1077](https://github.com/grafana/mcp-grafana/pull/1077)); scoped SOCKS5 egress proxy for Grafana traffic via `GRAFANA_SOCKS5_PROXY`, failing closed when the proxy cannot be applied ([#1119](https://github.com/grafana/mcp-grafana/pull/1119), [#1121](https://github.com/grafana/mcp-grafana/pull/1121)).
+- `--server-name` flag for a custom MCP server name in the handshake and OTel `service.name` ([#1011](https://github.com/grafana/mcp-grafana/pull/1011)); compact output format for `query_loki_logs` ([#990](https://github.com/grafana/mcp-grafana/pull/990)); `list_datasources` name filter ([#973](https://github.com/grafana/mcp-grafana/pull/973)).
+- ⚠️ **Behavior change**: the `mcp-go` v0.58.0 bump inherits default-on DNS-rebinding protection that returns `403` for a loopback connection carrying a non-loopback `Host` header; `--allowed-hosts` cannot loosen it, so a same-host reverse proxy preserving a non-localhost `Host` over loopback must rewrite it to localhost ([#1097](https://github.com/grafana/mcp-grafana/pull/1097)).
+- Fixes: distributed tracing over the HTTP transports (global OTel `TextMapPropagator`), alert-rule matcher encoding, `GRAFANA_URL` normalization at startup, and resilient parallel proxied-tool startup ([#1084](https://github.com/grafana/mcp-grafana/issues/1084), [#1111](https://github.com/grafana/mcp-grafana/pull/1111), [#1034](https://github.com/grafana/mcp-grafana/pull/1034), [#1071](https://github.com/grafana/mcp-grafana/pull/1071)).
 
 ## v1.1.0 — 2026-08-10
 
@@ -70,20 +94,3 @@ Latest 10 official releases, newest first. Check the ⚠️ entries before upgra
 
 - **`shorten_url`** tool for creating Grafana short links, and provisioning workflow tools (`list_provisioning_repositories`, `validate_provisioning_file`, and provisioning-branch preview in `get_panel_image`/`generate_deeplink`).
 - 🔒 **Security**: redacts credentials from debug transport logs ([#920](https://github.com/grafana/mcp-grafana/pull/920)) and updates Go to 1.26.3 to fix CVE-2026-33810 ([#916](https://github.com/grafana/mcp-grafana/pull/916)).
-
-## v0.15.0 — 2026-06-01
-
-[Release page](https://github.com/grafana/mcp-grafana/releases/tag/v0.15.0)
-
-- **Snowflake** and **Amazon Athena** datasource tools, plus **VictoriaLogs** support through the existing Loki tools, Loki label-strategy analyzer tools, and plugin install/search tools.
-- Fixes: datasource fallback cache scoped by request path; error response body reads capped at 1 KB across all HTTP clients.
-- 🔒 **Security**: updates `golang.org/x/net` to v0.55.0 ([#901](https://github.com/grafana/mcp-grafana/pull/901)).
-
-## v0.14.0 — 2026-05-08
-
-[Release page](https://github.com/grafana/mcp-grafana/releases/tag/v0.14.0)
-
-- **Generic API request tool** (`grafana_api_request`) for authenticated read-only requests to any Grafana API endpoint with optional `jq` filtering ([#841](https://github.com/grafana/mcp-grafana/pull/841)).
-- **OpenSearch** datasource support; a tool to retrieve Grafana plugin information; OTLP log export when `OTEL_EXPORTER_OTLP_*` is set; configurable slow-request-threshold logging.
-- Server instructions now reflect only the enabled tool categories, so agents don't attempt disabled tools.
-- Fix: routes OnCall tools through the IRM plugin proxy for correct on-behalf-of authentication.

@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/grafana/mcp-grafana
-last_updated: 2026-08-21
+last_updated: 2026-09-03
 ---
 
 # mcp-grafana — features
@@ -10,8 +10,9 @@ Key feature areas, each linked to the upstream documentation covering it. The [u
 ## Transports and deployment
 
 - **Three MCP transports**: `stdio` (default, for local clients), `sse`, and `streamable-http` (networked, multi-client) — see the [CLI flags reference](https://github.com/grafana/mcp-grafana/blob/main/README.md#cli-flags-reference). Networked transports expose a `GET /healthz` health endpoint and optional Prometheus metrics on `/metrics`.
-- **Distribution**: `uvx mcp-grafana` (recommended), the `grafana/mcp-grafana` Docker image (entrypoint defaults to SSE — pass `-t stdio` + `-i` for local clients), a release binary, `go install github.com/grafana/mcp-grafana/cmd/mcp-grafana@latest`, or the `grafana-mcp` Helm chart. [Usage](https://github.com/grafana/mcp-grafana/blob/main/README.md#usage)
+- **Distribution**: `uvx mcp-grafana` (recommended), the `grafana/mcp-grafana` Docker image (entrypoint defaults to SSE — pass `-t stdio` + `-i` for local clients), a release binary, `go install github.com/grafana/mcp-grafana/cmd/mcp-grafana@latest`, or the `grafana-mcp` Helm chart; since v1.2.0 an MCP Bundle (`.mcpb`) for Claude Desktop is attached to every release. [Usage](https://github.com/grafana/mcp-grafana/blob/main/README.md#usage)
 - **TLS**: client TLS to Grafana (`--tls-*`) and server TLS for streamable-http (`--server.tls-cert-file` / `--server.tls-key-file`). [TLS Configuration](https://github.com/grafana/mcp-grafana/blob/main/README.md#tls-configuration)
+- **SOCKS5 egress proxy**: `GRAFANA_SOCKS5_PROXY` routes this server's Grafana traffic (including plugin-catalog lookups) through a SOCKS5 proxy, scoped to mcp-grafana (does not touch global `HTTP(S)_PROXY`) and failing closed when misconfigured (v1.2.0). [SOCKS5 Proxy](https://github.com/grafana/mcp-grafana/blob/main/README.md#socks5-proxy)
 
 ## Dashboards
 
@@ -29,7 +30,7 @@ Key feature areas, each linked to the upstream documentation covering it. The [u
 ## Alerting, incident, and on-call
 
 - **Alerting**: list/get/create/update/delete alert rules, manage notification routing (policies, contact points, time intervals) and silences; supports both Grafana-managed and datasource-managed rules. [Features: Alerting](https://github.com/grafana/mcp-grafana/blob/main/README.md#alerting)
-- **Incidents** (Grafana Incident): search, create, get, update, and add activities. [Features: Incidents](https://github.com/grafana/mcp-grafana/blob/main/README.md#incidents)
+- **Incidents** (Grafana Incident): search, create, get, update (including custom fields, v1.3.0), and add activities. [Features: Incidents](https://github.com/grafana/mcp-grafana/blob/main/README.md#incidents)
 - **OnCall** (Grafana IRM): schedules, shifts, current on-call users, teams, users, and alert groups (filter and acknowledge/resolve). [Features: OnCall](https://github.com/grafana/mcp-grafana/blob/main/README.md#grafana-oncall)
 
 ## Investigations and profiling
@@ -53,13 +54,17 @@ Key feature areas, each linked to the upstream documentation covering it. The [u
 
 ## Generic access and plugins
 
-- **Generic API request** (`grafana_api_request`): authenticated read-only GET to any Grafana API endpoint with optional `jq` filtering (v0.14.0). [releases](https://github.com/grafana/mcp-grafana/releases/tag/v0.14.0)
+- **Generic API request** (`grafana_api_request`): authenticated read-only GET to any Grafana API endpoint with optional `jq` filtering (v0.14.0); since v1.3.0 it also supports POST to `/api/ds/query` when query tools are enabled. [releases](https://github.com/grafana/mcp-grafana/releases/tag/v0.14.0)
 - **Plugins**: `get_plugin` status (installed/version/type) plus install and search tools (v0.15.0). [releases](https://github.com/grafana/mcp-grafana/releases/tag/v0.15.0)
+
+## Documentation
+
+- **Grafana docs**: `search_docs` (search docs or list product groups) and `get_doc` (fetch a page, with outline/section retrieval) backed by `mcp-doc-server` against public `grafana.com/docs` — no RBAC required (v1.3.0). [Tools](https://github.com/grafana/mcp-grafana/blob/main/README.md#tools)
 
 ## Security and access control
 
 - **Fine-grained RBAC**: each tool maps to required Grafana RBAC permissions and scopes; Incident/Sift use built-in roles (Viewer/Editor). [RBAC Permissions](https://github.com/grafana/mcp-grafana/blob/main/README.md#rbac-permissions) and [RBAC Scopes](https://github.com/grafana/mcp-grafana/blob/main/README.md#rbac-scopes)
-- **Read-only mode**: `--disable-write` removes all write operations (dashboards, folders, incidents, alerting, OnCall, annotations, Sift investigation creation, snapshots, Agent Observability writes) while keeping reads — the mode our homelab deployment runs in. [Read-Only Mode](https://github.com/grafana/mcp-grafana/blob/main/README.md#read-only-mode)
+- **Read-only mode**: `--disable-write` removes all write operations (dashboards, folders, incidents, alerting, OnCall, annotations, Sift investigation creation, snapshots, Agent Observability writes) while keeping reads — the mode our homelab deployment runs in. Since v1.3.0 it also removes the raw-SQL query tools by default (keepable with `--enable-query`), and `--disable-query` removes every datasource query tool. [Read-Only Mode](https://github.com/grafana/mcp-grafana/blob/main/README.md#read-only-mode) and [Query-Free Mode](https://github.com/grafana/mcp-grafana/blob/main/README.md#query-free-mode)
 - **Caller authentication**: optional bearer-token auth (`--server-auth-token` / `MCP_GRAFANA_SERVER_TOKEN`) for networked transports (v1.1.0). [CLI flags](https://github.com/grafana/mcp-grafana/blob/main/README.md#caller-authentication-sse--streamable-http-only)
 - **Network hardening**: `Host`/`Origin` allowlists on every networked route (DNS-rebinding mitigation, v0.17.1), credential-to-URL binding, and credential redaction in debug logs. [releases](https://github.com/grafana/mcp-grafana/releases/tag/v0.17.2)
 
@@ -70,3 +75,4 @@ Key feature areas, each linked to the upstream documentation covering it. The [u
 ## Multi-org and header forwarding
 
 - **Multi-organization**: target org via `GRAFANA_ORG_ID` or the `X-Grafana-Org-Id` header (header wins). **Custom and forwarded headers**: `GRAFANA_EXTRA_HEADERS` (static) and `GRAFANA_FORWARD_HEADERS` (per-request, for SSO/SSO-cookie forwarding behind a gateway). [Usage](https://github.com/grafana/mcp-grafana/blob/main/README.md#multi-organization-support)
+- **Dynamic multi-org** (v1.3.0): `--dynamic-multi-org` lets one connection target a different organization per tool call via an optional per-call `orgId` argument (proxied datasource tools are discovered across all accessible orgs); `user_info` reports the current identity, admin status, and accessible orgs with roles. [Usage](https://github.com/grafana/mcp-grafana/blob/main/README.md#dynamic-per-call-organization-selection)

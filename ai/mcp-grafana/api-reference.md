@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/grafana/mcp-grafana
-last_updated: 2026-08-21
+last_updated: 2026-09-03
 ---
 
 # mcp-grafana — API reference
@@ -28,8 +28,10 @@ The tool set is configurable at server start. Most categories are **enabled by d
 | Snapshots | enabled | `list_snapshots`, `get_snapshot`, `create_snapshot` (write), `delete_snapshot` (write) |
 | Rendering | enabled | `get_panel_image` (requires the Grafana Image Renderer service) |
 | Provisioning | enabled | `list_provisioning_repositories`, `validate_provisioning_file` (v0.15.1+) |
-| Generic API | enabled | `grafana_api_request` — arbitrary authenticated read-only request to any Grafana API endpoint with optional `jq` filtering (v0.14.0+) |
+| Generic API | enabled | `grafana_api_request` — arbitrary authenticated read-only request to any Grafana API endpoint with optional `jq` filtering (v0.14.0+), plus POST to `/api/ds/query` when query tools are enabled (v1.3.0) |
 | Plugins | enabled | `get_plugin` (installed?/version/type), plus plugin install and search tools (v0.15.0+) |
+| User | enabled | `user_info` — current identity, admin status, and the organizations the credential can access (with roles) (v1.3.0) |
+| Docs | enabled | `search_docs`, `get_doc` — Grafana product documentation via `mcp-doc-server` (public `grafana.com/docs`, no RBAC) (v1.3.0) |
 | InfluxDB | opt-in (`influxdb`) | `query_influxdb` (InfluxQL v1 / Flux v2). _Feature note states disabled by default; enabled via `--enabled-tools=influxdb`._ |
 | Admin | opt-in (`admin`) | `list_teams`, `list_users_by_org`, `list_all_roles`, `get_role_details`, `get_role_assignments`, `list_user_roles`, `list_team_roles`, `get_resource_permissions`, `get_resource_description` |
 | Agent Observability | opt-in (`agento11y`) | `agento11y_manage_conversations`, `agento11y_manage_generations`, `agento11y_manage_agents`, `agento11y_manage_evaluators`, `agento11y_manage_eval_rules`, `agento11y_manage_eval_collections`, `agento11y_manage_experiments`, `agento11y_manage_test_suites` (read + write-gated mutations; Grafana Cloud only) |
@@ -47,6 +49,7 @@ The tool set is configurable at server start. Most categories are **enabled by d
 Notes:
 
 - "write-gated" = the operation is registered only when write tools are enabled; it is removed when the server runs with `--disable-write` (our homelab deployment). See the [Read-Only Mode](https://github.com/grafana/mcp-grafana/blob/main/README.md#read-only-mode) section for the full write-operation list.
+- Query gating (v1.3.0): raw-SQL query tools (ClickHouse, Snowflake, Athena, MSSQL, PostgreSQL) are removed under `--disable-write` by default and can be kept with `--enable-query`; `--disable-query` removes every datasource query tool while leaving metadata and discovery tools. See the [Query-Free Mode](https://github.com/grafana/mcp-grafana/blob/main/README.md#query-free-mode) section.
 - Incidents and Sift tools use built-in Grafana roles (`Viewer` for read, `Editor` for write) rather than fine-grained RBAC scopes; Agent Observability and Assistant tools use plugin-specific permissions.
 - Datasource query tools (Prometheus, Loki, ClickHouse, CloudWatch, Athena, Snowflake, InfluxDB, Graphite, Elasticsearch/OpenSearch, Quickwit) route through the **selected Grafana datasource**, so auth/config is handled by Grafana and credentials are never seen by the MCP server for those backends.
 - Field-level parameters for each tool are not duplicated here; the [upstream "Tools" table](https://github.com/grafana/mcp-grafana/blob/main/README.md#tools) and each tool's schema are canonical.
