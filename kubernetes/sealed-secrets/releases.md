@@ -1,11 +1,19 @@
 ---
 upstream: https://github.com/bitnami-labs/sealed-secrets
-last_updated: 2026-08-18
+last_updated: 2026-09-03
 ---
 
 # sealed-secrets — Releases
 
 Latest 10 official application releases, newest first. The Helm chart ships on its own `helm-v2.x` tag series (interleaved in the release list), so chart upgrades are versioned separately from the controller. Full per-version notes: [RELEASE-NOTES.md](https://github.com/bitnami/sealed-secrets/blob/main/RELEASE-NOTES.md) and [releases on GitHub](https://github.com/bitnami/sealed-secrets/releases).
+
+## v0.39.1 — 2026-08-20
+
+[Release page](https://github.com/bitnami/sealed-secrets/releases/tag/v0.39.1)
+
+- Dependency bumps: Go 1.26.7 ([#2028](https://github.com/bitnami/sealed-secrets/pull/2028), [#2029](https://github.com/bitnami/sealed-secrets/pull/2029)), `golang.org/x/crypto` 0.55.0 ([#2026](https://github.com/bitnami/sealed-secrets/pull/2026)), ginkgo/v2 2.32.1 ([#2027](https://github.com/bitnami/sealed-secrets/pull/2027)).
+- Carvel package 2.19.2 released ([#2024](https://github.com/bitnami/sealed-secrets/pull/2024)).
+- CI hygiene: fixed flaky `TestReadKey` RSA key comparison test ([#2021](https://github.com/bitnami/sealed-secrets/pull/2021)).
 
 ## v0.39.0 — 2026-08-18
 
@@ -72,9 +80,3 @@ Latest 10 official application releases, newest first. The Helm chart ships on i
 [Release page](https://github.com/bitnami/sealed-secrets/releases/tag/v0.36.5)
 
 - Incomplete release cut to work around Docker Hub publisher credential problems; no functional changes.
-
-## v0.36.4 — 2026-04-09
-
-[Release page](https://github.com/bitnami/sealed-secrets/releases/tag/v0.36.4)
-
-- CI hygiene only: Kubernetes integration-test matrix bumped to the latest 1.33/1.34/1.35 patch releases — [bitnami/sealed-secrets#1935](https://github.com/bitnami/sealed-secrets/pull/1935).
