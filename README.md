@@ -4,6 +4,8 @@ A curated knowledge base of open-source projects available on GitHub. Each track
 
 This README is the **contract of the knowledge base**: it defines the layout, the naming conventions, the standard documents, and the maintenance rules that both humans and the maintenance agent must follow. Anything in this repository that contradicts this document is the thing that is wrong.
 
+**Last updated:** 2026-09-03 (UTC) — date of the most recent maintenance commit to `main`. Per-file freshness is tracked by the `last_updated` frontmatter in [Metadata](#metadata).
+
 ## Goals
 
 - Answer, per project, four questions from one stable place: *what is it*, *what is its API surface*, *what is the latest release*, and *what features does it have*.
@@ -18,7 +20,7 @@ This README is the **contract of the knowledge base**: it defines the layout, th
 ├── README.md                  # This file: the rules of the knowledge base
 ├── LICENSE
 └── <category>/                # root category folder (lowercase, kebab-case)
-    ├── README.md              # index of the projects in this category
+    ├── README.md              # short description of the category
     └── <project>/             # one folder per tracked upstream repository
         ├── README.md          # project overview
         ├── api-reference.md   # API reference
@@ -30,8 +32,8 @@ This README is the **contract of the knowledge base**: it defines the layout, th
 
 - A **category** is a root-level folder that groups projects by domain, e.g. `kubernetes/` or (planned) `database/`.
 - Category names: lowercase, kebab-case.
-- Every category has a `README.md` that indexes its projects: one entry per project, linking to the project folder, with a one-line description.
-- Adding a category = create the root folder + its index `README.md`, then add the row to [Tracked projects](#tracked-projects) below.
+- Every category has a `README.md` with a short description of the domain. The list of tracked projects lives only in [Tracked projects](#tracked-projects) in this root `README.md`.
+- Adding a category = create the root folder + its `README.md`, then add the row to [Tracked projects](#tracked-projects) below.
 
 ### Project folders
 
@@ -80,9 +82,15 @@ last_updated: 2026-08-15
 - `upstream`: canonical repository URL. Required.
 - `last_updated`: UTC date the content was last verified or changed. It is the only staleness signal the agent relies on; files older than the re-check threshold (default: **90 days**) are re-verified on the next run even if no new release appeared.
 
+## Update schedule
+
+- **Cadence:** weekly — every Monday at 09:00 (Europe/Madrid). Driven by the `Update Knowledge Base` Multica autopilot.
+- **Per run:** for every tracked project, compare the latest upstream GitHub releases against the project's `releases.md`; for each project with an untracked release, the autopilot creates a low-priority Multica issue (a sub-issue of the run) assigned to the maintenance agent.
+- **Per issue:** the agent applies the [maintenance rules](#maintenance-rules-ai-agent) to that one project and pushes directly to `main` — no pull request.
+
 ## Maintenance rules (AI agent)
 
-The agent runs on a periodic schedule (operator-configured, e.g. weekly). Every run must be **idempotent**: unchanged upstream state produces an empty diff.
+The agent runs on the [update schedule](#update-schedule). Every run must be **idempotent**: unchanged upstream state produces an empty diff.
 
 For each tracked project, in order:
 
@@ -94,17 +102,16 @@ For each tracked project, in order:
 6. Update the project `README.md` only if description, license, or upstream URLs changed.
 7. Bump `last_updated` in the frontmatter of every file that was modified.
 8. Commit once per project with a conventional message: `docs(<category>/<project>): <summary>` (e.g. `docs(kubernetes/mariadb-operator): add release v1.5.0`).
-9. Open a pull request against `main`; a human reviews and merges.
+9. Push directly to `main` — no pull request. Once the push lands, mark the triggering Multica issue as *Done*.
 
 **Adding a project**
 
 1. Create `<category>/<project>/` with the four standard documents, populated from upstream.
-2. Add the project to the category `README.md` index.
-3. Add the row to [Tracked projects](#tracked-projects).
+2. Add the row to [Tracked projects](#tracked-projects).
 
 **Adding a category**
 
-1. Create the root folder and its index `README.md`.
+1. Create the root folder and its `README.md`.
 2. Add the row to [Tracked projects](#tracked-projects).
 
 **Hygiene rules**
@@ -115,22 +122,47 @@ For each tracked project, in order:
 
 ## Tracked projects
 
-| Category     | Project                                                    | Upstream                                              |
-| ------------ | ---------------------------------------------------------- | ----------------------------------------------------- |
-| `kubernetes` | [cert-manager](kubernetes/cert-manager/)                   | [jetstack/cert-manager](https://github.com/jetstack/cert-manager)                             |
-| `kubernetes` | [cloudnative-pg](kubernetes/cloudnative-pg/)               | [cloudnative-pg/cloudnative-pg](https://github.com/cloudnative-pg/cloudnative-pg)             |
+| Category     | Project                                                  | Upstream                                                                                      |
+| ------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `kubernetes` | [cert-manager](kubernetes/cert-manager/) | [jetstack/cert-manager](https://github.com/jetstack/cert-manager) |
+| `kubernetes` | [charts](kubernetes/charts/)             | [mmontes11/charts](https://github.com/mmontes11/charts)           |
+| `kubernetes` | [cloudnative-pg](kubernetes/cloudnative-pg/) | [cloudnative-pg/cloudnative-pg](https://github.com/cloudnative-pg/cloudnative-pg) |
 | `kubernetes` | [plugin-barman-cloud](kubernetes/plugin-barman-cloud/)     | [cloudnative-pg/plugin-barman-cloud](https://github.com/cloudnative-pg/plugin-barman-cloud)   |
-| `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/) | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator) |
-| `kubernetes` | [tailscale](kubernetes/tailscale/) | [tailscale/tailscale](https://github.com/tailscale/tailscale) |
-| `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/)           | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator)     |
-| `kubernetes` | [metallb](kubernetes/metallb/)                             | [metallb/metallb](https://github.com/metallb/metallb)                                          |
-| `kubernetes` | [snapscheduler](kubernetes/snapscheduler/)                 | [backube/snapscheduler](https://github.com/backube/snapscheduler)                             |
-| `kubernetes` | [synology-csi](kubernetes/synology-csi/)                   | [SynologyOpenSource/synology-csi](https://github.com/SynologyOpenSource/synology-csi)         |
-| `kubernetes` | [topolvm](kubernetes/topolvm/)                             | [topolvm/topolvm](https://github.com/topolvm/topolvm)                                         |
-| `kubernetes` | [traefik](kubernetes/traefik/)                             | [traefik/traefik](https://github.com/traefik/traefik)                                           |
-| `kubernetes` | [trust-manager](kubernetes/trust-manager/)                 | [cert-manager/trust-manager](https://github.com/cert-manager/trust-manager)                    |
-| `kubernetes` | [seaweedfs-operator](kubernetes/seaweedfs-operator/)       | [seaweedfs/seaweedfs-operator](https://github.com/seaweedfs/seaweedfs-operator)               |
-| `kubernetes` | [volsync](kubernetes/volsync/)                             | [backube/volsync](https://github.com/backube/volsync)                                         |
-| `kubernetes` | [rook](kubernetes/rook/)                                   | [rook/rook](https://github.com/rook/rook)                                                     |
+| `ai`         | [comfyui](ai/comfyui/)                       | [comfyanonymous/ComfyUI](https://github.com/comfyanonymous/ComfyUI)               |
+| `kubernetes` | [csi-driver-nfs](kubernetes/csi-driver-nfs/) | [kubernetes-csi/csi-driver-nfs](https://github.com/kubernetes-csi/csi-driver-nfs) |
+| `kubernetes` | [external-snapshotter](kubernetes/external-snapshotter/) | [kubernetes-csi/external-snapshotter](https://github.com/kubernetes-csi/external-snapshotter) |
+| `kubernetes` | [gateway-api](kubernetes/gateway-api/)                   | [kubernetes-sigs/gateway-api](https://github.com/kubernetes-sigs/gateway-api)                 |
+| `ai`         | [github-mcp-server](ai/github-mcp-server/)               | [github/github-mcp-server](https://github.com/github/github-mcp-server)                       |
+| `ai`         | [kserve](ai/kserve/)                                     | [kserve/kserve](https://github.com/kserve/kserve)                                             |
+| `kubernetes` | [kube-prometheus-stack](kubernetes/kube-prometheus-stack/) | [prometheus-community/kube-prometheus-stack](https://github.com/prometheus-community/kube-prometheus-stack) |
+| `ai`         | [kubernetes-mcp-server](ai/kubernetes-mcp-server/)       | [containers/kubernetes-mcp-server](https://github.com/containers/kubernetes-mcp-server)       |
+| `ai`         | [llama-cpp](ai/llama-cpp/)                               | [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp)                                   |
+| `ai`         | [lws](ai/lws/)                                           | [kubernetes-sigs/lws](https://github.com/kubernetes-sigs/lws)                                 |
+| `kubernetes` | [mariadb-operator](kubernetes/mariadb-operator/)         | [mariadb-operator/mariadb-operator](https://github.com/mariadb-operator/mariadb-operator)     |
+| `ai`         | [mcp-grafana](ai/mcp-grafana/)                           | [grafana/mcp-grafana](https://github.com/grafana/mcp-grafana)                                 |
+| `ai`         | [mcp-mariadb](ai/mcp-mariadb/)                           | [mmontes11/mcp-mariadb](https://github.com/mmontes11/mcp-mariadb)                             |
+| `kubernetes` | [metallb](kubernetes/metallb/)                           | [metallb/metallb](https://github.com/metallb/metallb)                                         |
+| `kubernetes` | [metrics-server](kubernetes/metrics-server/)             | [kubernetes-sigs/metrics-server](https://github.com/kubernetes-sigs/metrics-server)           |
+| `ai`         | [multica](ai/multica/)                                   | [multica-ai/multica](https://github.com/multica-ai/multica)                                   |
+| `ai`         | [n8n](ai/n8n/)                                           | [n8n-io/n8n](https://github.com/n8n-io/n8n)                                                   |
+| `kubernetes` | [nvidia-dcgm-exporter](kubernetes/nvidia-dcgm-exporter/) | [NVIDIA/dcgm-exporter](https://github.com/NVIDIA/dcgm-exporter)                               |
+| `kubernetes` | [nvidia-device-plugin](kubernetes/nvidia-device-plugin/) | [NVIDIA/k8s-device-plugin](https://github.com/NVIDIA/k8s-device-plugin)                       |
+| `ai`         | [open-webui](ai/open-webui/)                             | [open-webui/open-webui](https://github.com/open-webui/open-webui)                             |
+| `ai`         | [opencode](ai/opencode/)                                 | [anomalyco/opencode](https://github.com/anomalyco/opencode)                                   |
+| `database`   | [qdrant](database/qdrant/)                               | [qdrant/qdrant](https://github.com/qdrant/qdrant)                                             |
+| `kubernetes` | [redis-operator](kubernetes/redis-operator/)             | [OT-CONTAINER-KIT/redis-operator](https://github.com/OT-CONTAINER-KIT/redis-operator)         |
+| `kubernetes` | [rook](kubernetes/rook/)                                 | [rook/rook](https://github.com/rook/rook)                                                     |
+| `kubernetes` | [sealed-secrets](kubernetes/sealed-secrets/)             | [bitnami-labs/sealed-secrets](https://github.com/bitnami-labs/sealed-secrets)                 |
+| `kubernetes` | [seaweedfs-operator](kubernetes/seaweedfs-operator/)     | [seaweedfs/seaweedfs-operator](https://github.com/seaweedfs/seaweedfs-operator)               |
+| `kubernetes` | [snapscheduler](kubernetes/snapscheduler/)               | [backube/snapscheduler](https://github.com/backube/snapscheduler)                             |
+| `kubernetes` | [synology-csi](kubernetes/synology-csi/)                 | [SynologyOpenSource/synology-csi](https://github.com/SynologyOpenSource/synology-csi)         |
+| `kubernetes` | [tailscale](kubernetes/tailscale/)                       | [tailscale/tailscale](https://github.com/tailscale/tailscale)                                 |
+| `kubernetes` | [topolvm](kubernetes/topolvm/)                           | [topolvm/topolvm](https://github.com/topolvm/topolvm)                                         |
+| `kubernetes` | [traefik](kubernetes/traefik/)                           | [traefik/traefik](https://github.com/traefik/traefik)                                         |
+| `kubernetes` | [trust-manager](kubernetes/trust-manager/)               | [cert-manager/trust-manager](https://github.com/cert-manager/trust-manager)                   |
+| `database`   | [vitess](database/vitess/)                               | [vitessio/vitess](https://github.com/vitessio/vitess)                                         |
+| `kubernetes` | [vitess-operator](kubernetes/vitess-operator/)           | [planetscale/vitess-operator](https://github.com/planetscale/vitess-operator)                 |
+| `ai`         | [vllm](ai/vllm/)                                         | [vllm-project/vllm](https://github.com/vllm-project/vllm)                                     |
+| `kubernetes` | [volsync](kubernetes/volsync/)                           | [backube/volsync](https://github.com/backube/volsync)                                         |
 
-> The `kubernetes/` tree is bootstrapped by the first maintenance run: the folder, the category index, and the four standard documents for `mariadb-operator` are created and populated from upstream.
+> The `kubernetes/` tree is bootstrapped by the first maintenance run: the folder, its `README.md`, and the four standard documents for `mariadb-operator` are created and populated from upstream.

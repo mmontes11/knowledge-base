@@ -1,20 +1,3 @@
 # kubernetes
 
 Projects in the Kubernetes domain.
-
-| Project | Description |
-| ------- | ----------- |
-| [cert-manager](cert-manager/) | Kubernetes-native certificate management: declares TLS certificates as custom resources and issues/renews them automatically through Issuers (ACME/Let's Encrypt, CA, selfSigned, Vault, Venafi), with CA injection and Gateway API/Ingress integration. |
-| [cloudnative-pg](cloudnative-pg/) | Kubernetes operator for PostgreSQL that manages clustered deployments with high availability, WAL archiving and point-in-time recovery, in-place major upgrades, PgBouncer pooling, and declarative databases, roles, publications, and subscriptions. |
-| [plugin-barman-cloud](plugin-barman-cloud/) | Reference CNPG-I backup/restore plugin for Barman Cloud: a control-plane operator plus per-instance sidecar providing base backups, scheduled backups, WAL archiving, and point-in-time recovery against `ObjectStore` CRs — the replacement for the deprecated in-tree CloudNativePG Barman Cloud integration. |
-| [mariadb-operator](mariadb-operator/) | Kubernetes operator that provisions, runs, and maintains MariaDB clusters (standalone, Galera, replication, and multi-cluster topologies) along with their SQL objects, MaxScale proxies, and backup/restore infrastructure. |
-| [metallb](metallb/) | Load balancer for Kubernetes on bare-metal and on-premises infrastructure: provides the LoadBalancer service type by allocating IPs from configurable pools and advertising them over L2 (ARP/NDP) or BGP, with CRD-based pool/peer/advertisement configuration, BFD, dual-stack peering, and per-service status CRDs. |
-| [snapscheduler](snapscheduler/) | Kubernetes operator that takes CSI `VolumeSnapshot`s of selected PVCs on a crontab schedule and enforces age- and count-based retention, with optional cascade delete of snapshots when a schedule is removed. |
-| [synology-csi](synology-csi/) | Official Synology CSI driver that provisions Kubernetes volumes on DSM as iSCSI LUNs, SMB/CIFS and NFS shared folders, and NVMe/TCP namespaces, with one or many NAS endpoints, cloning, expansion, and snapshots. |
-| [tailscale](tailscale/) | Zero-trust mesh VPN (WireGuard) and its Kubernetes operator: manages Tailscale devices on the cluster — subnet routers and exit nodes (`Connector`), egress/ingress and kube-apiserver proxies (`ProxyGroup`), custom DNS (`DNSConfig`), multi-tailnet (`Tailnet`), proxy tuning (`ProxyClass`), per-namespace proxy-group policy (`ProxyGroupPolicy`), and SSH session recording (`Recorder`). |
-| [topolvm](topolvm/) | Kubernetes CSI plugin that dynamically provisions node-local LVM logical volumes (standard or thin-provisioned) with topology- and capacity-aware scheduling, online expansion, device classes, and thin-volume snapshots. |
-| [traefik](traefik/) | Modern HTTP reverse proxy and L7 load balancer that on Kubernetes runs as an ingress controller, translating Ingress, its own `traefik.io` CRDs, and Gateway API resources into hot-reloaded routing configuration. |
-| [trust-manager](trust-manager/) | Kubernetes operator (cert-manager family) for declaratively managing TLS trust bundles: it combines CA certificate sources into a trust bundle and keeps per-namespace target ConfigMaps/Secrets in sync. |
-| [seaweedfs-operator](seaweedfs-operator/) | Kubernetes operator that deploys and maintains SeaweedFS clusters (master, volume, and filer services) with a standalone S3-compatible API, embedded IAM, CSI mounts, declarative buckets and lifecycle policies, scheduled admin scripts, and metadata backup/restore with continuous data mirroring. |
-| [volsync](volsync/) | Declarative asynchronous replication of Kubernetes persistent volumes (rsync TLS/SSH, rclone, Syncthing movers) and restic-based PVC backup, driven by the `ReplicationSource`/`ReplicationDestination` CRDs. |
-| [rook](rook/) | Cloud-native storage orchestrator that deploys and manages Ceph clusters in Kubernetes (RBD block, CephFS, RGW object storage with CSI, mirroring DR, multisite RGW, Prometheus monitoring). |

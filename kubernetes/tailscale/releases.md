@@ -1,11 +1,18 @@
 ---
 upstream: https://github.com/tailscale/tailscale
-last_updated: 2026-08-16
+last_updated: 2026-09-03
 ---
 
 # tailscale — releases
 
 Latest 10 official releases of the `tailscale/tailscale` project (the upstream for the Kubernetes operator), newest first. Scan the ⚠️ entries before upgrading. The Kubernetes operator itself ships separately as the `tailscale-operator` Helm chart; the version deployed in this repository is `1.96.5`.
+
+## v1.102.3 — 2026-08-20
+[Release page](https://github.com/tailscale/tailscale/releases/tag/v1.102.3)
+- **Kubernetes operator**: [peer relays](https://tailscale.com/kb/1370/kubernetes-operator-peer-relay) on AWS are now reachable regardless of the pod's availability zone (pinning Elastic IPs also requires pinning pods to the same zone via a `ProxyClass`); NLBs fronting peer relays use HTTP instead of TCP for pod health checks, fixing every target being reported unhealthy.
+- **Security**: `TS-2026-011` — Tailscale refuses host-scoped IPv4 destinations at every point acting on an unmapped 4via6 address.
+- **Client**: Go updated to `1.26.6`; unqualified hostnames are correctly forwarded to configured nameservers when MagicDNS is disabled; Tailnet Lock startup failures on large tailnets fixed; Windows installer and `tailscaled` IPv6/NetBIOS fixes; reduced iOS/tvOS memory usage on large tailnets.
+- **Container image**: new `TS_BOOT_TIMEOUT` env var controls how long the container waits for its initial connection (duration, default `60s`).
 
 ## v1.102.2 — 2026-08-04
 [Release page](https://github.com/tailscale/tailscale/releases/tag/v1.102.2)
@@ -46,7 +53,3 @@ Latest 10 official releases of the `tailscale/tailscale` project (the upstream f
 ## v1.96.4 — 2026-03-27
 [Release page](https://github.com/tailscale/tailscale/releases/tag/v1.96.4)
 - **Linux**: fork fallback-on-`ENOSYS` fix; **MIPS**: startup segfault fixed; **Android**: disconnect deadlock fixed; **Synology**: fork updated.
-
-## v1.96.3 — 2026-03-19
-[Release page](https://github.com/tailscale/tailscale/releases/tag/v1.96.3)
-- **Windows**: fixed DNS resolution for the NRPT rule format.
