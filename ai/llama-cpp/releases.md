@@ -1,76 +1,75 @@
 ---
 upstream: https://github.com/ggml-org/llama.cpp
-last_updated: 2026-08-22
+last_updated: 2026-09-03
 ---
 
 # llama.cpp — releases
 
 llama.cpp publishes two tracks (per the [v0.2.0 release notes](https://github.com/ggml-org/llama.cpp/releases/tag/v0.2.0) and [docs/release.md](https://github.com/ggml-org/llama.cpp/blob/master/docs/release.md)):
 
-- `vX.Y.Z` — "stable", slower cadence, recommended for downstream distribution and casual users. Latest stable: **[v0.2.0](https://github.com/ggml-org/llama.cpp/releases/tag/v0.2.0)** (2026-08-21), which introduced consistent semantic versioning.
+- `vX.Y.Z` — "stable", slower cadence, recommended for downstream distribution and casual users. Latest stable: **[v0.3.0](https://github.com/ggml-org/llama.cpp/releases/tag/v0.3.0)** (2026-08-25) — adds the dots3-note multimodal model, MTP for GLM-4.5-Air, and a new experimental `-sm tensor` split mode (e.g. for DeepSeek 4); ggml is bumped to [v0.22.0](https://github.com/ggml-org/ggml/releases/tag/v0.22.0); ⚠️ removes the `-no-cnv` CLI option ([#27542](https://github.com/ggml-org/llama.cpp/pull/27542)).
 - `b[NUM]` — "nightly"/dev, published on almost every commit to `master`; latest functionality, but potentially less stable.
 
 Below are the latest 10 releases overall, most recent first (nightly track).
 
-## b10587 — 2026-08-22
+## b10775 — 2026-09-03
 
-[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10587)
+[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10775)
 
-- Vulkan backend: new `PAD_REFLECT_1D` operation ([#26586](https://github.com/ggml-org/llama.cpp/pull/26586)).
+- `mtmd`: fix idefics3 preprocessing ([#28273](https://github.com/ggml-org/llama.cpp/pull/28273)).
 
-## b10586 — 2026-08-22
+## b10774 — 2026-09-03
 
-[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10586)
+[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10774)
 
-- `mtmd`: use `ggml_rope_set_offset` for position handling in multimodal pipelines ([#27521](https://github.com/ggml-org/llama.cpp/pull/27521)).
+- `finetune`: fix training with no KV cache ([#27199](https://github.com/ggml-org/llama.cpp/pull/27199)).
 
-## b10585 — 2026-08-22
+## b10773 — 2026-09-03
 
-[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10585)
+[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10773)
 
-- `common`: internal JSON abstraction layer (`common/json`) — `common`, `server`, and jinja template handling migrated off the vendored library ([#27511](https://github.com/ggml-org/llama.cpp/pull/27511)).
+- `server`: accept `data:` URLs for `input_video` and `input_audio` ([#27735](https://github.com/ggml-org/llama.cpp/pull/27735)).
 
-## b10584 — 2026-08-22
+## b10772 — 2026-09-03
 
-[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10584)
+[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10772)
 
-- Model fitting now takes `n_streams` into account ([#27496](https://github.com/ggml-org/llama.cpp/pull/27496)).
-- Speculative decoding fix: the draft context now follows the target context's size, fixing 500 errors on `llama-server` when the draft batch outgrows its allocated context.
+- `ggml-hexagon`: F16 support for unary ops on the HTP backend — adds `ABS` to the existing `NORM`/`RMS_NORM`/`L2_NORM`/`SCALE`/`CLAMP`/`SQR`/`SQRT` set ([#28228](https://github.com/ggml-org/llama.cpp/pull/28228)).
 
-## b10582 — 2026-08-22
+## b10771 — 2026-09-03
 
-[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10582)
+[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10771)
 
-- CI: restored the Ubuntu ROCm job ([#27399](https://github.com/ggml-org/llama.cpp/pull/27399)).
+- `mtmd`: new `mtmd_tokenize_from_parts()` API, adopted by `mtmd-cli` ([#28250](https://github.com/ggml-org/llama.cpp/pull/28250)).
 
-## b10581 — 2026-08-22
+## b10770 — 2026-09-03
 
-[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10581)
+[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10770)
 
-- Model support: DSpark for BailingMoe3 ([#27508](https://github.com/ggml-org/llama.cpp/pull/27508)).
+- Metal: flash-attention `fa-vec` tunings for M3 ([#28236](https://github.com/ggml-org/llama.cpp/pull/28236)).
 
-## b10580 — 2026-08-22
+## b10769 — 2026-09-02
 
-[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10580)
+[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10769)
 
-- `mtmd`: support for the dots3-note vision+audio model ([#27524](https://github.com/ggml-org/llama.cpp/pull/27524)).
+- Metal: fix memory query under low-memory conditions ([#27701](https://github.com/ggml-org/llama.cpp/pull/27701)).
 
-## b10578 — 2026-08-22
+## b10767 — 2026-09-02
 
-[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10578)
+[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10767)
 
-- `ggml`: optimized `concat` op by replacing per-element copies with row-level `memcpy` ([#24575](https://github.com/ggml-org/llama.cpp/pull/24575)).
+- ROCm: update to the 10.0.0 release ([#27803](https://github.com/ggml-org/llama.cpp/pull/27803)).
 
-## b10577 — 2026-08-22
+## b10766 — 2026-09-02
 
-[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10577)
+[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10766)
 
-- `common`: fix draft-MTP (multi-token-prediction) speculative decoding when embeddings are requested ([#27400](https://github.com/ggml-org/llama.cpp/pull/27400)).
+- Model: correct input-vision support for DeepSeek 4 ([#28154](https://github.com/ggml-org/llama.cpp/pull/28154)).
 
-## b10576 — 2026-08-22
+## b10764 — 2026-09-02
 
-[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10576)
+[Release page](https://github.com/ggml-org/llama.cpp/releases/tag/b10764)
 
-- SYCL backend: Q2_K reordered MMVQ and ESIMD kernels re-landed after an earlier revert ([#27490](https://github.com/ggml-org/llama.cpp/pull/27490)).
+- `ggml-cuda`: remove unused variables (cleanup) ([#28235](https://github.com/ggml-org/llama.cpp/pull/28235)).
 
 > Note: nightly releases ship on near-daily (often multiple-per-day) cadence, so this 10-entry window can span a single day. For stable-upgrade decisions use the `vX.Y.Z` track above; the [full release history](https://github.com/ggml-org/llama.cpp/releases) and each release's attested build list are authoritative.

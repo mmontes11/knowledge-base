@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/ggml-org/llama.cpp
-last_updated: 2026-08-22
+last_updated: 2026-09-03
 ---
 
 # llama.cpp — features
@@ -18,7 +18,7 @@ Key feature areas, each linked to the upstream documentation covering it. The [D
 - **Multi-backend compute**: BLAS/BLIS, CUDA (NVIDIA), HIP (AMD), MUSA (Moore Threads), Metal (Apple Silicon), Vulkan, SYCL (Intel GPU), OpenCL (Adreno), OpenVINO (Intel CPU/GPU/NPU), CANN/Ascend NPU, WebGPU, ZenDNN, IBM zDNN, VirtGPU, RPC (remote CPU offload). [README — Supported backends](https://github.com/ggml-org/llama.cpp#supported-backends), [docs/build.md](https://github.com/ggml-org/llama.cpp/blob/master/docs/build.md)
 - **CPU architecture support**: AVX/AVX2/AVX512/AMX (x86), ARM NEON/Accelerate (Apple), RVV/ZVFH/ZFH/ZICBOP/ZIHINTPAUSE (RISC-V). [README — Description](https://github.com/ggml-org/llama.cpp#description)
 - **CPU+GPU hybrid inference**: partially accelerate models larger than total VRAM by splitting layers across CPU and GPU. [README — Description](https://github.com/ggml-org/llama.cpp#description)
-- **Multi-GPU**: tensor-split models across multiple GPUs. [docs/multi-gpu.md](https://github.com/ggml-org/llama.cpp/blob/master/docs/multi-gpu.md)
+- **Multi-GPU**: split models across multiple GPUs with `--split-mode` — `layer` (pipeline parallel, default) or `tensor` (experimental tensor parallelism, new in [v0.3.0](https://github.com/ggml-org/llama.cpp/releases/tag/v0.3.0)). [docs/multi-gpu.md](https://github.com/ggml-org/llama.cpp/blob/master/docs/multi-gpu.md)
 
 ## Serving and clients
 
