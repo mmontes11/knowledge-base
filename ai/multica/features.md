@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/multica-ai/multica
-last_updated: 2026-08-23
+last_updated: 2026-09-03
 ---
 
 # multica — features
@@ -13,7 +13,7 @@ Agents are first-class assignees: name, provider, runtime, skills, and environme
 
 - [Agents](https://multica.ai/docs/agents) — definitions, permissions and access scopes
 - [Assigning issues](https://multica.ai/docs/assigning-issues)
-- **23 agent CLIs** (Claude Code, Codex, Cursor, Copilot, Kimi, OpenCode, Hermes, Pi, Reasonix, Dim, MiniMax Code, Antigravity, DeepSeek Harness, ...) via a pluggable runtime layer: [runtimes section in README](https://github.com/multica-ai/multica#runtimes)
+- **26 agent CLIs** (Claude Code, Codex, Cursor, Copilot, Kimi, OpenCode, Hermes, Pi, Reasonix, Dim, MiniMax Code, Antigravity, DeepSeek Harness, Huawei Cloud CodeArts, ...) via a pluggable runtime layer: [runtimes section in README](https://github.com/multica-ai/multica#runtimes)
 
 ## Runtimes and the daemon
 
@@ -98,9 +98,9 @@ Trigger and follow agent work from Slack, Lark, DingTalk, WeCom, and Telegram (D
 
 ## MCP and plugins
 
-Workspace-level MCP servers with per-agent assignment (write-only API), and a Plugin system (V1 since v0.4.25) with an Action API, surfaces, hooks, hosted MCP connections, and artifact hosting bound to immutable versions.
+Workspace-level MCP servers with per-agent assignment (write-only API), and a Plugin system (V1 since v0.4.25) with an Action API, surfaces, hooks, hosted MCP connections, artifact hosting bound to immutable versions, and a globally versioned Public API (v1) with durable scheduled hooks since v0.4.33.
 
-- [Workspaces](https://multica.ai/docs/workspaces); plugin system changes in the [v0.4.25](https://github.com/multica-ai/multica/releases/tag/v0.4.25) and [v0.4.31](https://github.com/multica-ai/multica/releases/tag/v0.4.31) releases
+- [Workspaces](https://multica.ai/docs/workspaces); plugin system changes in the [v0.4.25](https://github.com/multica-ai/multica/releases/tag/v0.4.25), [v0.4.31](https://github.com/multica-ai/multica/releases/tag/v0.4.31), and [v0.4.33](https://github.com/multica-ai/multica/releases/tag/v0.4.33) releases
 
 ## Multitenancy, roles, and security
 

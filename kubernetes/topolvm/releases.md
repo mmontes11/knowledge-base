@@ -1,11 +1,25 @@
 ---
 upstream: https://github.com/topolvm/topolvm
-last_updated: 2026-08-17
+last_updated: 2026-09-03
 ---
 
 # topolvm — releases
 
 Latest 10 official releases, newest first. This repository publishes two kinds of releases interleaved on the same timeline: **Helm chart** releases (`topolvm-chart-v*`, shipping the chart) and **application** releases (`v*`, shipping the controller/node/scheduler images). Check the ⚠️ entries before upgrading.
+
+## topolvm-chart-v17.2.0 — 2026-09-02 (Helm chart)
+
+[Release page](https://github.com/topolvm/topolvm/releases/tag/topolvm-chart-v17.2.0)
+
+- Version-bump release shipping the `0.41.1` application images: the default `image.reference` becomes `0.41.1@sha256:70548dbe…` ([#1226](https://github.com/topolvm/topolvm/pull/1226)).
+
+## v0.41.1 — 2026-09-01 (application)
+
+[Release page](https://github.com/topolvm/topolvm/releases/tag/v0.41.1)
+
+- Patch release: bumped the `grpc`, `x/net`, and `otel` dependencies for security fixes ([#1220](https://github.com/topolvm/topolvm/pull/1220)).
+- Release images are now pinned by digest to mitigate the impact of a compromised image registry ([#1196](https://github.com/topolvm/topolvm/pull/1196)).
+- Removed outdated documentation of the removed PVC-deletion behavior ([#1214](https://github.com/topolvm/topolvm/pull/1214)).
 
 ## topolvm-chart-v17.1.0 — 2026-08-05 (Helm chart)
 
@@ -59,16 +73,3 @@ Latest 10 official releases, newest first. This repository publishes two kinds o
 
 - ⚠️ **Removed the pod-erase-on-PVC-delete behavior** ([#1148](https://github.com/topolvm/topolvm/pull/1148)) — pods are no longer force-deleted when their PVC is deleted; automation that relied on that side effect must be adjusted.
 - New `customCertSecret` value for external (cert-manager-less) certificate management ([#1142](https://github.com/topolvm/topolvm/pull/1142)); fixed a duplicate port-name warning ([#1147](https://github.com/topolvm/topolvm/pull/1147)).
-
-## v0.40.1 — 2026-03-10 (application)
-
-[Release page](https://github.com/topolvm/topolvm/releases/tag/v0.40.1)
-
-- Example manifests cleanup: removed waiting for the webhook ([#1155](https://github.com/topolvm/topolvm/pull/1155)).
-
-## v0.40.0 — 2026-03-04 (application)
-
-[Release page](https://github.com/topolvm/topolvm/releases/tag/v0.40.0)
-
-- ⚠️ **Removed the pod-erase-on-PVC-delete behavior** ([#1148](https://github.com/topolvm/topolvm/pull/1148)).
-- Controller/node evacuation improvements and CSI service-account changes ([#1149](https://github.com/topolvm/topolvm/pull/1149)).
