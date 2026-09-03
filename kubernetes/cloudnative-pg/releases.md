@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/cloudnative-pg/cloudnative-pg
-last_updated: 2026-08-16
+last_updated: 2026-08-22
 ---
 
 # cloudnative-pg — releases
@@ -11,7 +11,7 @@ Latest 10 official releases, newest first. Check the ⚠️ entries before upgra
 
 [Release page](https://github.com/cloudnative-pg/cloudnative-pg/releases/tag/v1.30.0)
 
-- ⚠️ **Native (in-tree) Barman Cloud: deprecation schedule changed** — removal is now scheduled for `1.31.0` (previously announced as `1.30.0`); migrate to the [Barman Cloud plugin](https://github.com/cloudnative-pg/barman-cloud-plugin). ([#11083](https://github.com/cloudnative-pg/cloudnative-pg/pull/11083))
+- ⚠️ **Native (in-tree) Barman Cloud: deprecation schedule changed** — removal is now scheduled for `1.31.0` (previously announced as `1.30.0`); migrate to the [Barman Cloud plugin](https://github.com/cloudnative-pg/plugin-barman-cloud). ([#11083](https://github.com/cloudnative-pg/cloudnative-pg/pull/11083))
 - ⚠️ **Immutable `cluster` references**: the `cluster` field on `Database`, `Pooler`, `Publication`, `Subscription`, and `ScheduledBackup` is now immutable; re-pointing an existing object at a different cluster is rejected by a CEL rule. ([#10743](https://github.com/cloudnative-pg/cloudnative-pg/pull/10743))
 - **`DatabaseRole` kind and primary `Lease`**: roles can now be managed as standalone `DatabaseRole` objects (independent lifecycle and status, optional TLS client credentials), and primary promotion is serialized through a cluster-named Kubernetes `Lease` controlled with `.spec.primaryLease`. ([#6155](https://github.com/cloudnative-pg/cloudnative-pg/pull/6155), [#10896](https://github.com/cloudnative-pg/cloudnative-pg/pull/10896), [#10627](https://github.com/cloudnative-pg/cloudnative-pg/pull/10627))
 
@@ -51,7 +51,7 @@ Latest 10 official releases, newest first. Check the ⚠️ entries before upgra
 
 [Release page](https://github.com/cloudnative-pg/cloudnative-pg/releases/tag/v1.29.0)
 
-- ⚠️ **Native (in-tree) Barman Cloud: deprecation schedule changed** — removal moved from `1.29.0` to `1.30.0`; migrate to the [Barman Cloud plugin](https://github.com/cloudnative-pg/barman-cloud-plugin). ([#10167](https://github.com/cloudnative-pg/cloudnative-pg/pull/10167))
+- ⚠️ **Native (in-tree) Barman Cloud: deprecation schedule changed** — removal moved from `1.29.0` to `1.30.0`; migrate to the [Barman Cloud plugin](https://github.com/cloudnative-pg/plugin-barman-cloud). ([#10167](https://github.com/cloudnative-pg/cloudnative-pg/pull/10167))
 - **Dynamic `pg_hba` rules**: declarative `podSelectorRefs` let the operator manage host-based authentication rules from pod label selectors (ephemeral IPs resolved automatically); `ImageCatalog` support extended to PostgreSQL extensions. ([#10148](https://github.com/cloudnative-pg/cloudnative-pg/pull/10148), [#9781](https://github.com/cloudnative-pg/cloudnative-pg/pull/9781))
 - Optional **`serviceAccountName`** on `Cluster` and `Pooler` for shared cloud IAM identities (AWS IRSA, GCP/Azure Workload Identity); `Pooler` gained fine-grained TLS version and cipher-suite control. ([#9287](https://github.com/cloudnative-pg/cloudnative-pg/pull/9287), [#9571](https://github.com/cloudnative-pg/cloudnative-pg/pull/9571))
 

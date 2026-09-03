@@ -127,6 +127,7 @@ For each tracked project, in order:
 | `kubernetes` | [cert-manager](kubernetes/cert-manager/) | [jetstack/cert-manager](https://github.com/jetstack/cert-manager) |
 | `kubernetes` | [charts](kubernetes/charts/)             | [mmontes11/charts](https://github.com/mmontes11/charts)           |
 | `kubernetes` | [cloudnative-pg](kubernetes/cloudnative-pg/) | [cloudnative-pg/cloudnative-pg](https://github.com/cloudnative-pg/cloudnative-pg) |
+| `kubernetes` | [plugin-barman-cloud](kubernetes/plugin-barman-cloud/)     | [cloudnative-pg/plugin-barman-cloud](https://github.com/cloudnative-pg/plugin-barman-cloud)   |
 | `ai`         | [comfyui](ai/comfyui/)                       | [comfyanonymous/ComfyUI](https://github.com/comfyanonymous/ComfyUI)               |
 | `kubernetes` | [csi-driver-nfs](kubernetes/csi-driver-nfs/) | [kubernetes-csi/csi-driver-nfs](https://github.com/kubernetes-csi/csi-driver-nfs) |
 | `kubernetes` | [external-snapshotter](kubernetes/external-snapshotter/) | [kubernetes-csi/external-snapshotter](https://github.com/kubernetes-csi/external-snapshotter) |
