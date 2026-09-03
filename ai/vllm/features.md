@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/vllm-project/vllm
-last_updated: 2026-08-23
+last_updated: 2026-09-03
 ---
 
 # vllm — features
@@ -29,7 +29,7 @@ Weight, activation, and KV-cache quantization for FP8, MXFP8/MXFP4, NVFP4, INT8/
 
 ## Speculative decoding
 
-Draft-then-verify decoding with n-gram, suffix, EAGLE/EAGLE-3, MTP, DFlash, and DSpark drafters (including heterogeneous-vocabulary TLI and dynamic speculators); respects reasoning/thinking budgets. See [speculative decoding examples](https://docs.vllm.ai/en/latest/examples/features/speculative_decoding).
+Draft-then-verify decoding with n-gram, suffix, EAGLE/EAGLE-3, MTP, DFlash, DFlash2 (since v0.28.0), and DSpark drafters (including heterogeneous-vocabulary TLI and dynamic speculators); respects reasoning/thinking budgets. See [speculative decoding examples](https://docs.vllm.ai/en/latest/examples/features/speculative_decoding).
 
 ## Structured outputs, tool calling, and reasoning parsers
 

@@ -1,11 +1,25 @@
 ---
 upstream: https://github.com/vllm-project/vllm
-last_updated: 2026-08-23
+last_updated: 2026-09-03
 ---
 
 # vllm — releases
 
 Latest 10 official releases, newest first. Check the ⚠️ entries before upgrading. Release cadence is roughly biweekly majors plus occasional patches.
+
+## v0.28.0 — 2026-08-26
+
+[Release page](https://github.com/vllm-project/vllm/releases/tag/v0.28.0)
+
+- **Kimi-K3 performance push** across the stack: Decode Context Parallel (DCP), fused FlashKDA decode/prefill kernels, SiTU activation for MegaMoE, GEMM-RS for sequence parallelism, combined all-gathers with 1.5~3x kernel-level speedup, adaptive speculative token budget (~60% better DSpark TTFT), optional shared-expert sharding (~17 GiB saved per GPU); also runs on ROCm with the V2 model runner (#50484, #50654, #52458, #50510, #52079, #51070, #51725, #50912, #51653).
+- **DeepSeek V4**: sparse MLA works end-to-end for plain decode, MTP, and DSpark speculative decoding; AMD Quark NVFP4 support, reasoning-effort prompts, and ROCm enablement on gfx11 and gfx950 (#51538, #47972, #50580, #47017, #52212).
+- ⚠️ **Breaking changes**: bitsandbytes support migrated to an out-of-tree plugin; the deprecated `calculate_kv_scales` runtime KV-scale calculation, `override_attention_dtype`, and MoE legacy code removed; KV-offload tiering metrics renamed from `kv_offload_tiering_block_{queries,hits}` to `..._chunk_...` (#43529, #49389, #48684, #51078, #52812).
+- ⚠️ **Transformers 5.15.0 upgrade** (breaking environment change); `reasoning_content` output removal is documented as a breaking client change (#51668, #50624).
+- **Speculative decoding**: DFlash2 with local convolution and a candidate selector, DSpark confidence-scheduled verification, async scheduling auto-enabled for draft models, adaptive speculative input-token budget (#52816, #47808, #48341, #51725).
+- **Model Runner V2 maturation**: E/P/D disaggregation, weight offloading, multi-layer MTP KV cache, encoder CUDA graphs, attention-free models, `thinking_token_budget` support (#38390, #51413, #50062, #49852, #52374, #46727).
+- **Tiered KV cache offloading**: disk offloading, out-of-tree secondary-tier managers via `module_path`, tiering metrics, canonical parallelism-agnostic CPU layout; new defaults — `max_num_batched_tokens` raised 8192→16384, prefix caching on by default for Mamba models, Blackwell CUDA graph capture default raised to 1024 (#49644, #51007, #48798, #48414, #51726, #50991, #49390).
+- New models: Muse Glimmer, Ling 3.0 Flash (BF16 + MTP + parser, FP8 variant, hybrid MXFP4 routed experts), Dots3 NOTE native multimodal, Interns2mobius (#51655, #51045, #51265, #52114, #51255, #51149).
+- **Rust frontend & gRPC**: standalone renderer, multimodal image inference over gRPC, explicit data-parallel rank routing, RL lifecycle control; protobuf schemas published to Buf (#50289, #50368, #51178, #51316, #51276).
 
 ## v0.27.1 — 2026-08-11
 
@@ -88,13 +102,3 @@ Latest 10 official releases, newest first. Check the ⚠️ entries before upgra
 - ⚠️ **Removals**: old `get_tokenizer` / `resolve_hf_chat_template` locations removed; deprecated MLA prefill arguments removed; env vars covered by `--moe-backend` / `--linear-backend` marked deprecated (#35024, #42555, #43148).
 - Experimental **Rust frontend** lands (in-tree), with a DP Supervisor for data-parallel serving (#40848, #43283, #40841).
 - New multi-tier KV cache offloading framework with a filesystem secondary tier and Mooncake disk offloading; batch-invariant Cutlass FP8 for a 28.9% E2E latency improvement (#40020, #40408).
-
-## v0.21.0 — 2026-05-15
-
-[Release page](https://github.com/vllm-project/vllm/releases/tag/v0.21.0)
-
-- ⚠️ **`transformers` v4 formally deprecated** — migrate to `transformers` v5 (#40389).
-- ⚠️ **C++20 build requirement** (breaking build change) for compatibility with PyTorch (#40380).
-- KV offloading integrates with the Hybrid Memory Allocator (HMA): scheduler-side sliding window groups, full HMA enablement (#41228, #41445).
-- Speculative decoding respects reasoning/thinking budgets for reasoning models (#34668); new TOKENSPEED_MLA attention backend for DeepSeek-R1/Kimi-K25 on Blackwell (#41778).
-- New architectures: MiMo-V2.5, Laguna XS.2, Moondream3, Qianfan-OCR, Cohere MoE, Cohere Eagle (#40967, #40136, #40817).
