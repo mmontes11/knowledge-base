@@ -24,7 +24,7 @@ Feature areas of Vitess, each linked to the upstream documentation that covers i
 
 - **VTOrc** (`vtorc`) — orchestration for replication, failover, and switchover, exposing a REST/gRPC control plane. [VTOrc](https://vitess.io/docs/24.0/user-guides/configuration-basic/vtorc/) - details: [VTOrc](features/vtorc.md)
 - **Replication graph** — the primary/replica/rdonly topology within a shard and its failover behavior. [Replication graph](https://vitess.io/docs/24.0/concepts/replication-graph/) - details: [Replication graph](features/replication-graph.md)
-- **Backup & restore** — schedule and restore tablet backups. [Backup and restore](https://vitess.io/docs/24.0/user-guides/operating-vitess/backup-and-restore/)
+- **Backup & restore** — schedule and restore tablet backups. [Backup and restore](https://vitess.io/docs/24.0/user-guides/operating-vitess/backup-and-restore/) - details: [Backup & restore](features/backup-and-restore.md)
 
 ## Migration & schema changes
 
