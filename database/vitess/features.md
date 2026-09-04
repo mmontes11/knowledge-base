@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/vitessio/vitess
-last_updated: 2026-09-03
+last_updated: 2026-09-04
 ---
 
 # vitess — features
@@ -9,8 +9,8 @@ Feature areas of Vitess, each linked to the upstream documentation that covers i
 
 ## Architecture & scaling
 
-- **Keyspaces** (`Keyspace`) — the logical, top-level unit of a Vitess deployment; a keyspace can be sharded across many shards. [Keyspace](https://vitess.io/docs/24.0/concepts/keyspace/)
-- **Shards** (`Shard`) — the unit of sharding; a keyspace is partitioned into shards, each backed by a MySQL replica set. [Shard](https://vitess.io/docs/24.0/concepts/shard/)
+- **Keyspaces** (`Keyspace`) — the logical, top-level unit of a Vitess deployment; a keyspace can be sharded across many shards. [Keyspace](https://vitess.io/docs/24.0/concepts/keyspace/) - details: [Keyspaces](features/keyspace.md)
+- **Shards** (`Shard`) — the unit of sharding; a keyspace is partitioned into shards, each backed by a MySQL replica set. [Shard](https://vitess.io/docs/24.0/concepts/shard/) - details: [Shards](features/shard.md)
 - **Tablets** (`Tablet`) — a running MySQL instance (primary, replica, or rdonly) that serves a shard. [Tablet](https://vitess.io/docs/24.0/concepts/tablet/) - details: [Tablets](features/tablet.md)
 - **Scaling philosophy** — scale horizontally by adding shards, and vertically within a shard via replication. [Scalability philosophy](https://vitess.io/docs/24.0/overview/scalability-philosophy/)
 
