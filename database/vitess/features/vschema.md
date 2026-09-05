@@ -17,7 +17,7 @@ The VSchema is Vitess's declarative routing layer: per-keyspace metadata that de
 
 ## Structure
 
-The in-memory object is the `VSchema` struct in `go/vt/vtgate/vindexes/vschema.go`:
+The in-memory object is the `VSchema` struct in [`go/vt/vtgate/vindexes/vschema.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/vschema.go):
 
 - **`Keyspaces map[string]*KeyspaceSchema`** — one entry per keyspace. A `KeyspaceSchema` holds the keyspace (name + sharded flag), foreign-key mode, `preventCrossKeyspaceReads`, the table map, the vindex map, the view map, and the multi-tenancy spec.
 - **`Tables` (`BaseTable`)** — each table carries its `ColumnVindexes` (primary first, then secondaries), the `Owned` lookup vindexes, the auto-increment linkage to a sequence table, an optional `Pinned` keyspace ID, the `Source` for reference tables, column metadata, primary key and unique keys, and child/parent foreign-key info.
@@ -31,23 +31,23 @@ Build-time validation (in `buildTables`, `buildReferences`, `buildRoutingRule`, 
 
 ## Vindexes
 
-Built-in vindex implementations live in `go/vt/vtgate/vindexes/`, all implementing the `Vindex` interface in `vindex.go`:
+Built-in vindex implementations live in [`go/vt/vtgate/vindexes/`](https://github.com/vitessio/vitess/tree/main/go/vt/vtgate/vindexes), all implementing the `Vindex` interface in [`vindex.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/vindex.go):
 
 | Type | File | Behavior |
 | ---- | ---- | -------- |
-| `hash` | `hash.go` | Keyspace ID = uniform hash of the column value; even distribution, no range preservation |
-| `consistent_lookup` | `consistent_lookup.go` | Keyspace ID = hash of the key, stable across vindex changes; used by resharding and lookup migrations |
-| `lookup` | `lookup.go` | Maintains a lookup table mapping key values → keyspace IDs; unique or non-unique, optionally *owned* (VTGate writes the lookup table itself) |
-| `multicol` | `multicol.go` | Composite vindex over several columns, with partial-column support (subsets get higher planning cost) |
-| `numeric` | `numeric.go` | Keyspace ID derived directly from the numeric column value |
-| `binary` | `binary.go` | Keyspace ID derived from a binary column value |
-| `null` | `null.go` | Always returns an empty keyspace ID — the table is effectively unroutable |
+| `hash` | [`hash.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/hash.go) | Keyspace ID = uniform hash of the column value; even distribution, no range preservation |
+| `consistent_lookup` | [`consistent_lookup.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/consistent_lookup.go) | Keyspace ID = hash of the key, stable across vindex changes; used by resharding and lookup migrations |
+| `lookup` | [`lookup.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/lookup.go) | Maintains a lookup table mapping key values → keyspace IDs; unique or non-unique, optionally *owned* (VTGate writes the lookup table itself) |
+| `multicol` | [`multicol.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/multicol.go) | Composite vindex over several columns, with partial-column support (subsets get higher planning cost) |
+| `numeric` | [`numeric.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/numeric.go) | Keyspace ID derived directly from the numeric column value |
+| `binary` | [`binary.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/binary.go) | Keyspace ID derived from a binary column value |
+| `null` | [`null.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/null.go) | Always returns an empty keyspace ID — the table is effectively unroutable |
 
 Each vindex exposes uniqueness and a planning *cost*; the planner orders a table's `ColumnVindexes` by cost (`Ordered`) and prefers unique vindexes so a query can be pinned to one shard. Lookup vindexes support backfill state (`LookupBackfill`) so routing knows whether the lookup table is still being populated. [Sharded Keyspace](https://vitess.io/docs/24.0/user-guides/vschema-guide/sharded/), [Unique Lookup Vindexes](https://vitess.io/docs/24.0/user-guides/vschema-guide/unique-lookup/), [Non-Unique Lookup Vindexes](https://vitess.io/docs/24.0/user-guides/vschema-guide/non-unique-lookup/), [Lookup as Primary Vindex](https://vitess.io/docs/24.0/user-guides/vschema-guide/lookup-as-primary/), [Shared Vindexes and Foreign Keys](https://vitess.io/docs/24.0/user-guides/vschema-guide/shared-vindexes/)
 
 ## Routing rules
 
-Resolution order (in `VSchema.FindRoutedTable` / `FindRoutedView` / `FindRoutedShard`, `go/vt/vtgate/vindexes/vschema.go`):
+Resolution order (in `VSchema.FindRoutedTable` / `FindRoutedView` / `FindRoutedShard`, [`go/vt/vtgate/vindexes/vschema.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/vschema.go)):
 
 - **Keyspace routing** — `findRoutedKeyspace` first rewrites the keyspace, honoring a tablet-type suffix (`@primary`, `@replica`, …; non-primary types fall back to the `@primary` rule).
 - **Table / view routing** — looked up as `keyspace.table@tablet_type`, then `keyspace.table`. A matched rule redirects to the target table or view; an empty target means the table is *disabled*.
@@ -59,24 +59,24 @@ Resolution order (in `VSchema.FindRoutedTable` / `FindRoutedView` / `FindRoutedS
 ## How it works
 
 - **Storage.** The topology service stores one `SrvVSchema` (`go/vt/proto/vschema/vschema.proto`) per keyspace, plus cluster-wide rule sets (routing, keyspace routing, shard routing, mirror rules).
-- **Materialization.** `VSchemaManager` (`go/vt/vtgate/vschema_manager.go`) watches the topology and, on change, calls `BuildVSchema` (in `go/vt/vtgate/vindexes/vschema.go`), which builds keyspaces → global tables → references → routing rules → shard/keyspace routing → mirror rules → auto-increment resolution, in that order. The result is cached with a creation timestamp so VTGate can detect a stale copy and invalidate the plan cache.
-- **Planning.** The planbuilder (`go/vt/vtgate/planbuilder/`) consults the materialized `VSchema` to resolve tables and vindexes; vindex-based routing is where the planner pins a query to a shard or decides to scatter. [Query Serving (design doc)](https://vitess.io/docs/design-docs/query-serving/)
+- **Materialization.** `VSchemaManager` ([`go/vt/vtgate/vschema_manager.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vschema_manager.go)) watches the topology and, on change, calls `BuildVSchema` (in [`go/vt/vtgate/vindexes/vschema.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/vschema.go)), which builds keyspaces → global tables → references → routing rules → shard/keyspace routing → mirror rules → auto-increment resolution, in that order. The result is cached with a creation timestamp so VTGate can detect a stale copy and invalidate the plan cache.
+- **Planning.** The planbuilder ([`go/vt/vtgate/planbuilder/`](https://github.com/vitessio/vitess/tree/main/go/vt/vtgate/planbuilder)) consults the materialized `VSchema` to resolve tables and vindexes; vindex-based routing is where the planner pins a query to a shard or decides to scatter. [Query Serving (design doc)](https://vitess.io/docs/design-docs/query-serving/)
 - **Applying changes.**
-  - `vtctl ApplySchema` applies a VSchema JSON file from disk to the topology (command wiring in `go/vt/vtctl/vtctl.go`).
-  - `ApplyVSchemaDDL` (`go/vt/topotools/vschema_ddl.go`) applies VSchema DDL statements — `CREATE VINDEX`, `ALTER VSCHEMA …`, routing-rule statements — parsed and planned by VTGate (the `VSchemaDdl` plan type in `go/vt/vtgate/planbuilder/builder.go`) and executed by the executor (covered by `go/vt/vtgate/executor_vschema_ddl_test.go`), then written to the topology via vtadmin/vtctl.
+  - `vtctl ApplySchema` applies a VSchema JSON file from disk to the topology (command wiring in [`go/vt/vtctl/vtctl.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtctl/vtctl.go)).
+  - `ApplyVSchemaDDL` ([`go/vt/topotools/vschema_ddl.go`](https://github.com/vitessio/vitess/blob/main/go/vt/topotools/vschema_ddl.go)) applies VSchema DDL statements — `CREATE VINDEX`, `ALTER VSCHEMA …`, routing-rule statements — parsed and planned by VTGate (the `VSchemaDdl` plan type in [`go/vt/vtgate/planbuilder/builder.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/planbuilder/builder.go)) and executed by the executor (covered by [`go/vt/vtgate/executor_vschema_ddl_test.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/executor_vschema_ddl_test.go)), then written to the topology via vtadmin/vtctl.
   - On Kubernetes, the operator exposes the same VSchema as a CRD and applies it through the same server path. [VSchema guide overview](https://vitess.io/docs/24.0/user-guides/vschema-guide/overview/)
 
 ## Key components
 
 | Component | Where | Role |
 | --------- | ----- | ---- |
-| `VSchema` (in-memory) | `go/vt/vtgate/vindexes/vschema.go` | Denormalized routing object: keyspaces, tables, views, all rule types |
-| `KeyspaceSchema` / `BaseTable` / `ColumnVindex` | `go/vt/vtgate/vindexes/vschema.go` | Per-keyspace schema, table definitions, vindex bindings |
-| Vindex implementations | `go/vt/vtgate/vindexes/` (`hash.go`, `lookup.go`, `consistent_lookup.go`, `multicol.go`, `numeric.go`, `binary.go`, `null.go`) | Column value → keyspace ID mapping |
-| `VSchemaManager` | `go/vt/vtgate/vschema_manager.go` | Watches topology `SrvVSchema`, rebuilds and caches the in-memory VSchema |
+| `VSchema` (in-memory) | [`go/vt/vtgate/vindexes/vschema.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/vschema.go) | Denormalized routing object: keyspaces, tables, views, all rule types |
+| `KeyspaceSchema` / `BaseTable` / `ColumnVindex` | [`go/vt/vtgate/vindexes/vschema.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/vschema.go) | Per-keyspace schema, table definitions, vindex bindings |
+| Vindex implementations | [`go/vt/vtgate/vindexes/`](https://github.com/vitessio/vitess/tree/main/go/vt/vtgate/vindexes) ([`hash.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/hash.go), [`lookup.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/lookup.go), [`consistent_lookup.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/consistent_lookup.go), [`multicol.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/multicol.go), [`numeric.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/numeric.go), [`binary.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/binary.go), [`null.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vindexes/null.go)) | Column value → keyspace ID mapping |
+| `VSchemaManager` | [`go/vt/vtgate/vschema_manager.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/vschema_manager.go) | Watches topology `SrvVSchema`, rebuilds and caches the in-memory VSchema |
 | `SrvVSchema` proto | `go/vt/proto/vschema/vschema.proto` | Topology-stored schema + rule definitions |
-| VSchema DDL | `go/vt/vtgate/planbuilder/builder.go` (planning), `go/vt/topotools/vschema_ddl.go` (apply), `go/vt/vtctl/vtctl.go` (commands) | SQL-based VSchema changes through VTGate/vtadmin/vtctl |
-| Planner | `go/vt/vtgate/planbuilder/` | Resolves tables/vindexes to build shard-routed execution plans |
+| VSchema DDL | [`go/vt/vtgate/planbuilder/builder.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtgate/planbuilder/builder.go) (planning), [`go/vt/topotools/vschema_ddl.go`](https://github.com/vitessio/vitess/blob/main/go/vt/topotools/vschema_ddl.go) (apply), [`go/vt/vtctl/vtctl.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtctl/vtctl.go) (commands) | SQL-based VSchema changes through VTGate/vtadmin/vtctl |
+| Planner | [`go/vt/vtgate/planbuilder/`](https://github.com/vitessio/vitess/tree/main/go/vt/vtgate/planbuilder) | Resolves tables/vindexes to build shard-routed execution plans |
 
 ## Upstream docs
 

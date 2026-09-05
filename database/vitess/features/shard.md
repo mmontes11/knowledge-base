@@ -22,7 +22,7 @@ Shards are identified by a *key range* over unsigned integer space in keyspace I
 
 Thus `-80` == `00-80` == `0000-8000` == `000000-800000` == `0000000000000000-8000000000000000`. Note that `80-` is *not* the same as `80-FF`: the latter is `8000-FF00`, so `FFFF` falls outside it, while `80-` means "anything >= `0x80`".
 
-The key range determines which rows a shard holds: a vindex (e.g. `xxhash`) maps a sharding column to a keyspace ID, and the ID selects the shard. `xxhash` produces a 64-bit integer, so all IDs below `0x8000000000000000` land in shard `-80`, and IDs with the top bit set land in `80-`. Because ranges are left-justified, keyspace IDs can be arbitrary length — an `md5` hash (16 bytes) or an arbitrary `varbinary` (the `binary` vindex) work directly as keyspace IDs. Key-range parsing lives in `go/vt/key/` (see `ParseKeyRange` in [go/vt/key/key.go](https://github.com/vitessio/vitess/blob/main/go/vt/key/key.go)).
+The key range determines which rows a shard holds: a vindex (e.g. `xxhash`) maps a sharding column to a keyspace ID, and the ID selects the shard. `xxhash` produces a 64-bit integer, so all IDs below `0x8000000000000000` land in shard `-80`, and IDs with the top bit set land in `80-`. Because ranges are left-justified, keyspace IDs can be arbitrary length — an `md5` hash (16 bytes) or an arbitrary `varbinary` (the `binary` vindex) work directly as keyspace IDs. Key-range parsing lives in [`go/vt/key/`](https://github.com/vitessio/vitess/tree/main/go/vt/key) (see `ParseKeyRange` in [go/vt/key/key.go](https://github.com/vitessio/vitess/blob/main/go/vt/key/key.go)).
 
 ## How a shard maps to physical MySQL
 
@@ -31,7 +31,7 @@ A shard is a topology object; the MySQL servers that actually store and serve it
 - [`go/vt/topo/shard.go`](https://github.com/vitessio/vitess/blob/main/go/vt/topo/shard.go) — the shard record in the [topology service](https://vitess.io/docs/24.0/concepts/topology-service/): key range, primary/replica replication graphs, and read-only tablets per cell; [`go/vt/topo/shard_lock.go`](https://github.com/vitessio/vitess/blob/main/go/vt/topo/shard_lock.go) serializes shard mutations.
 - [`go/vt/key/key.go`](https://github.com/vitessio/vitess/blob/main/go/vt/key/key.go) — key range and keyspace ID parsing/formatting (`ParseKeyRange`, hex range notation).
 - [`go/vt/vtctl/vtctl.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtctl/vtctl.go) — shard lifecycle commands: `CreateShard`, `DeleteShards`, `RebuildKeyspace`, `Reparent`, and the `Reshard` workflow entry points.
-- [`go/vt/vttablet/`](https://github.com/vitessio/vitess/tree/main/go/vt/vttablet) — the tablet side: `go/vt/vttablet/tabletmanager/` handles tablet lifecycle (init, restore, reparenting, serving), and `go/vt/vttablet/tabletserver/` runs the query-serving stack on each MySQL instance of a shard.
+- [`go/vt/vttablet/`](https://github.com/vitessio/vitess/tree/main/go/vt/vttablet) — the tablet side: [`go/vt/vttablet/tabletmanager/`](https://github.com/vitessio/vitess/tree/main/go/vt/vttablet/tabletmanager) handles tablet lifecycle (init, restore, reparenting, serving), and [`go/vt/vttablet/tabletserver/`](https://github.com/vitessio/vitess/tree/main/go/vt/vttablet/tabletserver) runs the query-serving stack on each MySQL instance of a shard.
 
 ## Commands and operations
 

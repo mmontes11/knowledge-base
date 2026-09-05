@@ -19,18 +19,18 @@ VTOrc began as a fork of the standalone [Orchestrator](https://github.com/openar
 
 ## How it works
 
-VTOrc runs an infinite ticker-driven loop (`ContinuousDiscovery` in `go/vt/vtorc/logic/vtorc.go`) with four cadences:
+VTOrc runs an infinite ticker-driven loop (`ContinuousDiscovery` in [`go/vt/vtorc/logic/vtorc.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/logic/vtorc.go)) with four cadences:
 
-- **Instance polling** (every `instance-poll-time`, default ~1s). `DiscoverInstance` samples each tablet the topology knows about — MySQL role, replication state, GTID position, health — and caches the result. A poll that exceeds `instance-poll-time` on a primary is recorded as a failed primary health check (`go/vt/vtorc/inst/primary_health.go`).
+- **Instance polling** (every `instance-poll-time`, default ~1s). `DiscoverInstance` samples each tablet the topology knows about — MySQL role, replication state, GTID position, health — and caches the result. A poll that exceeds `instance-poll-time` on a primary is recorded as a failed primary health check ([`go/vt/vtorc/inst/primary_health.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/inst/primary_health.go)).
 - **Topology refresh** (every `topo-information-refresh-duration`, default ~30s). `refreshAllInformation` re-reads the keyspace/shard records and the tablet records from the topology server, so VTOrc always knows the *desired* state it is converging toward.
-- **Recovery tick** (every `recovery-period-block-duration`). `CheckAndRecover` in `go/vt/vtorc/logic/topology_recovery.go` walks the detected problems and, for any that are actionable, acquires a shard lock and runs the repair.
+- **Recovery tick** (every `recovery-period-block-duration`). `CheckAndRecover` in [`go/vt/vtorc/logic/topology_recovery.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/logic/topology_recovery.go) walks the detected problems and, for any that are actionable, acquires a shard lock and runs the repair.
 - **Caretaking** (every minute). Housekeeping: forgeting long-unseen instances, expiring the audit log and the detection/recovery history.
 
 **Coordination.** Users are expected to run multiple VTOrc instances (VTOrc itself can fail) alongside `vtctld`, which also issues topology-changing commands. All of them coordinate through the central topology server: before any repair a VTOrc instance takes a **shard lock**, so at most one actor mutates a shard at a time. Because the polling data may be stale, a VTOrc instance re-reads the information it needs *after* acquiring the lock, before acting. This is what lets you run N VTOrc instances against the same cluster without double-recovering.
 
 ## Problems VTOrc detects and fixes
 
-The problem taxonomy and the fixed repair for each are defined in `go/vt/vtorc/inst/analysis_problem.go`; the analysis that raises them lives in `go/vt/vtorc/inst/analysis.go`. Representative entries:
+The problem taxonomy and the fixed repair for each are defined in [`go/vt/vtorc/inst/analysis_problem.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/inst/analysis_problem.go); the analysis that raises them lives in [`go/vt/vtorc/inst/analysis.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/inst/analysis.go). Representative entries:
 
 | Problem | Detection | Fix VTOrc applies |
 | --- | --- | --- |
@@ -45,20 +45,20 @@ The problem taxonomy and the fixed repair for each are defined in `go/vt/vtorc/i
 
 | Component | Where | Role |
 | --------- | ----- | ---- |
-| `vtorc` binary | `go/cmd/vtorc/main.go` (flags in `go/vt/vtorc/config/`) | The daemon entry point; owns the runtime config (poll intervals, `cell`, `clusters_to_watch`, `allow-recovery`) |
-| Continuous discovery loop | `go/vt/vtorc/logic/vtorc.go` (`ContinuousDiscovery`, `DiscoverInstance`, `refreshAllInformation`) | The polling engine and the tick that drives topology refresh and recovery |
-| Topology recovery engine | `go/vt/vtorc/logic/topology_recovery.go` (`CheckAndRecover`) | Failover/switchover decision and execution; acquires shard locks and drives reparenting |
-| Problem analysis | `go/vt/vtorc/inst/analysis.go`, `analysis_problem.go` | Samples instance state and classifies it into named problems |
-| Instance data access | `go/vt/vtorc/inst/instance_dao.go`, `instance.go` | Reads per-instance MySQL/replication state and the audit log |
-| Shard / primary / peer health | `go/vt/vtorc/inst/shard_dao.go`, `primary_health.go`, `shard_peer_health.go` | Tracks primary health and cross-observer quorum for a shard's primary |
-| Keyspace & tablet discovery | `go/vt/vtorc/logic/keyspace_shard_discovery.go`, `tablet_discovery.go`, `discovery_queue.go` | Watches the topology's keyspaces/shards/tablets and queues them for polling |
-| Control-plane API | `go/vt/vtorc/server/api.go`, `discovery.go` | Registers and serves the HTTP endpoints (see below) |
-| Process health | `go/vt/vtorc/process/health.go` | Reports VTOrc process health |
-| Audit/history store | `go/vt/vtorc/db/` | Orchestrator-derived schema for the audit log and detection/recovery history |
+| `vtorc` binary | [`go/cmd/vtorc/main.go`](https://github.com/vitessio/vitess/blob/main/go/cmd/vtorc/main.go) (flags in [`go/vt/vtorc/config/`](https://github.com/vitessio/vitess/tree/main/go/vt/vtorc/config)) | The daemon entry point; owns the runtime config (poll intervals, `cell`, `clusters_to_watch`, `allow-recovery`) |
+| Continuous discovery loop | [`go/vt/vtorc/logic/vtorc.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/logic/vtorc.go) (`ContinuousDiscovery`, `DiscoverInstance`, `refreshAllInformation`) | The polling engine and the tick that drives topology refresh and recovery |
+| Topology recovery engine | [`go/vt/vtorc/logic/topology_recovery.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/logic/topology_recovery.go) (`CheckAndRecover`) | Failover/switchover decision and execution; acquires shard locks and drives reparenting |
+| Problem analysis | [`go/vt/vtorc/inst/analysis.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/inst/analysis.go), [`analysis_problem.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/inst/analysis_problem.go) | Samples instance state and classifies it into named problems |
+| Instance data access | [`go/vt/vtorc/inst/instance_dao.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/inst/instance_dao.go), [`instance.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/inst/instance.go) | Reads per-instance MySQL/replication state and the audit log |
+| Shard / primary / peer health | [`go/vt/vtorc/inst/shard_dao.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/inst/shard_dao.go), [`primary_health.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/inst/primary_health.go), [`shard_peer_health.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/inst/shard_peer_health.go) | Tracks primary health and cross-observer quorum for a shard's primary |
+| Keyspace & tablet discovery | [`go/vt/vtorc/logic/keyspace_shard_discovery.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/logic/keyspace_shard_discovery.go), [`tablet_discovery.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/logic/tablet_discovery.go), [`discovery_queue.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/logic/discovery_queue.go) | Watches the topology's keyspaces/shards/tablets and queues them for polling |
+| Control-plane API | [`go/vt/vtorc/server/api.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/server/api.go), [`discovery.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/server/discovery.go) | Registers and serves the HTTP endpoints (see below) |
+| Process health | [`go/vt/vtorc/process/health.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/process/health.go) | Reports VTOrc process health |
+| Audit/history store | [`go/vt/vtorc/db/`](https://github.com/vitessio/vitess/tree/main/go/vt/vtorc/db) | Orchestrator-derived schema for the audit log and detection/recovery history |
 
 ## Control-plane API
 
-VTOrc registers a small set of HTTP endpoints (see `go/vt/vtorc/server/api.go`). Most are `MONITORING`-level; the recovery pause/resume pair is `ADMIN`-level.
+VTOrc registers a small set of HTTP endpoints (see [`go/vt/vtorc/server/api.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vtorc/server/api.go)). Most are `MONITORING`-level; the recovery pause/resume pair is `ADMIN`-level.
 
 | Endpoint | Purpose |
 | -------- | ------- |
