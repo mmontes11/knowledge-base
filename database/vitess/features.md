@@ -17,7 +17,7 @@ Feature areas of Vitess, each linked to the upstream documentation that covers i
 ## Query routing
 
 - **VTGate** (`vtgate`) — the global gateway/proxy that applications connect to; it parses, routes, and reassembles SQL. [VTGate](https://vitess.io/docs/24.0/concepts/vtgate/) - details: [VTGate](features/vtgate.md)
-- **Query rewriting** — push down query fragments to shards and rewrite multi-shard queries for parallel execution. [Query rewriting](https://vitess.io/docs/24.0/concepts/query-rewriting/)
+- **Query rewriting** — push down query fragments to shards and rewrite multi-shard queries for parallel execution. [Query rewriting](https://vitess.io/docs/24.0/concepts/query-rewriting/) - details: [Query rewriting](features/query-rewriting.md)
 - **vschema / routing rules** — define routing rules (including view routing in v24) that map tables and views to keyspaces and shards. [vschema](https://vitess.io/docs/24.0/concepts/vschema/) - details: [vschema](features/vschema.md)
 
 ## Replication & high availability
