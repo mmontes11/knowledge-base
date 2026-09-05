@@ -33,7 +33,7 @@ Feature areas of Vitess, each linked to the upstream documentation that covers i
 
 ## Change data capture
 
-- **VStream** (`vstream`) — stream row changes across shards to external consumers as a sharded, distributed binlog; in v24 also available as GTID-based streaming through VTGate. [VStream](https://vitess.io/docs/24.0/concepts/vstream/)
+- **VStream** (`vstream`) — stream row changes across shards to external consumers as a sharded, distributed binlog; in v24 also available as GTID-based streaming through VTGate. [VStream](https://vitess.io/docs/24.0/concepts/vstream/) - details: [VStream](features/vstream.md)
 
 ## Ecosystem
 
