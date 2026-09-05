@@ -28,7 +28,7 @@ Feature areas of Vitess, each linked to the upstream documentation that covers i
 
 ## Migration & schema changes
 
-- **Online resharding / MoveTables** — move table data between shards online with minimal downtime. [Move tables](https://vitess.io/docs/24.0/user-guides/migration/move-tables/)
+- **Online resharding / MoveTables** — move table data between shards online with minimal downtime. [Move tables](https://vitess.io/docs/24.0/user-guides/migration/move-tables/) - details: [MoveTables](features/move-tables.md)
 - **Declarative schema migrations** — apply schema changes declaratively across a keyspace. [Declarative migrations](https://vitess.io/docs/24.0/user-guides/schema-changes/declarative-migrations/)
 
 ## Change data capture
