@@ -11,7 +11,7 @@ Authoritative references: [Tablet concept](https://vitess.io/docs/24.0/concepts/
 
 ## Tablet types
 
-The role is the `TabletType` enum (`topodatapb.TabletType`, package `topodata`; generated from `proto/topodata.proto`). The roles described in the concept guide:
+The role is the `TabletType` enum (`topodatapb.TabletType`, package `topodata`; generated from [`proto/topodata.proto`](https://github.com/vitessio/vitess/blob/main/proto/topodata.proto)). The roles described in the concept guide:
 
 | Type | Enum value | Meaning |
 | --- | --- | --- |
@@ -33,11 +33,11 @@ The role is the `TabletType` enum (`topodatapb.TabletType`, package `topodata`; 
 
 ## Key components
 
-- **vttablet daemon** — the per-tablet binary. Entrypoint: `go/cmd/vttablet/vttablet.go`.
-- **tabletserver** (query serving) — package `go/vt/vttablet/tabletserver/`. Core loop in `tabletserver.go`; role state machine in `state_manager.go`; health streaming in `health_streamer.go`; binlog serving in `binlog_dump_engine.go`.
-- **tabletmanager** (operations) — package `go/vt/vttablet/tabletmanager/`. State in `tm_state.go`; backup in `rpc_backup.go` and restore in `restore.go`; replication-graph RPCs in `rpc_replication.go`; schema in `rpc_schema.go`; VReplication in `rpc_vreplication.go`.
-- **discovery / health check** — package `go/vt/discovery/`. `healthcheck.go` watches tablet types and refreshes health; `tablet_picker.go` is what VTGate uses to select a target tablet.
-- **topo** — package `go/vt/topo/`. Tablet topo read/write in `tablet.go`; tablet-type helpers in `topoproto/tablet.go`; the `TabletType` enum in `go/vt/proto/topodata/topodata.pb.go`.
+- **vttablet daemon** — the per-tablet binary. Entrypoint: [`go/cmd/vttablet/vttablet.go`](https://github.com/vitessio/vitess/blob/main/go/cmd/vttablet/vttablet.go).
+- **tabletserver** (query serving) — package [`go/vt/vttablet/tabletserver/`](https://github.com/vitessio/vitess/tree/main/go/vt/vttablet/tabletserver). Core loop in [`tabletserver.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vttablet/tabletserver/tabletserver.go); role state machine in [`state_manager.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vttablet/tabletserver/state_manager.go); health streaming in [`health_streamer.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vttablet/tabletserver/health_streamer.go); binlog serving in [`binlog_dump_engine.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vttablet/tabletserver/binlog_dump_engine.go).
+- **tabletmanager** (operations) — package [`go/vt/vttablet/tabletmanager/`](https://github.com/vitessio/vitess/tree/main/go/vt/vttablet/tabletmanager). State in [`tm_state.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vttablet/tabletmanager/tm_state.go); backup in [`rpc_backup.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vttablet/tabletmanager/rpc_backup.go) and restore in [`restore.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vttablet/tabletmanager/restore.go); replication-graph RPCs in [`rpc_replication.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vttablet/tabletmanager/rpc_replication.go); schema in [`rpc_schema.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vttablet/tabletmanager/rpc_schema.go); VReplication in [`rpc_vreplication.go`](https://github.com/vitessio/vitess/blob/main/go/vt/vttablet/tabletmanager/rpc_vreplication.go).
+- **discovery / health check** — package [`go/vt/discovery/`](https://github.com/vitessio/vitess/tree/main/go/vt/discovery). [`healthcheck.go`](https://github.com/vitessio/vitess/blob/main/go/vt/discovery/healthcheck.go) watches tablet types and refreshes health; [`tablet_picker.go`](https://github.com/vitessio/vitess/blob/main/go/vt/discovery/tablet_picker.go) is what VTGate uses to select a target tablet.
+- **topo** — package [`go/vt/topo/`](https://github.com/vitessio/vitess/tree/main/go/vt/topo). Tablet topo read/write in [`tablet.go`](https://github.com/vitessio/vitess/blob/main/go/vt/topo/tablet.go); tablet-type helpers in [`topoproto/tablet.go`](https://github.com/vitessio/vitess/blob/main/go/vt/topo/topoproto/tablet.go); the `TabletType` enum in [`go/vt/proto/topodata/topodata.pb.go`](https://github.com/vitessio/vitess/blob/main/go/vt/proto/topodata/topodata.pb.go).
 
 ## Commands & operations
 

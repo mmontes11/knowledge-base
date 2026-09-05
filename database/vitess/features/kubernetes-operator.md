@@ -59,7 +59,7 @@ The operator is a long-running Deployment, not a CLI — operations are `kubectl
 - **Upgrade Vitess.** Change the `images` section of the `VitessCluster`; the rollout machinery rolls each component in order, gated by the `rollout.planetscale.com/*` annotations.
 - **Reshard.** Add a second `partitioning` to the keyspace; the operator creates the destination shards, runs the MoveTables vreplication workflow, and reports progress in the keyspace status; removing the old partitioning tears down the old shards. [Resharding](https://vitess.io/docs/24.0/user-guides/configuration-advanced/resharding/)
 - **Back up and restore.** `spec.backup` with engine and locations; scheduled backups via `spec.backup.schedules` (cron); a single `VitessBackup` object takes or restores one backup. [Backup and restore](https://vitess.io/docs/24.0/user-guides/operating-vitess/backup-and-restore/)
-- **Port-forward for local access.** `examples/operator/pf.sh` forwards `vtgate` (MySQL), `vtctld`, and `vtadmin` (UI on port 14000) from the cluster to localhost.
+- **Port-forward for local access.** [`examples/operator/pf.sh`](https://github.com/vitessio/vitess/blob/main/examples/operator/pf.sh) forwards `vtgate` (MySQL), `vtctld`, and `vtadmin` (UI on port 14000) from the cluster to localhost.
 
 ## Upstream docs
 
