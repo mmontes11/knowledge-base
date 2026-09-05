@@ -1,0 +1,77 @@
+---
+upstream: https://github.com/vitessio/vitess
+last_updated: 2026-09-05
+---
+
+# vitess — vtadmin / vtctl
+
+**VTAdmin** is Vitess's centralized management and administration layer: a strongly-typed management API (served over gRPC and REST/HTTP) that can manage one or more Vitess clusters, plus a web UI for visualizing cluster topology, monitoring health, viewing schema/VSchema, and driving VReplication workflows. **vtctl** (the `vtctldclient` CLI) is the command-line counterpart: it issues the same cluster-management operations to a `vtctld` server over gRPC instead of in-process. Both are built on the same foundation — the Vitess topology service — and both drive the cluster by writing to the topology and telling tablets/gates what to do; other Vitess processes observe those topology changes and react. [VTAdmin](https://vitess.io/docs/24.0/concepts/vtadmin/), [vtctl](https://vitess.io/docs/24.0/concepts/vtctl/)
+
+## What it is
+
+- **A management API, not another proxy.** VTAdmin does not serve queries; it is the control plane for the cluster: keyspaces, shards, tablets, replication state, schema changes, routing rules, and VReplication workflows. [VTAdmin (concept)](https://vitess.io/docs/24.0/concepts/vtadmin/)
+- **Multi-cluster by design.** A single VTAdmin instance can manage multiple Vitess clusters, each configured by id, with cluster discovery via static config, JSON, or Consul. Dynamic ("session-like") clusters can additionally be registered per request.
+- **One API, two transports.** The gRPC `VTAdmin` service and the REST/HTTP API are both powered by the same implementation — the HTTP layer is an adaptation that converts query parameters into the same protobuf request messages, so behavior is identical across transports.
+- **A web UI.** A React/TypeScript single-page app (`web/vtadmin`) for cluster visualization, monitoring, schema/VSchema inspection, workflow control (Reshard, MoveTables), query execution, and the embedded VTExplain tool. [VTAdmin Intro](https://vitess.io/blog/2022-12-05-vtadmin-intro/)
+- **The CLI control plane: `vtctldclient`.** `vtctl` is Vitess's control system: a command-line client that administers the cluster — create tables, identify primary/replica databases, initiate failovers, perform resharding, and so on. The modern client is `vtctldclient`, which runs in client-server mode against a `vtctld` server (the recommended mode, adding a security layer over using the client remotely). [vtctl (concept)](https://vitess.io/docs/24.0/concepts/vtctl/)
+- **Changes propagate through the topology service.** As operations are performed the [Topology Service](https://vitess.io/docs/24.0/concepts/topology-service/) is updated; other Vitess processes observe those changes and react. For example, after `PlannedReparentShard`, VTGate sees the new primary in the topology and directs future writes to it.
+- **A deliberate transition, in progress.** Since v14 Vitess has moved from the legacy `vtctlclient` (one streaming `ExecuteVtctlCommand` RPC, or direct in-process topology access) to a strongly-typed gRPC interface with one RPC per command. Both interfaces can run side by side, and shim commands (`vtctl ... VtctldCommand ...`, `vtctldclient ... LegacyVtctlCommand ...`) cover the gap. [vtctldclient Transition](https://vitess.io/docs/24.0/reference/vtctldclient-transition/overview/)
+
+## How it works
+
+- **The API core.** `vtadmin.NewAPI` (`go/vt/vtadmin/api.go`) is the main entrypoint: it holds the set of managed clusters, builds a single gRPC server (`go/vt/vtadmin/grpcserver/server.go`) and a `mux` HTTP router, registers the gRPC `VTAdmin` service (`vtadminpb.RegisterVTAdminServer`, `go/vt/vtadmin/api.go:183`), and mounts the REST routes under the `/api` prefix. gRPC and HTTP traffic are multiplexed over one port. [API server design](https://github.com/vitessio/vitess/blob/main/doc/vtadmin/api-server.md)
+- **REST as an adapter.** `go/vt/vtadmin/http/api.go` defines `VTAdminHandler` and `Adapt`, which turn a `(ctx, Request, api)` handler — e.g. `GetKeyspace` in `go/vt/vtadmin/http/keyspaces.go` — into an `http.HandlerFunc`, building the protobuf request from path variables and query parameters. Routes are registered in `go/vt/vtadmin/api.go` (e.g. `/api/keyspace/{cluster_id}/{name}`, `/api/migration/{cluster_id}/{keyspace}/launch`, `/api/movetables/{cluster_id}/complete`, `/api/schema/{cluster_id}/{keyspace}/{table}`, `/api/cluster/{cluster_id}/topology`).
+- **Cluster configuration and discovery.** `go/vt/vtadmin/cluster/` defines `cluster.Config` (topo root, cell, topo implementation, tablet-manager protocol, ...) plus `FileConfig` and per-cluster configs; `go/vt/vtadmin/cluster/discovery/` implements discovery backends (consul, JSON file, static file) and `go/vt/vtadmin/cluster/dynamic/` implements `--enable-dynamic-clusters` (clusters passed per request via HTTP cookie or gRPC metadata, cached in `go/vt/vtadmin/cache/` for 24h). See [cluster config](https://github.com/vitessio/vitess/blob/main/doc/vtadmin/cluster-config.md), [discovery](https://github.com/vitessio/vitess/blob/main/doc/vtadmin/discovery.md), and the example [`clusters.yaml`](https://github.com/vitessio/vitess/blob/main/doc/vtadmin/clusters.yaml).
+- **RBAC.** `go/vt/vtadmin/rbac/` provides authentication and authorization for the API: a pluggable `Authenticator`, an `Authorizer` with rules over `(cluster, endpoint)` (see `go/vt/vtadmin/rbac/rule.go` and `go/vt/vtadmin/rbac/config.go`, with an example in `go/vt/vtadmin/rbac/example/`). The binary requires exactly one of `--no-rbac` or `--rbac --rbac-config <file>`.
+- **The `vtadmin` binary.** `go/cmd/vtadmin/main.go` wires flags (common, cluster-config, tracing, gRPC/HTTP server, RBAC) into `vtadmin.NewAPI(...).ListenAndServe()`. The separate `vtadmin-web` program serves the built UI static files (see `examples/compose/vtadmin-web.conf`).
+- **The CLI (`vtctldclient`).** `go/cmd/vtctldclient/main.go` builds a cobra command tree under `go/cmd/vtctldclient/command/`: one file per operation group (keyspaces, shards, tablets, cells, topology, reparents, backups, onlineddl, query, schema, serving_graph, routing_rules, mirror_rules, throttler, transactions, vschemas, validate, permissions) plus `go/cmd/vtctldclient/command/vreplication/` for workflow operations (reshard, movetables, materialize, vdiff, workflow, migrate, mount, lookupvindex, common). The client interface is `vtctldclient.VtctldClient` (`go/vt/vtctl/vtctldclient/client.go`), a wrapper over the generated gRPC client with a factory registry; `go/vt/vtctl/vtctldclient/codegen/` generates the typed client from the API.
+- **The server side (`vtctld`).** `vtctld` (entrypoint `go/cmd/vtctld/cli/cli.go`) is the cluster management daemon: it opens the global topology, initializes `vtctld.InitVtctld` (`go/vt/vtctld/vtctld.go`) which registers an action repository of keyspace/shard/tablet actions executed through a `wrangler.Wrangler`, serves the legacy REST/debug API and `/topodata`, and — enabled via `--service-map` — the gRPC services the clients use: `grpc-vtctld` for the new typed API (`go/vt/vtctl/grpcvtctldserver/server.go`, `VtctldServer` built from `vtenv` + `topo.Server`) and `grpc-vtctl` for the legacy streaming API (`go/vt/vtctl/grpcvtctlserver/server.go`). [vtctld (program)](https://vitess.io/docs/24.0/reference/programs/vtctld/)
+- **The legacy `vtctl` binary.** `go/vt/vtctl/vtctl.go` is the long-standing command table (tablet, keyspace, shard, resharding, ... commands) executed in-process through a `wrangler.Wrangler` against the topology service directly; it also provides shims that forward to `vtctlclient`/`vtctldclient` syntax and vice versa.
+- **The web UI.** `web/vtadmin/` (React, Vite, TypeScript, protobufjs, Tailwind; `src/api/http.ts` calls the REST API, `src/proto/` holds generated VTAdmin proto types) is built to static assets and served by `vtadmin-web`, pointed at the `vtadmin` API endpoint. [vtadmin-web (program)](https://vitess.io/docs/24.0/reference/programs/vtadmin-web/)
+
+## Key components
+
+| Component | Where | Role |
+| --------- | ----- | ---- |
+| API core | `go/vt/vtadmin/api.go` | `API` struct implementing `vtadminpb.VTAdminServer`: cluster registry, gRPC service registration, `/api` REST routes, RBAC wiring, dynamic clusters |
+| REST adaptation | `go/vt/vtadmin/http/api.go`, `go/vt/vtadmin/http/*.go` | `VTAdminHandler`/`Adapt` convert HTTP requests to protobuf; one file per group (keyspaces, shards, tablets, workflows, cells, schemas, vschemas, transactions, replication, backups, vdiff, vtexplain, clusters, gates, vtctlds, ...) |
+| gRPC server | `go/vt/vtadmin/grpcserver/server.go` | Single gRPC server (with reflection/channelz options) multiplexed with HTTP on one port |
+| gRPC service definition | `proto/vtadmin.proto` → `go/vt/proto/vtadmin/` | The `VTAdmin` gRPC service: one RPC per operation (keyspace, shard, tablet, workflow, cell, topo, schema, migration, transaction, vdiff, vtexplain, ...) |
+| Cluster config & discovery | `go/vt/vtadmin/cluster/`, `go/vt/vtadmin/cluster/discovery/`, `go/vt/vtadmin/cluster/dynamic/` | `Config`/`FileConfig`, consul/JSON/static-file discovery, dynamic per-request clusters |
+| RBAC | `go/vt/vtadmin/rbac/` | `Authenticator`, `Authorizer`, rules and config for `--rbac` |
+| `vtadmin` binary | `go/cmd/vtadmin/main.go` | Standalone VTAdmin API server (cluster config, dynamic clusters, RBAC, tracing, HTTP/gRPC flags) |
+| Web UI | `web/vtadmin/` | React app: cluster visualization, monitoring, schema/VSchema, workflows, query execution, VTExplain; served by `vtadmin-web` |
+| CLI client | `go/cmd/vtctldclient/main.go`, `go/cmd/vtctldclient/command/` | The `vtctldclient` command tree (per-group files + `vreplication/` subcommands) |
+| Client interface | `go/vt/vtctl/vtctldclient/client.go`, `go/vt/vtctl/vtctldclient/codegen/` | `VtctldClient` wrapper over the generated gRPC client; codegen for typed client |
+| vtctld daemon | `go/cmd/vtctld/cli/cli.go`, `go/vt/vtctld/vtctld.go`, `go/vt/vtctld/action_repository.go` | Management daemon: topology, action repository (wrangler-based keyspace/shard/tablet actions), legacy REST API, gRPC services via `--service-map` |
+| Typed gRPC server | `go/vt/vtctl/grpcvtctldserver/server.go` | `VtctldServer` implementing the new per-command gRPC API (the `grpc-vtctld` service) |
+| Legacy gRPC server | `go/vt/vtctl/grpcvtctlserver/server.go` | Legacy streaming `ExecuteVtctlCommand` API (the `grpc-vtctl` service) |
+| Legacy CLI | `go/vt/vtctl/vtctl.go` | The classic `vtctl` command table executed in-process against the topology, plus shims to/from the new client syntax |
+
+## Supported operations
+
+- **Cluster/cell/topology inspection** — `GetClusters`, `GetCellInfos`, `GetCellsAliases`, `GetVtctlds`, `GetGates`, `GetFullStatus`, `GetTopologyPath`, `Validate` (and CLI: `GetCellInfoNames`, cell alias management).
+- **Keyspace lifecycle** — `CreateKeyspace`, `DeleteKeyspace`, `GetKeyspace(s)`, `RebuildKeyspaceGraph`, `RemoveKeyspaceCell`, `ValidateKeyspace` / `ValidateSchemaKeyspace` / `ValidateVersionKeyspace`; serving graph views (`GetSrvKeyspace(s)`).
+- **Shard lifecycle** — `CreateShard`, `DeleteShards`, `GetShardReplicationPositions`, `ValidateShard` / `ValidateSchemaShard` / `ValidateVersionShard`, `RefreshTabletReplicationSource`.
+- **Tablet lifecycle** — `GetTablet(s)`, `DeleteTablet`, `PingTablet`, `RefreshState`, `SetReadOnly` / `SetReadWrite`, `StartReplication` / `StopReplication`, `RunHealthCheck`, `TabletExternallyPromoted`.
+- **Failover & reparenting** — `PlannedFailoverShard`, `EmergencyFailoverShard` (CLI: `PlannedReparentShard`, `EmergencyFailoverShard`); VTGate reacts via the topology after the primary changes.
+- **Schema & online DDL** — `ApplySchema`, `FindSchema`, `GetSchema(s)`, `ReloadSchemas`, `ReloadSchemaShard`, and the online-DDL workflow: `LaunchSchemaMigration`, `GetSchemaMigrations`, `CancelSchemaMigration`, `RetrySchemaMigration`, `CleanupSchemaMigration`, `CompleteSchemaMigration`.
+- **VSchema / routing** — `GetVSchema(s)`, `GetSrvVSchema(s)`, plus CLI routing-rule management (routing rules, mirror rules, shard/keyspace routing rules).
+- **Transactions** — `ConcludeTransaction`, `GetTransactionInfo`, `GetUnresolvedTransactions`.
+- **Backups** — `GetBackups` (CLI: backup list/restore support).
+- **VReplication workflows** — `GetWorkflow(s)`, `GetWorkflowStatus`, `StartWorkflow`, `StopWorkflow`, `WorkflowSwitchTraffic`, `WorkflowDelete`, and workflow creation: `ReshardCreate`, `MoveTablesCreate` / `MoveTablesComplete`, `MaterializeCreate`, `VDiffCreate` / `VDiffShow` (CLI: the full `vreplication/` command set — reshard, movetables, materialize, vdiff, workflow, migrate, mount, lookupvindex).
+- **Debugging & observability** — `VTExplain` / `VExplain` (query execution plans; the UI embeds VTExplain), throttler status, `/debug/*` HTTP endpoints (env, cluster, pprof).
+
+## Upstream docs
+
+- [VTAdmin (concept)](https://vitess.io/docs/24.0/concepts/vtadmin/)
+- [vtctl (concept)](https://vitess.io/docs/24.0/concepts/vtctl/)
+- [vtctld (concept)](https://vitess.io/docs/24.0/concepts/vtctld/)
+- [vtadmin (program, flags)](https://vitess.io/docs/24.0/reference/programs/vtadmin/)
+- [vtadmin-web (program)](https://vitess.io/docs/24.0/reference/programs/vtadmin-web/)
+- [vtctldclient (program)](https://vitess.io/docs/24.0/reference/programs/vtctldclient/)
+- [vtctldclient Transition](https://vitess.io/docs/24.0/reference/vtctldclient-transition/overview/)
+- [VTAdmin Intro (blog)](https://vitess.io/blog/2022-12-05-vtadmin-intro/)
+- [Topology Service (concept)](https://vitess.io/docs/24.0/concepts/topology-service/)
+- [Resharding (user guide)](https://vitess.io/docs/24.0/user-guides/migration/reshard/)
+- [MoveTables (user guide)](https://vitess.io/docs/24.0/user-guides/migration/move-tables/)
