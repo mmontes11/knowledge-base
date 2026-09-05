@@ -37,5 +37,5 @@ Feature areas of Vitess, each linked to the upstream documentation that covers i
 
 ## Ecosystem
 
-- **Kubernetes operator** — run and manage Vitess clusters on Kubernetes with CRDs. [Operator](https://vitess.io/docs/24.0/get-started/operator/)
+- **Kubernetes operator** — run and manage Vitess clusters on Kubernetes with CRDs. [Operator](https://vitess.io/docs/24.0/get-started/operator/) - details: [Kubernetes operator](features/kubernetes-operator.md)
 - **vtadmin / vtctl** — the management API and CLI for keyspace, shard, tablet, and routing operations. [vtadmin](https://vitess.io/docs/24.0/concepts/vtadmin/), [vtctl](https://vitess.io/docs/24.0/concepts/vtctl/)
