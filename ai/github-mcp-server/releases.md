@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/github/github-mcp-server
-last_updated: 2026-09-03
+last_updated: 2026-09-07
 ---
 
 # github-mcp-server — Releases
@@ -8,6 +8,14 @@ last_updated: 2026-09-03
 Official release pages live in the [upstream repository](https://github.com/github/github-mcp-server/releases). The table below tracks the 10 most recent releases; check the upstream page for older history. Full patch notes are kept on the release page — only high-signal changes are summarized here, with ⚠️ marking breaking or behavior-changing items.
 
 > Operator note: the homelab deployment (`k8s-ai/infrastructure/mcp-github`) is pinned to `ghcr.io/github/github-mcp-server:1.0.4`, which predates every release listed below.
+
+## v1.12.0 — 2026-09-03
+
+[Release page](https://github.com/github/github-mcp-server/releases/tag/v1.12.0)
+
+- New governance tools for agents: read and manage repository rulesets and custom properties across repository, organization, and enterprise levels ([PR #2991](https://github.com/github/github-mcp-server/pull/2991), [PR #2992](https://github.com/github/github-mcp-server/pull/2992)).
+- Safer write operations: `merge_pull_request` accepts an `expectedHeadSha` pin ([PR #3182](https://github.com/github/github-mcp-server/pull/3182)), `create_or_update_file` returns a SHA callers can actually retrieve ([PR #3131](https://github.com/github/github-mcp-server/pull/3131)), least-privilege `public_repo` access for public contribution tools ([PR #3140](https://github.com/github/github-mcp-server/pull/3140)), and `issue_write` detects silently dropped labels ([PR #3195](https://github.com/github/github-mcp-server/pull/3195)).
+- Richer review and discovery: review range coordinates ([PR #3193](https://github.com/github/github-mcp-server/pull/3193)), Copilot review thread resolution reasons ([PR #3123](https://github.com/github/github-mcp-server/pull/3123)), MCP Server Card support per SEP-2127 ([PR #2768](https://github.com/github/github-mcp-server/pull/2768)), and the Agent Plugins 1.0 package ([PR #3169](https://github.com/github/github-mcp-server/pull/3169)); feature flags refactored to lazily evaluated functional availability rules with a `?features=` URL parameter for headerless hosted connections ([PR #3166](https://github.com/github/github-mcp-server/pull/3166), [PR #3146](https://github.com/github/github-mcp-server/pull/3146)); read-surface sanitization now preserves Markdown body fidelity ([PR #3177](https://github.com/github/github-mcp-server/pull/3177), [PR #3216](https://github.com/github/github-mcp-server/pull/3216)).
 
 ## v1.11.0 — 2026-08-25
 
@@ -77,11 +85,3 @@ Official release pages live in the [upstream repository](https://github.com/gith
 - ⚠️ `create_repository` defaults to private when no visibility is provided ([PR #2694](https://github.com/github/github-mcp-server/pull/2694)).
 - MCP Apps: explicit `show_ui` parameter on UI-capable write tools and additional app features ([PR #1974](https://github.com/github/github-mcp-server/pull/1974)).
 - New code-quality findings tool; custom listen address for `http` mode; repository-scoped `list_issue_types`.
-
-## v1.3.0 — 2026-06-11
-
-[Release page](https://github.com/github/github-mcp-server/releases/tag/v1.3.0)
-
-- `pull_request_read` gains a `get_commits` method to fetch commit lists; `get_file_blame` added (insiders mode).
-- Better, AI-agent-friendly error messages when hitting GitHub API rate limits ([PR #2386](https://github.com/github/github-mcp-server/pull/2386)).
-- Cursor-based pagination for Dependabot alert listing.
