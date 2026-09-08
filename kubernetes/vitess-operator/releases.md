@@ -1,11 +1,15 @@
 ---
 upstream: https://github.com/planetscale/vitess-operator
-last_updated: 2026-09-03
+last_updated: 2026-09-08
 ---
 
 # vitess-operator — releases
 
 Latest 10 official releases of the `planetscale/vitess-operator` project, newest first. Scan the ⚠️ entries before upgrading — the operator upgrades the Vitess components it manages, so pair the operator version with the Vitess release it targets (see the operator's compatibility table).
+
+## v2.17.1 — 2026-09-03
+[Release page](https://github.com/planetscale/vitess-operator/releases/tag/v2.17.1)
+- **Fix**: backup schedule timeout and scheduling state handling corrected ([#818](https://github.com/planetscale/vitess-operator/issues/818), [#821](https://github.com/planetscale/vitess-operator/pull/821)).
 
 ## v2.17.0 — 2026-04-30
 [Release page](https://github.com/planetscale/vitess-operator/releases/tag/v2.17.0)
@@ -49,7 +53,3 @@ Latest 10 official releases of the `planetscale/vitess-operator` project, newest
 ## v2.15.0-rc2 — 2025-04-11
 [Release page](https://github.com/planetscale/vitess-operator/releases/tag/v2.15.0-rc2)
 - Release candidate for v2.15.0.
-
-## v2.15.0-rc1 — 2025-04-08
-[Release page](https://github.com/planetscale/vitess-operator/releases/tag/v2.15.0-rc1)
-- Release candidate for v2.15.0 (carries the same major changes as the v2.15.0 GA notes above).
