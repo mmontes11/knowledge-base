@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/cloudnative-pg/plugin-barman-cloud
-last_updated: 2026-08-22
+last_updated: 2026-09-08
 ---
 
 # plugin-barman-cloud — features
@@ -21,7 +21,7 @@ Key feature areas, each linked to the upstream documentation or release. The doc
 
 ## Recovery
 
-- **Point-in-time recovery**: `Cluster.spec.bootstrap.recovery` with the plugin's `externalClusters` entry; the sidecar serves WAL for replay (`barman-cloud-restore`), and [v0.14.0](https://github.com/cloudnative-pg/plugin-barman-cloud/releases/tag/v0.14.0) restores WAL from a replica source during designated-primary promotion and serves `pg_rewind` without the prefetch flag machinery.
+- **Point-in-time recovery**: `Cluster.spec.bootstrap.recovery` with the plugin's `externalClusters` entry; the sidecar serves WAL for replay (`barman-cloud-restore`), and [v0.14.0](https://github.com/cloudnative-pg/plugin-barman-cloud/releases/tag/v0.14.0) restores WAL from a replica source during designated-primary promotion and serves `pg_rewind` without the prefetch flag machinery; since [v0.15.0](https://github.com/cloudnative-pg/plugin-barman-cloud/releases/tag/v0.15.0) the restore hooks are served from the instance sidecar (the restore runs in-process in the instance pod), and recovery-only clusters without continued WAL archiving also get a sidecar.
 - **Retention policies**: defined on the `ObjectStore`, not the `Cluster` (the in-tree location is gone); the [retention doc](https://cloudnative-pg.io/plugin-barman-clouddocs/retention/) documents the accepted values.
 
 ## Object stores

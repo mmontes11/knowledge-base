@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/cloudnative-pg/plugin-barman-cloud
-last_updated: 2026-08-22
+last_updated: 2026-09-08
 ---
 
 # plugin-barman-cloud
@@ -11,7 +11,7 @@ The reference CNPG-I (CloudNativePG-Interceptor) backup/restore plugin for Barma
 - Documentation: [https://cloudnative-pg.io/plugin-barman-cloud](https://cloudnative-pg.io/plugin-barman-cloud) (versioned)
 - License: Apache-2.0
 - API group/version: `barmancloud.cnpg.io/v1`
-- Helm chart: [ghcr.io/cloudnative-pg/charts/plugin-barman-cloud](https://github.com/cloudnative-pg/plugin-barman-cloud) (chart `0.7.1` ↔ plugin release `v0.14.0`; the chart's default release name is `plugin-barman-cloud`)
+- Helm chart: [ghcr.io/cloudnative-pg/charts/plugin-barman-cloud](https://github.com/cloudnative-pg/plugin-barman-cloud) (chart `0.8.0` ↔ plugin release `v0.15.0`; the chart's default release name is `plugin-barman-cloud`)
 
 ## Standard documents
 

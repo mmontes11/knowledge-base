@@ -1,11 +1,19 @@
 ---
 upstream: https://github.com/cloudnative-pg/plugin-barman-cloud
-last_updated: 2026-08-22
+last_updated: 2026-09-08
 ---
 
 # plugin-barman-cloud — releases
 
-Latest 10 official releases, newest first. Check the ⚠️ entries before upgrading. The chart in `ghcr.io/cloudnative-pg/charts/plugin-barman-cloud` tracks these releases (chart `0.7.1` ships plugin `v0.14.0`).
+Latest 10 official releases, newest first. Check the ⚠️ entries before upgrading. The chart in `ghcr.io/cloudnative-pg/charts/plugin-barman-cloud` tracks these releases (chart `0.8.0` ships plugin `v0.15.0`).
+
+## 0.15.0 — 2026-09-03
+
+[Release page](https://github.com/cloudnative-pg/plugin-barman-cloud/releases/tag/v0.15.0)
+
+- **Restore hooks served from the instance sidecar**: the restore now runs in-process in the instance pod and the sidecar answers the Restore RPC; the sidecar is also injected into recovery-only clusters that do not continue WAL archiving. ([#1025](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/1025))
+- **Barman updated to 3.20.0**; the sidecar image now bundles `tar`, which the barman restore path shells out to. ([#1090](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/1090))
+- Dependency bumps: Kubernetes monorepo v0.37.0, gRPC v1.83.2, and non-major Go dependencies. ([#1084](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/1084), [#1073](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/1073), [#1086](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/1086), [#1041](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/1041))
 
 ## 0.14.0 — 2026-07-29
 
@@ -68,9 +76,3 @@ Latest 10 official releases, newest first. Check the ⚠️ entries before upgra
 
 - **Upstream backup and recovery metrics**, plus a last-failed-backup status field and metric. ([#459](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/459), [#467](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/467))
 - Empty WAL archive check during WAL archiving; ObjectStore-from-cache retrieval logic; `Cluster` finalizers update permission; sidecar image moved to bookworm. ([#458](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/458), [#429](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/429), [#465](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/465), [#476](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/476))
-
-## 0.5.0 — 2025-06-03
-
-[Release page](https://github.com/cloudnative-pg/plugin-barman-cloud/releases/tag/v0.5.0)
-
-- Release without feature additions: removes the lifecycle `Pod` `Patch` subscription from the control plane. ([#378](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/378))
