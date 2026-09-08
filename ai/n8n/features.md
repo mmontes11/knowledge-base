@@ -1,11 +1,11 @@
 ---
 upstream: https://github.com/n8n-io/n8n
-last_updated: 2026-08-19
+last_updated: 2026-09-08
 ---
 
 # n8n — features
 
-Key feature areas, each linked to the upstream documentation (2.36 line) covering it. n8n sits between iPaaS-style automation (visual canvas, 400+ integrations, webhooks/schedules) and application servers (REST API, CLI, data tables, RBAC), with first-class AI agent building on both directions: agents that consume external tools (MCP) and n8n itself exposed as a tool/MCP server to external agents.
+Key feature areas, each linked to the upstream documentation (2.39 line) covering it. n8n sits between iPaaS-style automation (visual canvas, 400+ integrations, webhooks/schedules) and application servers (REST API, CLI, data tables, RBAC), with first-class AI agent building on both directions: agents that consume external tools (MCP) and n8n itself exposed as a tool/MCP server to external agents.
 
 ## AI capabilities
 

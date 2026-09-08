@@ -1,70 +1,64 @@
 ---
 upstream: https://github.com/n8n-io/n8n
-last_updated: 2026-08-19
+last_updated: 2026-09-08
 ---
 
 # n8n — releases
 
 Latest 10 official releases (newest first; GitHub release tags are versioned `n8n@x.y.z`). n8n ships several lines in parallel — the current minor line plus maintained lines that receive backports — so a patch for one line often appears as sibling releases of other lines in the same window; check each ⚠️ note before upgrading. Release pages: https://github.com/n8n-io/n8n/releases.
 
-## n8n@2.36.0 — 2026-08-18
+## n8n@2.39.0 — 2026-09-08
 
-[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%402.36.0) — new current line (2.35/2.34 continue as maintained lines receiving the same backports).
+[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%402.39.0) — new current line (2.38/2.37 continue as maintained lines receiving the same backports).
 
-- ⚠️ **Agent/AI-builder fixes**: HITL approval resume schemas aligned with the confirm envelope (#36047); agent can no longer claim integration tool-call success early (#36196); stuck tool-call UI and MCP-timeout progressive updates recovered (#36162).
-- **Core**: expose incoming request headers to MCP trigger tools (#35236); allow `details` field in `continueErrorOutput` mode (#35939); apply TLS options per hop through proxies (#35518); keep node IDs stable when the AI Assistant edits a workflow (#36236); resolve agent credentials through the node decryption path so external secret stores work (#36275); crash enqueued executions with unreadable data instead of leaking state (#36010).
-- No security advisories listed for this release.
+- ⚠️ **API — source control**: new public API endpoints for Git-backed source control (push/pull projects #36998, status #37001, push #37873); a new workflow version endpoint deprecates the old two-variable path (#37114) — API consumers should migrate.
+- **Core**: OTLP gRPC protocol for OpenTelemetry tracing (#37491); Instance AI gains folder exploration (#37865), search over past conversations (#37478), and opt-in concurrency limits (#37435); HashiCorp Vault external secrets can read a KV v2 sub-path (#37748).
+- **Nodes**: Microsoft Teams node adds channel-message get/reply and Online Meeting operations (#37542, #37500, #37501); Jira and Confluence add Atlassian Service Account (2LO) authentication (#37513, #37536); GraphQL node supports predefined credential types (#37671).
+- No breaking changes declared; no security advisories listed for this release.
 
-## n8n@1.123.72 — 2026-08-17
+## n8n@2.38.0 — 2026-09-08
 
-[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%401.123.72) — legacy 1.123 maintenance line; auto-generated notes with no user-facing highlights.
+[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%402.38.0) — 2.38 line; release notes (re)generated 2026-09-08 covering the full `n8n@2.37.0…n8n@2.38.0` window, so they overlap with 2.39.0's (API source-control endpoints, agent/AI-builder fixes, Teams/Jira/Confluence additions) plus MongoDB node parameter binding for sort and projection (#37335).
 
-## n8n@2.35.3 — 2026-08-14
+## n8n@2.37.11 — 2026-09-07
 
-[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%402.35.3)
+[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%402.37.11) — maintained 2.37 line.
 
-- ⚠️ **Google Ads node**: migrates from the sunset v21 API to v25 for Google Ads (#36259) — verify affected workflows after upgrading.
-- **Microsoft Teams node**: restores the `Group.ReadWrite.All` OAuth2 scope (#36186).
-- **Feature**: skip update approval for workflows created within the same Instance AI session (#36106).
-- No security advisories listed for this release.
+- **Core**: ensure running-job cleanup when a workflow run rejects (#37826); keep a serving external secrets provider active when its replacement fails (#37872).
 
-## n8n@2.34.6 — 2026-08-14
+## n8n@2.38.4 — 2026-09-07
 
-[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%402.34.6) — 2.34 line carrying the same backports as 2.35.3 (Google Ads v21→v25 #36260, Teams scope #36187).
+[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%402.38.4) — 2.38 line.
 
-## n8n@1.123.71 — 2026-08-13
+- **Core**: cap task runner task timeouts to the graceful shutdown window (#37765); keep a serving external secrets provider active when its replacement fails (#37882); stop the task broker before task runner processes on shutdown (#37886).
+- **Agent**: prevent Anthropic agent threads from breaking permanently and keep run errors visible (#37722); stop npm audit from stalling Instance AI sandbox setup (#37877).
 
-[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%401.123.71) — legacy 1.123 maintenance line; auto-generated notes with no user-facing highlights.
+## n8n@2.37.10 — 2026-09-04
 
-## n8n@2.35.2 — 2026-08-13
+[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%402.37.10) — maintained 2.37 line; auto-generated notes with no user-facing highlights.
 
-[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%402.35.2)
+## n8n@2.37.9 — 2026-09-03
 
-- **Core**: report the real activation mode for triggers activated via the publication outbox (#36151).
+[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%402.37.9) — maintained 2.37 line.
 
-## n8n@2.34.5 — 2026-08-12
+- **Core**: restore mutating array methods on `$json` data in expressions (#37727).
 
-[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%402.34.5)
+## n8n@2.38.3 — 2026-09-03
 
-- **Core**: apply TLS options per hop when requests go through a proxy.
+[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%402.38.3) — 2.38 line.
 
-## n8n@1.123.70 — 2026-08-12
+- **Core**: ensure running-job cleanup when a workflow run rejects (#37629).
 
-[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%401.123.70) — legacy line dependency bumps (adm-zip, tar, undici, fast-uri) plus a fix for scheduled poll ticks releasing the activation's expression isolate (#35934).
+## n8n@1.123.77 — 2026-09-03
 
-## n8n@2.35.1 — 2026-08-12
+[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%401.123.77) — legacy 1.123 maintenance line; auto-generated notes with no user-facing highlights.
 
-[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%402.35.1)
+## n8n@2.37.7 — 2026-09-02
 
-- **Core**: accept the "Always allow" scope on data-table resume (#36080); apply TLS options per hop through proxies (#36016).
+[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%402.37.7) — maintained 2.37 line; auto-generated notes with no user-facing highlights.
 
-## n8n@2.35.0 — 2026-08-11
+## n8n@2.38.2 — 2026-09-02
 
-[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%402.35.0) — minor line with fixes and node-specific changes; no breaking changes declared.
-
-- ⚠️ **X (formerly Twitter) node**: OAuth2 and API endpoints moved to `x.com` (#32699) — credential behavior changes for Twitter/X workflows.
-- ⚠️ **Kafka Trigger node**: stops consumers reliably when a workflow is deactivated or updated (#35069) — previously leaked consumers are now cleaned up.
-- **Node fixes**: Schedule node applies declared interval defaults to stored rules (#35271); SharePoint node points delegated `Sites.Selected` users to URL-or-ID mode (#35369); Execute Workflow node blocks invalid input mappings (#35767).
-- **Core**: AI-agent and Instance AI hardening (bounded oversized agent tool results #35759, redaction policy applied to Code node console output #35121, recovery of unresponsive task runners #35456, error workflows gated behind primary readiness #35634); MCP tool schemas compiled on their declared JSON Schema dialect (#35610).
+[Release page](https://github.com/n8n-io/n8n/releases/tag/n8n%402.38.2) — 2.38 line; auto-generated notes with no user-facing highlights.
 
 No security advisories listed for any release in this window.
