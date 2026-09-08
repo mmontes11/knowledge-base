@@ -1,6 +1,6 @@
 ---
-upstream: https://github.com/prometheus-community/kube-prometheus-stack
-last_updated: 2026-08-16
+upstream: https://github.com/prometheus-community/helm-charts
+last_updated: 2026-09-08
 ---
 
 # kube-prometheus-stack — API reference

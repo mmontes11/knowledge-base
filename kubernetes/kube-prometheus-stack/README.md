@@ -1,14 +1,13 @@
 ---
-upstream: https://github.com/prometheus-community/kube-prometheus-stack
-last_updated: 2026-08-16
+upstream: https://github.com/prometheus-community/helm-charts
+last_updated: 2026-09-08
 ---
 
 # kube-prometheus-stack
 
-[kube-prometheus-stack](https://github.com/prometheus-community/kube-prometheus-stack) is a Helm chart that bundles the [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus) stack into a single release: Prometheus, prometheus-operator, Alertmanager, Grafana, kube-state-metrics, and node_exporter, together with a curated set of default `PrometheusRule`s and Grafana dashboards to provide end-to-end Kubernetes cluster monitoring.
+[kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) is a Helm chart that bundles the [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus) stack into a single release: Prometheus, prometheus-operator, Alertmanager, Grafana, kube-state-metrics, and node_exporter, together with a curated set of default `PrometheusRule`s and Grafana dashboards to provide end-to-end Kubernetes cluster monitoring.
 
-- Upstream repository: [prometheus-community/kube-prometheus-stack](https://github.com/prometheus-community/kube-prometheus-stack)
-- Chart sources: the chart now lives at `charts/kube-prometheus-stack` in the [prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts) monorepo. The standalone repository above no longer exists (verified 2026-08-16): all links below point at the live monorepo location.
+- Upstream repository: [prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts) — the chart lives at [`charts/kube-prometheus-stack`](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) in that monorepo, with releases tagged `kube-prometheus-stack-*`. The former standalone `prometheus-community/kube-prometheus-stack` repository no longer exists (404, re-verified 2026-09-08).
 - Distributed as: OCI artifact `oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack` (also via the `https://prometheus-community.github.io/helm-charts` Helm repository)
 - Chart homepage / project: [https://github.com/prometheus-operator/kube-prometheus](https://github.com/prometheus-operator/kube-prometheus)
 - License: Apache-2.0

@@ -4,7 +4,7 @@ A curated knowledge base of open-source projects available on GitHub. Each track
 
 This README is the **contract of the knowledge base**: it defines the layout, the naming conventions, the standard documents, and the maintenance rules that both humans and the maintenance agent must follow. Anything in this repository that contradicts this document is the thing that is wrong.
 
-**Last updated:** 2026-09-03 (UTC) — date of the most recent maintenance commit to `main`. Per-file freshness is tracked by the `last_updated` frontmatter in [Metadata](#metadata).
+**Last updated:** 2026-09-08 (UTC) — date of the most recent maintenance commit to `main`. Per-file freshness is tracked by the `last_updated` frontmatter in [Metadata](#metadata).
 
 ## Goals
 
@@ -134,7 +134,7 @@ For each tracked project, in order:
 | `kubernetes` | [gateway-api](kubernetes/gateway-api/)                   | [kubernetes-sigs/gateway-api](https://github.com/kubernetes-sigs/gateway-api)                 |
 | `ai`         | [github-mcp-server](ai/github-mcp-server/)               | [github/github-mcp-server](https://github.com/github/github-mcp-server)                       |
 | `ai`         | [kserve](ai/kserve/)                                     | [kserve/kserve](https://github.com/kserve/kserve)                                             |
-| `kubernetes` | [kube-prometheus-stack](kubernetes/kube-prometheus-stack/) | [prometheus-community/kube-prometheus-stack](https://github.com/prometheus-community/kube-prometheus-stack) |
+| `kubernetes` | [kube-prometheus-stack](kubernetes/kube-prometheus-stack/) | [prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts) |
 | `ai`         | [kubernetes-mcp-server](ai/kubernetes-mcp-server/)       | [containers/kubernetes-mcp-server](https://github.com/containers/kubernetes-mcp-server)       |
 | `ai`         | [llama-cpp](ai/llama-cpp/)                               | [ggml-org/llama.cpp](https://github.com/ggml-org/llama.cpp)                                   |
 | `ai`         | [lws](ai/lws/)                                           | [kubernetes-sigs/lws](https://github.com/kubernetes-sigs/lws)                                 |
