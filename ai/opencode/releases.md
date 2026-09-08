@@ -1,11 +1,25 @@
 ---
 upstream: https://github.com/anomalyco/opencode
-last_updated: 2026-09-03
+last_updated: 2026-09-08
 ---
 
 # opencode — releases
 
 Latest 10 official releases, newest first. OpenCode ships small, frequent patch releases (roughly every few days); note the API-generation ("v1" vs "v2") entries before upgrading an embedded or remote setup.
+
+## v1.18.29 — 2026-09-04
+
+[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.29)
+
+- Codex OAuth model filtering now recognizes integer GPT versions like `gpt-6`, fixing `gpt-6-astra` not showing up for OpenAI subscription users.
+- Console: quota reset support action added.
+
+## v1.18.28 — 2026-09-04
+
+[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.28)
+
+- The session ID is now sent as GitHub Copilot's interaction header to improve request tracking across a session.
+- Desktop: uses the desktop client ID during OpenCode account device authentication, and the open-in app icon is larger for better visibility.
 
 ## v1.18.27 — 2026-09-02
 
@@ -68,18 +82,3 @@ Latest 10 official releases, newest first. OpenCode ships small, frequent patch 
 - Failed subagent tool calls are surfaced with a resumable `task_id` instead of returning empty results.
 - Wider network-error retry coverage (`finish_reason: network_error` variants, xAI capacity/unavailability); Cerebras `max_completion_tokens` preserved.
 - Permission requests triggered by subagents during `opencode run` are now answered interactively.
-
-## v1.18.19 — 2026-08-20
-
-[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.19)
-
-- Native OpenAI and Anthropic passthroughs for Cloudflare AI Gateway models; Codex rate limits aligned to ChatGPT subscription limits.
-- Built-in Qwen sampling defaults removed (they could send unsupported settings); malformed model pricing no longer breaks usage cost calculation; web search enabled for the OpenCode Go provider.
-- Compatibility with existing v1 databases preserved while the v2 surface ships.
-
-## v1.18.18 — 2026-08-13
-
-[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.18)
-
-- Kimi system prompt selected correctly for official Moonshot and Kimi providers; `xhigh` reasoning effort fixed for xAI models.
-- *Note: this is the version deployed in this stack ([k8s-ai apps/opencode](https://github.com/mmontes11/k8s-ai) image tag `v1.18.18`).*
