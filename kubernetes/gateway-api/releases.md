@@ -1,11 +1,15 @@
 ---
 upstream: https://github.com/kubernetes-sigs/gateway-api
-last_updated: 2026-08-23
+last_updated: 2026-09-08
 ---
 
 # gateway-api — Latest 10 official releases (newest first)
 
 GA releases only (pre-releases like `-rc.x`/alpha tags excluded). Release notes: [GitHub releases page](https://github.com/kubernetes-sigs/gateway-api/releases).
+
+## [v1.6.2](https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.6.2) — 2026-09-03
+
+Patch release. No API changes. `HTTPRequestRedirectFilter` status codes 303/307/308 reclassified as Extended conformance instead of Core (#5173); `FailFast` fixed not working as expected (#5204); conformance/test suite fixes: data-plane readiness check for the flaky TCP/UDP weighted-routing tests (#5064) and an option to disable parallel tests at the suite level (#5184).
 
 ## [v1.6.1](https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.6.1) — 2026-07-16
 
@@ -60,10 +64,3 @@ Patch. Fixes the backward incompatibility in the `SupportedFeatures` field of th
 
 Patch. Fixes GRPCRoute `v1alpha2` status (restored as subresource with previous printer columns, #3412), relaxes CEL validation for header-based session persistence to allow a missing `AbsoluteTimeout` (#3215), plus CI and conformance suite improvements.
 
-## [v1.2.0](https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.2.0) — 2024-10-03
-
-⚠️ **Removal:** the `v1alpha2` versions of `GRPCRoute` and `ReferenceGrant` are no longer served by either channel's CRDs — confirm implementations (not just your YAML) consume `v1` before upgrading; `v1alpha2` can also get stuck in CRD `status.storedVersions` and may need manual migration (the release notes include `kubectl`/jq migration steps).
-
-- **Standard channel GA:** gateway infrastructure labels/annotations (GEP-1867/GEP-1762), `HTTPRoute` timeouts (GEP-1742/GEP-2257), BackendProtocol.
-- New Experimental features: CORS (GEP-1767), percentage-based mirroring (GEP-3171), certificate selection (GEP-3155), session persistence.
-- First release under the newer semi-annual-style release cycle (two releases/quarter pattern).
