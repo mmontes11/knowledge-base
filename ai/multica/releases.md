@@ -1,11 +1,27 @@
 ---
 upstream: https://github.com/multica-ai/multica
-last_updated: 2026-09-03
+last_updated: 2026-09-08
 ---
 
 # multica — releases
 
 Latest 10 official releases, newest first. Multica ships daily patch releases; check the ⚠️ entries before upgrading.
+
+## v0.4.40 — 2026-09-04
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.40)
+
+- Agent "task records" renamed to **runs** — a terminology/API rename; anything keyed on the old "task records" naming may need updating.
+- Read replica infrastructure added; daemon workspace-sync reads now routed to the replica.
+- Built-in skills merged into a single platform skill and skill source maps dropped; session expiry now redirects to login.
+
+## v0.4.39 — 2026-09-03
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.39)
+
+- CLI: filter and sort issue lists by custom property; agents get a live model catalog refresh.
+- Performance: database reads removed from WebSocket heartbeats; runtime-deletion invalidation pushed to active daemons.
+- Issue assignment handoff notes removed (a follow-up fix preserves legacy handoff notes); desktop numbered tab shortcuts added.
 
 ## v0.4.38 — 2026-09-02
 
@@ -71,9 +87,3 @@ Latest 10 official releases, newest first. Multica ships daily patch releases; c
 
  - Custom issue status UI (picker, board, filters, settings); revision-aware concurrency guards on issues; entitlement-backed autopilot quotas with a fail-open policy provider.
 - Plugin system rebuild (parts 1/2); semantic issue activity timestamps; provider secrets redacted from command logs.
-
-## v0.4.29 — 2026-08-18
-
-[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.29)
-
-- MiniMax Code ACP runtime; issue-status board fetches by category (archive retires without migration); tasks preserved through runtime network partitions; cache reads now billed in daily/weekly cost charts.
