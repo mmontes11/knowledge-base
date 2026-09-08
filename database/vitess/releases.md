@@ -1,11 +1,21 @@
 ---
 upstream: https://github.com/vitessio/vitess
-last_updated: 2026-09-03
+last_updated: 2026-09-08
 ---
 
 # vitess — releases
 
-Latest 10 official releases of the `vitessio/vitess` project, newest first. Vitess maintains parallel stable release trains (for example v24.0.x and v23.0.x), so you will see interleaved series in this list. Scan the ⚠️ entries before upgrading — v24.0.0 and the v22.0.4 / v23.0.3 security releases change restore-time behavior and logging defaults.
+Latest 10 official releases of the `vitessio/vitess` project, newest first. Vitess maintains parallel stable release trains (for example v24.0.x and v23.0.x), so you will see interleaved series in this list. Scan the ⚠️ entries before upgrading — v24.0.0 and the v22.0.4 / v23.0.3 security releases change restore-time behavior and logging defaults, and v24.0.3 / v23.0.6 remove the VRLog feature.
+
+## v24.0.3 — 2026-09-03
+[Release page](https://github.com/vitessio/vitess/releases/tag/v24.0.3) · [changelog](https://github.com/vitessio/vitess/blob/main/changelog/24.0/24.0.3/changelog.md)
+- ⚠️ **Removal**: the VRLog feature (streaming VReplication log at VTTablet's `/debug/vrlog` endpoint, disabled by default since v22) is removed; `--vreplication-enable-http-log` is a deprecated no-op, to be removed in v26. [#20467](https://github.com/vitessio/vitess/pull/20467)
+- Bug-fix release for the v24.0.x series; 61 merged pull requests.
+
+## v23.0.6 — 2026-09-03
+[Release page](https://github.com/vitessio/vitess/releases/tag/v23.0.6) · [changelog](https://github.com/vitessio/vitess/blob/main/changelog/23.0/23.0.6/changelog.md)
+- ⚠️ **Removal**: the VRLog feature is removed, same as v24.0.3; `--vreplication-enable-http-log` is a deprecated no-op, to be removed in v26.
+- Bug-fix release for the v23.0.x series; 47 merged pull requests.
 
 ## v24.0.2 — 2026-06-24
 [Release page](https://github.com/vitessio/vitess/releases/tag/v24.0.2) · [changelog](https://github.com/vitessio/vitess/blob/main/changelog/24.0/24.0.2/changelog.md)
@@ -44,11 +54,3 @@ Latest 10 official releases of the `vitessio/vitess` project, newest first. Vite
 ## v22.0.4 — 2026-02-27
 [Release page](https://github.com/vitessio/vitess/releases/tag/v22.0.4)
 - **Security** release backporting the same two CVE fixes as v23.0.3 (CVE-2026-27965 and CVE-2026-27969) to the v22.0.x series. ⚠️ Same `MANIFEST`-based decompressor default change. 37 merged pull requests.
-
-## v23.0.2 — 2026-02-10
-[Release page](https://github.com/vitessio/vitess/releases/tag/v23.0.2) · [changelog](https://github.com/vitessio/vitess/blob/main/changelog/23.0/23.0.2/changelog.md)
-- Bug-fix release for the v23.0.x series; 16 merged pull requests.
-
-## v23.0.1 — 2026-02-04
-[Release page](https://github.com/vitessio/vitess/releases/tag/v23.0.1) · [changelog](https://github.com/vitessio/vitess/blob/main/changelog/23.0/23.0.1/changelog.md)
-- Bug-fix release for the v23.0.x series; 51 merged pull requests.
