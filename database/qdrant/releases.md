@@ -1,11 +1,17 @@
 ---
 upstream: https://github.com/qdrant/qdrant
-last_updated: 2026-09-03
+last_updated: 2026-09-10
 ---
 
 # qdrant — releases
 
 Latest 10 official releases of the `qdrant/qdrant` project, newest first. Scan the ⚠️ entries before upgrading — Qdrant changes its storage internals and gRPC wire format across minor versions, so upgrade one minor at a time rather than skipping ahead.
+
+## v1.19.1 — 2026-09-04
+[Release page](https://github.com/qdrant/qdrant/releases/tag/v1.19.1)
+- **Improvements**: batched 4-bit TurboQuant SIMD implementation; prefetching to saturate memory bandwidth in quantized scoring; batched HNSW searches for faster lookups; crash-safe replica state changes and transfer/resharding aborts (prevents consensus desync); payload-heavy shard transfers ~1.5x faster using raw payloads; `cpu_cores_used` exposed in `/metrics`.
+- **Fixes**: data consistency — flush CoW segments before building payload index; Gridstore panic after unsafe shutdown; scroll without `limit` bypassing `max_query_limit`; `is_null` and phrase matching on unindexed payload fields.
+- **Security**: reject `.` and `..` in collection names.
 
 ## v1.19.0 — 2026-08-05
 [Release page](https://github.com/qdrant/qdrant/releases/tag/v1.19.0)
@@ -52,8 +58,3 @@ Latest 10 official releases of the `qdrant/qdrant` project, newest first. Scan t
 ## v1.16.2 — 2025-12-04
 [Release page](https://github.com/qdrant/qdrant/releases/tag/v1.16.2)
 - **Fixes**: a critical WAL bug that could break consensus or corrupt data on restart; consensus crash applying a snapshot with a non-replicated collection; payload-index and Gridstore flush-after-removal data corruption.
-
-## v1.16.1 — 2025-11-25
-[Release page](https://github.com/qdrant/qdrant/releases/tag/v1.16.1)
-- **Improvements**: batch queries up to 3x faster on full scans; automatic RocksDB→Gridstore storage migration on startup; user-configurable inference timeout.
-- **Fixes**: startup panic on old user-sharded clusters, Raft crash loop, and a WAL corruption edge case.
