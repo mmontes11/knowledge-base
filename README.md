@@ -124,6 +124,7 @@ For each tracked project, in order:
 
 | Category     | Project                                                  | Upstream                                                                                      |
 | ------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `ai`         | [agent-router](ai/agent-router/)                         | [theagentrouter/agent-router](https://github.com/theagentrouter/agent-router)                 |
 | `kubernetes` | [cert-manager](kubernetes/cert-manager/) | [jetstack/cert-manager](https://github.com/jetstack/cert-manager) |
 | `kubernetes` | [charts](kubernetes/charts/)             | [mmontes11/charts](https://github.com/mmontes11/charts)           |
 | `kubernetes` | [cloudnative-pg](kubernetes/cloudnative-pg/) | [cloudnative-pg/cloudnative-pg](https://github.com/cloudnative-pg/cloudnative-pg) |
@@ -133,6 +134,7 @@ For each tracked project, in order:
 | `kubernetes` | [external-snapshotter](kubernetes/external-snapshotter/) | [kubernetes-csi/external-snapshotter](https://github.com/kubernetes-csi/external-snapshotter) |
 | `kubernetes` | [gateway-api](kubernetes/gateway-api/)                   | [kubernetes-sigs/gateway-api](https://github.com/kubernetes-sigs/gateway-api)                 |
 | `ai`         | [github-mcp-server](ai/github-mcp-server/)               | [github/github-mcp-server](https://github.com/github/github-mcp-server)                       |
+| `ai`         | [kagent](ai/kagent/)                                     | [kagent-dev/kagent](https://github.com/kagent-dev/kagent)                                     |
 | `ai`         | [kserve](ai/kserve/)                                     | [kserve/kserve](https://github.com/kserve/kserve)                                             |
 | `kubernetes` | [kube-prometheus-stack](kubernetes/kube-prometheus-stack/) | [prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts) |
 | `ai`         | [kubernetes-mcp-server](ai/kubernetes-mcp-server/)       | [containers/kubernetes-mcp-server](https://github.com/containers/kubernetes-mcp-server)       |
@@ -155,6 +157,7 @@ For each tracked project, in order:
 | `kubernetes` | [sealed-secrets](kubernetes/sealed-secrets/)             | [bitnami-labs/sealed-secrets](https://github.com/bitnami-labs/sealed-secrets)                 |
 | `kubernetes` | [seaweedfs-operator](kubernetes/seaweedfs-operator/)     | [seaweedfs/seaweedfs-operator](https://github.com/seaweedfs/seaweedfs-operator)               |
 | `kubernetes` | [snapscheduler](kubernetes/snapscheduler/)               | [backube/snapscheduler](https://github.com/backube/snapscheduler)                             |
+| `ai`         | [substrate](ai/substrate/)                               | [agent-substrate/substrate](https://github.com/agent-substrate/substrate)                     |
 | `kubernetes` | [synology-csi](kubernetes/synology-csi/)                 | [SynologyOpenSource/synology-csi](https://github.com/SynologyOpenSource/synology-csi)         |
 | `kubernetes` | [tailscale](kubernetes/tailscale/)                       | [tailscale/tailscale](https://github.com/tailscale/tailscale)                                 |
 | `kubernetes` | [topolvm](kubernetes/topolvm/)                           | [topolvm/topolvm](https://github.com/topolvm/topolvm)                                         |
@@ -164,5 +167,6 @@ For each tracked project, in order:
 | `kubernetes` | [vitess-operator](kubernetes/vitess-operator/)           | [planetscale/vitess-operator](https://github.com/planetscale/vitess-operator)                 |
 | `ai`         | [vllm](ai/vllm/)                                         | [vllm-project/vllm](https://github.com/vllm-project/vllm)                                     |
 | `kubernetes` | [volsync](kubernetes/volsync/)                           | [backube/volsync](https://github.com/backube/volsync)                                         |
+| `ai`         | [weave-router](ai/weave-router/)                         | [weave-os/router](https://github.com/weave-os/router)                                         |
 
 > The `kubernetes/` tree is bootstrapped by the first maintenance run: the folder, its `README.md`, and the four standard documents for `mariadb-operator` are created and populated from upstream.
