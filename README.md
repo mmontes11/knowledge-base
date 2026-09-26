@@ -125,6 +125,7 @@ For each tracked project, in order:
 | Category     | Project                                                  | Upstream                                                                                      |
 | ------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | `ai`         | [agent-router](ai/agent-router/)                         | [theagentrouter/agent-router](https://github.com/theagentrouter/agent-router)                 |
+| `ai`         | [ax](ai/ax/)                                             | [google/ax](https://github.com/google/ax)                                                     |
 | `kubernetes` | [cert-manager](kubernetes/cert-manager/) | [jetstack/cert-manager](https://github.com/jetstack/cert-manager) |
 | `kubernetes` | [charts](kubernetes/charts/)             | [mmontes11/charts](https://github.com/mmontes11/charts)           |
 | `kubernetes` | [cloudnative-pg](kubernetes/cloudnative-pg/) | [cloudnative-pg/cloudnative-pg](https://github.com/cloudnative-pg/cloudnative-pg) |
