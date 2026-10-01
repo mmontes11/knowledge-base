@@ -1,11 +1,19 @@
 ---
 upstream: https://github.com/containers/kubernetes-mcp-server
-last_updated: 2026-08-22
+last_updated: 2026-10-01
 ---
 
 # kubernetes-mcp-server — releases
 
 Latest 10 releases, newest first. Check the ⚠️ entries before upgrading.
+
+## v0.0.67 — 2026-09-18
+
+[Release page](https://github.com/containers/kubernetes-mcp-server/releases/tag/v0.0.67)
+
+- ⚠️ **Breaking**: the SSE MCP transport was removed — Streamable HTTP is the only HTTP transport ([#1376](https://github.com/containers/kubernetes-mcp-server/pull/1376)); the token-exchange provider moved from the `sts_*` options to an explicit `[token_exchange]` config block ([#1401](https://github.com/containers/kubernetes-mcp-server/pull/1401)).
+- KubeVirt: new `vm_create_from_template` tool ([#1321](https://github.com/containers/kubernetes-mcp-server/pull/1321)), `pause`/`unpause` actions on `vm_lifecycle` ([#1306](https://github.com/containers/kubernetes-mcp-server/pull/1306)), and HCO awareness via the new `hco-status` prompt ([#1220](https://github.com/containers/kubernetes-mcp-server/pull/1220)).
+- Tools, prompts, and resources now advertise the Kubernetes RBAC permissions they may require in `_meta` ([#1407](https://github.com/containers/kubernetes-mcp-server/pull/1407), [#1444](https://github.com/containers/kubernetes-mcp-server/pull/1444)); Tekton log tools gain filtered logs and pipeline context ([#1340](https://github.com/containers/kubernetes-mcp-server/pull/1340)); `pods_top`/`nodes_top` are hidden when the Metrics API is unavailable ([#1353](https://github.com/containers/kubernetes-mcp-server/pull/1353)); optional separate `/metrics` port ([#1365](https://github.com/containers/kubernetes-mcp-server/pull/1365)).
 
 ## v0.0.66 — 2026-07-31
 
@@ -74,11 +82,3 @@ Latest 10 releases, newest first. Check the ⚠️ entries before upgrading.
 - ⚠️ **Breaking** (metrics): Prometheus metrics renamed from the `mcp_` prefix to `k8s_mcp_` — update dashboards, alerts, and queries before upgrading.
 - KubeVirt: `troubleshoot` action added to the `vm_lifecycle` tool ([#653](https://github.com/containers/kubernetes-mcp-server/pull/653)); secondary network interface support in `vm_create` ([#682](https://github.com/containers/kubernetes-mcp-server/pull/682)).
 - Default server instructions configurable for MCP Tool Search ([#716](https://github.com/containers/kubernetes-mcp-server/pull/716)); prompt documentation generation and a CI check that keeps README tool docs current.
-
-## v0.0.57 — 2026-01-27
-
-[Release page](https://github.com/containers/kubernetes-mcp-server/releases/tag/v0.0.57)
-
-- Token-exchange provider support for delegated OIDC authentication ([#604](https://github.com/containers/kubernetes-mcp-server/pull/604)).
-- MCP logging capability implemented with error categorization and automatic secret redaction ([#629](https://github.com/containers/kubernetes-mcp-server/pull/629)).
-- Field-selector support for filtering pods and resources ([#641](https://github.com/containers/kubernetes-mcp-server/pull/641)); Helm chart RBAC specification support ([#636](https://github.com/containers/kubernetes-mcp-server/pull/636)); `targets_list` tool in the `config` toolset ([#635](https://github.com/containers/kubernetes-mcp-server/pull/635)); MCP Registry publishing workflow added.

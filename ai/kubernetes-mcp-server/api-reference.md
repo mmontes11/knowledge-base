@@ -1,11 +1,11 @@
 ---
 upstream: https://github.com/containers/kubernetes-mcp-server
-last_updated: 2026-08-22
+last_updated: 2026-10-01
 ---
 
 # kubernetes-mcp-server — API reference
 
-An MCP server has no client SDK; its API surface is the set of **MCP tools, prompts, and resources** it exposes, grouped into switchable **toolsets** (enabled with the `--toolsets` flag or the `toolsets` TOML option). When multi-cluster support is enabled (the default), every cluster-scoped tool also accepts an optional `context` argument selecting the Kubernetes context. Per-parameter schemas for every tool are maintained in the canonical list in the [upstream README](https://github.com/containers/kubernetes-mcp-server/blob/main/README.md#tools-and-functionalities) — that list is generated from the tool definitions and checked for staleness in CI, so link to it rather than duplicating it here.
+An MCP server has no client SDK; its API surface is the set of **MCP tools, prompts, and resources** it exposes, grouped into switchable **toolsets** (enabled with the `--toolsets` flag or the `toolsets` TOML option). When multi-cluster support is enabled (the default), every cluster-scoped tool also accepts an optional `context` argument selecting the Kubernetes context. Per-parameter schemas for every tool are maintained in the canonical list in the [upstream README](https://github.com/containers/kubernetes-mcp-server/blob/main/README.md#tools-and-functionalities) — that list is generated from the tool definitions and checked for staleness in CI, so link to it rather than duplicating it here. Since v0.0.67, every tool, prompt, and resource also advertises the Kubernetes RBAC permissions it may require under the `_meta` key `io.kubernetes-mcp-server/rbac`, so clients can prepare scoped permissions before a call ([Tool RBAC Metadata](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/tool-rbac-metadata.md), [#1407](https://github.com/containers/kubernetes-mcp-server/pull/1407), [#1444](https://github.com/containers/kubernetes-mcp-server/pull/1444)).
 
 ## Toolsets
 
@@ -18,7 +18,7 @@ An MCP server has no client SDK; its API surface is the set of **MCP tools, prom
 | `helm` | | 3 | Manage Helm charts and releases. | [README tools](https://github.com/containers/kubernetes-mcp-server/blob/main/README.md#tools-and-functionalities) |
 | `kcp` | | 2 | Manage kcp workspaces and multi-tenancy. | [README tools](https://github.com/containers/kubernetes-mcp-server/blob/main/README.md#tools-and-functionalities) |
 | `kiali` | | 22 | Kiali/Istio service-mesh management. | [Kiali toolset docs](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/KIALI.md) |
-| `kubevirt` | | 8 | KubeVirt virtual-machine management. | [KubeVirt toolset docs](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/kubevirt.md) |
+| `kubevirt` | | 6 | KubeVirt virtual-machine management. | [KubeVirt toolset docs](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/kubevirt.md) |
 | `netobserv` | | 3 | Network observability backed by the NetObserv console plugin API (flows, metrics, export). | [NetObserv toolset docs](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/NETOBSERV.md) |
 | `tekton` | | 7 | Tekton pipeline management (pipelines, PipelineRuns, tasks, TaskRuns, troubleshooting). | [README tools](https://github.com/containers/kubernetes-mcp-server/blob/main/README.md#tools-and-functionalities) |
 
@@ -45,13 +45,13 @@ An MCP server has no client SDK; its API surface is the set of **MCP tools, prom
 | `pods_get` | Get a pod. |
 | `pods_delete` | Delete a pod. |
 | `pods_log` | Get pod logs (previous container, tail lines). |
-| `pods_top` | Resource consumption (CPU/memory) of pods via Metrics Server. |
+| `pods_top` | Resource consumption (CPU/memory) of pods via Metrics Server (hidden when the Metrics API is unavailable, since v0.0.67). |
 | `pods_exec` | Exec a command in a pod container. |
 | `pods_run` | Run a container image in a pod, optionally exposing it. |
 | `namespaces_list` | List namespaces (field-selector filtering since v0.0.63). |
 | `projects_list` | List OpenShift projects. |
 | `events_list` | List cluster events for debugging (field-selector filtering since v0.0.63). |
-| `nodes_top` | Node resource consumption via Metrics Server. |
+| `nodes_top` | Node resource consumption via Metrics Server (hidden when the Metrics API is unavailable, since v0.0.67). |
 | `nodes_log` | Node system logs (kubelet, kube-proxy, files) via the kubelet API proxy. |
 | `nodes_stats_summary` | Kubelet Summary API: node/pod/container CPU, memory, filesystem, network, PSI metrics. |
 
@@ -74,9 +74,9 @@ An MCP server has no client SDK; its API surface is the set of **MCP tools, prom
 
 Verified subset: `kiali_get_mesh_traffic_graph`, `kiali_get_mesh_status`, `kiali_manage_istio_config`, `kiali_manage_istio_config_read`, `kiali_list_mesh_clusters` (multi-cluster `meshCluster` parameter since v0.0.66), `kiali_get_resource_details` (includes Argo CD applications since v0.0.63), `kiali_list_traces`, `kiali_get_trace_details`, `kiali_get_pod_performance`, `kiali_get_logs`, `kiali_get_metrics` (Istio metrics; Gateway API / Inference API schemas since v0.0.66) — the remaining tools are documented in the [Kiali toolset docs](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/KIALI.md).
 
-### `kubevirt` — 8 tools
+### `kubevirt` — 6 tools
 
-Verified subset: `vm_create` (secondary NICs since v0.0.58), `vm_clone`, `vm_lifecycle` (start/stop/restart since v0.0.56; `troubleshoot` action since v0.0.58; QEMU guest-agent access tool since v0.0.63; `TargetCompatibilityFilters` since v0.0.66) — the full set is documented in the [KubeVirt toolset docs](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/kubevirt.md).
+`vm_create` (secondary NICs since v0.0.58), `vm_clone`, `vm_lifecycle` (start/stop/restart since v0.0.56; `pause`/`unpause` since v0.0.67; `TargetCompatibilityFilters` since v0.0.66), `vm_guest_info` (QEMU guest-agent access since v0.0.63), `vm_create_from_template` (creates a VM from a VirtualMachineTemplate, since v0.0.67), `vm_troubleshoot` (automated VM diagnostics, since v0.0.66) — see the [KubeVirt toolset docs](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/kubevirt.md).
 
 ### `netobserv` — 3 tools
 
@@ -84,7 +84,7 @@ Flow, metrics, and export operations against the NetObserv console plugin API (t
 
 ### `tekton` — 7 tools
 
-Toolset added in v0.0.61: start a Pipeline (PipelineRun), restart/cancel a PipelineRun, retrieve PipelineRun/TaskRun logs (via pod resolution), start a Task (TaskRun), restart a TaskRun, and a PipelineRun troubleshooting tool (since v0.0.66) — see the [README tool list](https://github.com/containers/kubernetes-mcp-server/blob/main/README.md#tools-and-functionalities).
+Toolset added in v0.0.61: start a Pipeline (PipelineRun), restart/cancel a PipelineRun, retrieve PipelineRun/TaskRun logs (via pod resolution, with `step`/`task`/`tail` filtering and pipeline context since v0.0.67), start a Task (TaskRun), restart a TaskRun, and a PipelineRun troubleshooting tool (since v0.0.66) — see the [README tool list](https://github.com/containers/kubernetes-mcp-server/blob/main/README.md#tools-and-functionalities).
 
 ## Prompts
 
@@ -96,7 +96,7 @@ MCP prompts exposed by toolset (full parameter list in the [upstream README](htt
 | `kiali` | `mesh-list-applications`, `mesh-list-services`, `mesh-list-workloads`, `mesh-list-namespaces`, `list-istio-config` | Mesh inventory listings. |
 | `kiali` | `mesh-health-check`, `mesh-topology`, `traffic-topology` | Mesh health, control-plane topology, and traffic flow analysis. |
 | `kiali` | `service-troubleshoot`, `trace-analysis`, `istio-config-review` | Root-cause investigation (logs/traces/Istio config) and config validation. |
-| `kubevirt` | `vm-troubleshoot`, `windows-golden-image` | VM troubleshooting guide; Windows golden image via the windows-efi-installer Tekton pipeline. |
+| `kubevirt` | `vm-troubleshoot`, `windows-golden-image`, `hco-status` | VM troubleshooting guide; Windows golden image via the windows-efi-installer Tekton pipeline; HyperConverged Cluster Operator status report (since v0.0.67). |
 | `tekton` | `pipeline-troubleshoot` | Gather PipelineRun status, TaskRuns, failed step logs, and repo/Config context. |
 
 No MCP resources or resource templates are defined on the default surfaces (the upstream README sections are empty as of this revision); the `resources_get`/`resources_list` tools carry `structuredContent` support since v0.0.64.
@@ -119,7 +119,7 @@ Main CLI options (most have TOML equivalents — full reference in the [Configur
 
 ## HTTP endpoints and authentication (Streamable HTTP mode)
 
-- `GET /mcp` — Streamable HTTP MCP endpoint.
-- Metrics and `/stats` observability endpoints (OTel + [MCP stats](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/OTEL.md)); metrics are exposed under the `k8s_mcp_` prefix (renamed from `mcp_` in v0.0.58).
-- OAuth 2.0 / OIDC authorization for HTTP mode with [Keycloak](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/KEYCLOAK_OIDC_SETUP.md) and [Microsoft Entra ID](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/ENTRA_ID_SETUP.md) (federated/Entra style since v0.0.63; token-exchange provider since v0.0.57); well-known OAuth endpoint hardening in v0.0.60/v0.0.66; `TLS_MIN_VERSION`/`TLS_CIPHER_SUITES` environment variables since v0.0.66.
+- `GET /mcp` — Streamable HTTP MCP endpoint (the SSE MCP transport was removed in v0.0.67 — Streamable HTTP is the only HTTP transport).
+- Metrics and `/stats` observability endpoints (OTel + [MCP stats](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/OTEL.md)); metrics are exposed under the `k8s_mcp_` prefix (renamed from `mcp_` in v0.0.58); since v0.0.67 the optional `metrics_port` serves `/metrics`, `/stats`, and `/healthz` on a separate port for network-policy isolation.
+- OAuth 2.0 / OIDC authorization for HTTP mode with [Keycloak](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/KEYCLOAK_OIDC_SETUP.md) and [Microsoft Entra ID](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/ENTRA_ID_SETUP.md) (federated/Entra style since v0.0.63; token-exchange provider since v0.0.57; since v0.0.67 configured via an explicit `[token_exchange]` block replacing the `sts_*` options, with configurable RFC 8693 token types); well-known OAuth endpoint hardening in v0.0.60/v0.0.66; `TLS_MIN_VERSION`/`TLS_CIPHER_SUITES` environment variables since v0.0.66.
 - TOML `denied_resources` entries restrict access to sensitive kinds (e.g. `Secret`) regardless of cluster RBAC.

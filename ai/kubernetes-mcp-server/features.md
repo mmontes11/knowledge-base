@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/containers/kubernetes-mcp-server
-last_updated: 2026-08-22
+last_updated: 2026-10-01
 ---
 
 # kubernetes-mcp-server — features
@@ -13,7 +13,7 @@ Tools, prompts, and resources are grouped into eight switchable toolsets — `co
 
 ## Generic resource CRUD and safety modes
 
-Any Kubernetes or OpenShift resource can be created/updated, read, listed, deleted, and scaled through the `resources_*` tools ([feature list](https://github.com/containers/kubernetes-mcp-server/blob/main/README.md#features)). Safety controls: `--read-only` and `--disable-destructive` modes, plus TOML `denied_resources` rules that block access to sensitive kinds (e.g. `Secret`) regardless of cluster RBAC ([Configuration reference](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/configuration.md)).
+Any Kubernetes or OpenShift resource can be created/updated, read, listed, deleted, and scaled through the `resources_*` tools ([feature list](https://github.com/containers/kubernetes-mcp-server/blob/main/README.md#features)). Safety controls: `--read-only` and `--disable-destructive` modes, plus TOML `denied_resources` rules that block access to sensitive kinds (e.g. `Secret`) regardless of cluster RBAC ([Configuration reference](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/configuration.md)). Since v0.0.67, every tool, prompt, and resource also advertises the Kubernetes RBAC permissions it may require in `_meta` (`io.kubernetes-mcp-server/rbac`), so clients can prepare scoped permissions before calling a tool ([Tool RBAC Metadata](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/tool-rbac-metadata.md)).
 
 ## Pods and nodes
 
@@ -29,11 +29,11 @@ Configuration via CLI flags, a main TOML file, and a drop-in `conf.d` directory 
 
 ## Authentication (Streamable HTTP mode)
 
-OAuth 2.0/OIDC authorization for the HTTP endpoint with setup guides for [Keycloak](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/KEYCLOAK_OIDC_SETUP.md) and [Microsoft Entra ID](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/ENTRA_ID_SETUP.md); a token-exchange provider for delegated auth since v0.0.57 ([#604](https://github.com/containers/kubernetes-mcp-server/pull/604)); TLS minimum-version and cipher-suite env vars since v0.0.66 ([#1270](https://github.com/containers/kubernetes-mcp-server/pull/1270)).
+OAuth 2.0/OIDC authorization for the HTTP endpoint with setup guides for [Keycloak](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/KEYCLOAK_OIDC_SETUP.md) and [Microsoft Entra ID](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/ENTRA_ID_SETUP.md); a token-exchange provider for delegated auth since v0.0.57 ([#604](https://github.com/containers/kubernetes-mcp-server/pull/604)), since v0.0.67 configured via an explicit `[token_exchange]` block (replacing the `sts_*` options — a breaking config change) with configurable RFC 8693 token types ([#1401](https://github.com/containers/kubernetes-mcp-server/pull/1401), [#1378](https://github.com/containers/kubernetes-mcp-server/pull/1378)); TLS minimum-version and cipher-suite env vars since v0.0.66 ([#1270](https://github.com/containers/kubernetes-mcp-server/pull/1270)).
 
 ## Observability and logging
 
-Optional OpenTelemetry distributed tracing and metrics with custom sampling ([OTEL docs](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/OTEL.md)), a `/stats` endpoint, and an MCP logging capability that categorizes Kubernetes API errors and redacts secrets (tokens, keys, passwords, cloud credentials) before sending them to clients ([MCP Logging guide](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/logging.md)).
+Optional OpenTelemetry distributed tracing and metrics with custom sampling ([OTEL docs](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/OTEL.md)), a `/stats` endpoint (since v0.0.67 `/metrics`, `/stats`, and `/healthz` can also be served on a separate `metrics_port` for network-policy isolation), and an MCP logging capability that categorizes Kubernetes API errors and redacts secrets (tokens, keys, passwords, cloud credentials) before sending them to clients ([MCP Logging guide](https://github.com/containers/kubernetes-mcp-server/blob/main/docs/logging.md)).
 
 ## Distribution
 
@@ -41,4 +41,4 @@ Single native binary for Linux/macOS/Windows, npm package (`kubernetes-mcp-serve
 
 ## Ecosystem integrations and quality gates
 
-Optional toolsets integrate KubeVirt (VM lifecycle, guest agent), Kiali/Istio mesh operations, Tekton pipelines, NetObserv network telemetry, and kcp workspaces. Automated LLM eval suites ([evals/tasks](https://github.com/containers/kubernetes-mcp-server/tree/main/evals/tasks)) validate scenarios against Kubernetes, Helm, Istio, Kiali, KubeVirt, Tekton, and NetObserv (results published per release via mcpchecker), and a CI check keeps the generated README tool docs in sync.
+Optional toolsets integrate KubeVirt (VM lifecycle, guest agent, template-based VM creation, and HCO status since v0.0.67), Kiali/Istio mesh operations, Tekton pipelines, NetObserv network telemetry, and kcp workspaces. Automated LLM eval suites ([evals/tasks](https://github.com/containers/kubernetes-mcp-server/tree/main/evals/tasks)) validate scenarios against Kubernetes, Helm, Istio, Kiali, KubeVirt, Tekton, and NetObserv (results published per release via mcpchecker), and a CI check keeps the generated README tool docs in sync.
