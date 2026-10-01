@@ -1,11 +1,19 @@
 ---
 upstream: https://github.com/NVIDIA/k8s-device-plugin
-last_updated: 2026-08-23
+last_updated: 2026-10-01
 ---
 
 # nvidia-device-plugin — releases
 
 Latest 10 official releases, newest first. Check the ⚠️ entries before upgrading. Upgrades are a rolling DaemonSet rollout: NVIDIA recommends draining GPU workloads first, since running GPU containers are not guaranteed to survive a rolling upgrade ([upgrading guide](https://github.com/NVIDIA/k8s-device-plugin#upgrading-kubernetes-with-the-device-plugin)). Full history in the [CHANGELOG](https://github.com/NVIDIA/k8s-device-plugin/blob/main/CHANGELOG.md).
+
+## v0.20.1 — 2026-09-22
+
+[Release page](https://github.com/NVIDIA/k8s-device-plugin/releases/tag/v0.20.1)
+
+- GFD: node-label RBAC now includes `delete` privileges on `NodeFeature` CRs (#2049); the chart sets component-specific DaemonSet selector labels to avoid selector overlap (#1716).
+- Robustness/performance: config-manager handles a dangling symlink in `updateSymlink` (#1982); vGPU capability record lengths (#1994) and GFD PCI vendor capability parsing (#2027) are guarded against malformed lengths; `greedyAlloc` now uses a min-heap instead of a per-iteration sort (#1826); Go modernisation (#1996).
+- Bumped the NVIDIA Container Toolkit to v1.20.1 (#2046), go-nvml to v0.13.4-0 (#2013) and the distroless Go base image to v4.1.4 (#2029).
 
 ## v0.20.0 — 2026-08-19
 
@@ -79,9 +87,3 @@ Latest 10 official releases, newest first. Check the ⚠️ entries before upgra
 - Ensured that directory volumes have `Directory` type (fixes CSI/mount edge cases).
 - CUDA base image bumped to `13.0.0-base-ubi9` (#1369); go-nvlib bumped to 0.7.4 (#1346).
 - Bug-fix/dependency release (NVML memory-read errors are now ignored rather than fatal, #1374).
-
-## v0.17.3 — 2025-07-24
-
-[Release page](https://github.com/NVIDIA/k8s-device-plugin/releases/tag/v0.17.3)
-
-- Dependency bumps only: Container Toolkit 1.17.8, go-nvml 0.12.9-0, CUDA base `12.9.1-base-ubi9`, golang 1.23.11, oauth2 backport.
