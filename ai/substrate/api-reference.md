@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/agent-substrate/substrate
-last_updated: 2026-09-25
+last_updated: 2026-10-01
 ---
 
 # substrate — API reference
@@ -9,12 +9,13 @@ Agent Substrate is driven through three surfaces: a **gRPC control-plane API** (
 
 | Surface | Purpose | Upstream docs |
 | --- | --- | --- |
-| Control plane API (`ateapi`) | gRPC endpoints to create/destroy actors and workers, suspend/resume actors, and assign actors to workers in real time. | [Architecture](https://github.com/agent-substrate/substrate/blob/main/docs/architecture.md) |
-| WorkerPool CRD | Declare pools of workers; reconciled by `atecontroller` and autoscaled (HPA) on assigned-worker count. | [API Configuration Guide](https://github.com/agent-substrate/substrate/blob/main/docs/api-guide.md) |
+| Control plane API (`ateapi`) | gRPC endpoints to create/destroy actors and workers, suspend/resume/revert actors, and assign actors to workers in real time; also mints actor JWTs and certificates. | [Architecture](https://github.com/agent-substrate/substrate/blob/main/docs/architecture.md) |
+| WorkerPool CRD | Declare pools of workers; reconciled by `atecontroller` and autoscaled (HPA) on assigned-worker count. A worker can host more than one actor at a time. | [API Configuration Guide](https://github.com/agent-substrate/substrate/blob/main/docs/api-guide.md) |
 | ActorTemplate CRD | Template defining the actor workload (binary/OCI image, resources) that actors are instantiated from. | [API Configuration Guide](https://github.com/agent-substrate/substrate/blob/main/docs/api-guide.md) |
-| Actor | A running instance of a template, with a lifecycle (create/destroy, suspend/resume) and a routing target. | [API Configuration Guide](https://github.com/agent-substrate/substrate/blob/main/docs/api-guide.md) |
-| `atenet` (Envoy) | Routes inbound HTTP traffic to actors; supports request parking during worker-pool saturation. | [Request Parking](https://github.com/agent-substrate/substrate/blob/main/docs/request-parking.md) |
-| `kubectl-ate` CLI | Manage substrate resources (`create actor`, templates, pools); `go install ./cmd/kubectl-ate`. | [CLI docs](https://github.com/agent-substrate/substrate/blob/main/cmd/kubectl-ate/README.md) |
+| Actor | A running instance of a template, with a lifecycle (create/destroy, suspend/resume, revert) and a routing target; `ActorStatus` reports the crash reason. | [API Configuration Guide](https://github.com/agent-substrate/substrate/blob/main/docs/api-guide.md) |
+| EgressPolicy | Per-actor egress allow/block policy enforced by the egress gateway (an actor with no policy has no egress); managed with `kubectl-ate` (`get`/`create`/`update`/`delete egress-policy`). | [Egress Traffic](https://github.com/agent-substrate/substrate/blob/main/docs/egress-traffic.md) / [MITM interception](https://github.com/agent-substrate/substrate/blob/main/docs/egress-trust-bundle.md) |
+| `atenet` (Envoy) | Routes inbound HTTP traffic to actors by the explicit `ate-target-actor: <atespace>/<actor>` header (replacing `Host`); supports request parking during worker-pool saturation. | [Request Parking](https://github.com/agent-substrate/substrate/blob/main/docs/request-parking.md) |
+| `kubectl-ate` CLI | Manage substrate resources (`create actor`, templates, pools, egress policies); `go install ./cmd/kubectl-ate`. | [CLI docs](https://github.com/agent-substrate/substrate/blob/main/cmd/kubectl-ate/README.md) |
 
 ## Related guides
 
