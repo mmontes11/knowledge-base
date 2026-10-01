@@ -1,11 +1,37 @@
 ---
 upstream: https://github.com/vllm-project/vllm
-last_updated: 2026-09-03
+last_updated: 2026-10-01
 ---
 
 # vllm — releases
 
 Latest 10 official releases, newest first. Check the ⚠️ entries before upgrading. Release cadence is roughly biweekly majors plus occasional patches.
+
+## v0.30.0 — 2026-09-22
+
+[Release page](https://github.com/vllm-project/vllm/releases/tag/v0.30.0)
+
+- **New models**: DeepSeek-V4.1-Flash (full KV in MXFP8 through the FlashMLA V4.1 record on SM100, DeepGEMM Mega-mHC, async Engram prefetch), DeepSeek-V4-Flash-Vision-Exp (ROCm + LoRA), GLM-5.3-Flash (EPLB), K2-Horizon, Cohere Compass, Bailing V3 VL, Nanbeige4.2 via the Transformers backend, and a DeepSeek-V4 CPU backend with AVX512/AMX sparse-MLA kernels (#56214, #56893, #56962, #56512, #54566, #55107, #53906, #55063, #54774, #55921, #56071, #55355).
+- **Fast Start**: a persistent per-GPU weight-cache daemon holds post-quantized, TP-sharded weights in GPU memory so restarting engines map them over CUDA IPC with `--load-format ipc_cache` instead of reloading from disk, now incl. FP4 checkpoints and multi-node TP (#54921, #55465, #55468).
+- **Watermarking**: Gumbel-max and dual-key Gumbel-max watermarked generation and detection (keyed PRF, per-request opt-out, example detection endpoint); dual-key mode is compatible with speculative decoding (#54053, #56122, #56338).
+- **HiSparse**: a host-resident tier for sparse-MLA decode that spills KV pages to pinned host memory under GPU pressure and serves top-k misses from a per-request GPU hot buffer, enabled through `HiSparseConnector` (TP-shared host cache, Prometheus counters) (#53781, #56061, #56629, #57041).
+- **Model Runner V2**: dual-batch overlap (eager mode + FULL CUDA graphs), MTP/EAGLE3/DFlash/DSpark speculative decoding under pipeline parallelism, online acceptance estimator for adaptive verification, and GC frozen during graph capture (engine init 28.9s→8.2s on H200) (#50945, #51700, #46994, #50514, #52228, #54646).
+- **Large-scale serving & quantization**: PCP+DCP on sparse-MLA models, Elastic EP reusing CUDA graphs across reconfiguration, encoder-cache sharing over NIXL/Mooncake, KVCR secondary-tier adapter; targeted online quantization via `quantization_config.targets` (incl. partially pre-quantized checkpoints), W4A16 DSA with the `nvfp4_fp8_ds_mla` KV cache, NVFP4 W4A16 default over Marlin on SM100/103, AutoRound 2–7-bit on CUDA (#56157, #54985, #47941, #41567, #53624, #51285, #51392, #51724, #53014, #52890).
+- ⚠️ **Breaking changes**: scale-out endpoints are opt-in on plain `vllm serve` via `--enable-scale-out` (replaces `VLLM_ENABLE_SCALE_OUT_ENDPOINTS`); GPTQ `g_idx` activation ordering removed; items deprecated in v0.29 removed (incl. `VLLM_PREFIX_CACHE_RETENTION_INTERVAL`, `VLLM_MM_HASHER_ALGORITHM`); `all` Mamba cache mode deprecated; `python -m vllm.entrypoints.grpc_server` deprecated in favor of `vllm serve --grpc`; YaRN no longer re-scales `max_model_len` (#54579, #54809, #55353, #55041, #56746, #56446).
+- **API & frontend**: stateless `/v1/responses/render`, `count_reasoning_tokens` usage reporting, site-packages reasoning/tool parser plugins; XGrammar `patternProperties`/`propertyNames`/`unevaluatedProperties`, MCP SDK 2.x schemas, unified Cohere Command parser (#50195, #54982, #45241, #42904, #53870, #56392).
+
+## v0.29.0 — 2026-09-09
+
+[Release page](https://github.com/vllm-project/vllm/releases/tag/v0.29.0)
+
+- ⚠️ **Model Runner V2 is now the default for all models** (#53183), completing the rollout that began with pooling models; **Model Runner V1 is deprecated**, with removal targeted for v0.32 (fallback still used for a few ROCm models and features MRV2 does not yet support: sequence parallelism, dual-batch overlap, elastic EP, custom logits processors, certain speculative decoding methods).
+- **New models**: Hy4-preview (Tencent 770B/49B-active MoE, Gated DeepSeek Sparse Attention, native MTP), Qwen3.8-Flash-Next (BF16/FP8/NVFP4 + MTP), GraniteSWA/GraniteMoeSWA, NemotronH_Omni_Reasoning_V3 (+ MTP for Nemotron VL), Kimi K3 NVFP4 checkpoints, FP8 ModernBERT, DeepSeek-backbone embedding models (#54160, #53896, #52706, #52929, #53121, #53132, #53101, #52948).
+- **Kimi-K3 / DeepSeek V4 performance**: fused MXFP4 top-k finalization (~5% E2E latency), K3 Mamba metadata prep in one Triton launch (6.6–7.6x kernel speedup), tuned Hopper low-latency GEMM now on SM100 (12.9–25.2% kernel speedup), K3 DCP with DSpark + partial prefix cache hits, DSv4 shared experts fused into MegaMoE, opt-in FlashInfer `moe_ep` expert backend (#53152, #52388, #54088, #53942, #52188, #50493, #53040, #49636).
+- **Speculative decoding**: per-request acceptance stats in OpenAI API responses via `--per-request-spec-decode-metrics`, adaptive verification extended to logprobs, SM100 sparse MLA for GLM-5.2 and DSv4-on-SM90, Qwen3-Omni DSpark drafts, PLaMo3 EAGLE-3/DFlash (#48915, #52242, #52783, #52795, #52560, #54239).
+- **RL weight sync**: new `sharded_rdt` P2P backend (each worker pulls only its TP/EP slice over NIXL or Ray Direct Transport), rank-local IPC weight updates, sparse checkpoint-coordinate updates through native weight loaders (#43375, #52497, #50723, #53751).
+- **New defaults & Mamba prefix caching**: internal prefill checkpoints (9–25% TTFT improvement) with `prefix_cache_retention_interval` now a CLI argument defaulting to 0; FlashInfer all-reduce enabled by default for TP CUDA groups (opt out with `VLLM_ALLREDUCE_USE_FLASHINFER=0`); deterministic `NONE_HASH` prefix cache (no more `PYTHONHASHSEED` pinning); `--max-num-queued-reqs`/`--max-num-queued-tokens` admission control (#52789, #52216, #52998, #51875, #49445).
+- ⚠️ **Breaking changes**: ten deprecated model architectures removed (incl. MPT, Arctic, Chameleon, GritLM); FlexOlmo, Olmo3 and Hunyuan V1/VL migrated to the Transformers modeling backend; PyAV video decoder backend removed (use OpenCV or TorchCodec); `python -m vllm.entrypoints.openai.api_server` deprecated in favor of `vllm serve` (#53608, #53615, #54231, #52131).
+- **API & frontend**: `/v1/messages/render` and `/cohere/v2/chat/render` render endpoints, video embed inputs, gRPC audio/video inputs + LoRA lifecycle control, pure-Rust `protox` replacing `protoc`; security: `cache_salt` length bounded, oversized media rejected before download, API keys/tokens redacted from logs (#45803, #53219, #54242, #53760, #52840, #52892, #54353, #51896, #52523).
 
 ## v0.28.0 — 2026-08-26
 
@@ -86,19 +112,3 @@ Latest 10 official releases, newest first. Check the ⚠️ entries before upgra
 - Model Runner V2 is selected by default for Llama and Mistral dense models (in addition to Qwen3), with breakable CUDA graphs and pipeline-parallel bubble elimination (#43458, #44050, #42187).
 - Rust frontend growth: streaming `generate` endpoint, dynamic LoRA endpoints, `/version` and `/server_info`, new tool parsers (#43779, #43778, #43854).
 - DeepSeek-V4 hardening across backends (decoupled sparse-MLA metadata, TRTLLM-gen kernel, EPLB for Mega-MoE, detach from `torch.compile`); encoder-free Gemma 4 Unified support (#44699, #43827, #44429).
-
-## v0.22.1 — 2026-06-05
-
-[Release page](https://github.com/vllm-project/vllm/releases/tag/v0.22.1)
-
-- Patch release: new model JetBrains **Mellum v2** (open-weights MoE code model); zentorch-accelerated W8A8/W4A16 linear inference on AMD Zen CPUs; fixes for multi-node Ray data-parallel hangs, DeepSeek-V4 initialization, and Olmo/HyperCLOVAX load regressions (#43992, #41813, #43864).
-
-## v0.22.0 — 2026-05-29
-
-[Release page](https://github.com/vllm-project/vllm/releases/tag/v0.22.0)
-
-- **DeepSeek V4** major hardening pass: dedicated `vllm/models/deepseek_v4/` package, NVFP4 fused MoE, full + piecewise CUDA graphs, MTP speculative decoding, MegaMoE fused kernels (#43004, #42209, #42604, #43385).
-- Model Runner V2 becomes the default for Qwen3 dense models, with automatic fallback to MRv1 for unsupported features (#39337).
-- ⚠️ **Removals**: old `get_tokenizer` / `resolve_hf_chat_template` locations removed; deprecated MLA prefill arguments removed; env vars covered by `--moe-backend` / `--linear-backend` marked deprecated (#35024, #42555, #43148).
-- Experimental **Rust frontend** lands (in-tree), with a DP Supervisor for data-parallel serving (#40848, #43283, #40841).
-- New multi-tier KV cache offloading framework with a filesystem secondary tier and Mooncake disk offloading; batch-invariant Cutlass FP8 for a 28.9% E2E latency improvement (#40020, #40408).

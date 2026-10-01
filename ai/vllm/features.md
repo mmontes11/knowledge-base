@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/vllm-project/vllm
-last_updated: 2026-09-03
+last_updated: 2026-10-01
 ---
 
 # vllm — features
@@ -9,7 +9,7 @@ Feature areas with links to the upstream documentation.
 
 ## KV cache management (PagedAttention)
 
-The core performance mechanism: attention KV state is allocated in fixed-size blocks that are reference-counted and shared across sequences, eliminating most KV-cache fragmentation and enabling zero-copy sharing for techniques like parallel sampling. Introduced in the [PagedAttention blog post](https://blog.vllm.ai/2023/06/20/vllm.html) and paper; the implementation details (V1/MRv2 backends) are documented in the [design docs](https://docs.vllm.ai/en/latest/design/index). Note: the legacy *PagedAttention attention kernel* was **removed in v0.25.0** in favor of the V1/Model Runner V2 attention backends.
+The core performance mechanism: attention KV state is allocated in fixed-size blocks that are reference-counted and shared across sequences, eliminating most KV-cache fragmentation and enabling zero-copy sharing for techniques like parallel sampling. Introduced in the [PagedAttention blog post](https://blog.vllm.ai/2023/06/20/vllm.html) and paper; the implementation details (V1/MRv2 backends) are documented in the [design docs](https://docs.vllm.ai/en/latest/design/index). Note: the legacy *PagedAttention attention kernel* was **removed in v0.25.0** in favor of the V1/Model Runner V2 attention backends. **Model Runner V2 is the default runner for all models since v0.29.0**, and Model Runner V1 is now deprecated (removal targeted for v0.32.0; vLLM still falls back to it for a few ROCm models and unsupported features).
 
 ## Scheduling: continuous batching, chunked prefill, prefix caching
 
@@ -45,7 +45,7 @@ Tensor, pipeline, data, expert, and context parallelism for scaling to multi-GPU
 
 ## Disaggregated serving and KV cache offloading
 
-Prefill/decode (and encoder) disaggregation across instances via pluggable KV-transfer connectors (NIXL, Mooncake, MoRIIO), plus tiered KV cache offloading to CPU/RAM/object stores/disk for cache reuse beyond GPU memory. See [disaggregated prefill](https://docs.vllm.ai/en/latest/features/disagg_prefill), [KV offloading usage](https://docs.vllm.ai/en/latest/features/kv_offloading_usage), [NIXL connector](https://docs.vllm.ai/en/latest/features/nixl_connector_usage), and [disaggregated encoder](https://docs.vllm.ai/en/latest/features/disagg_encoder).
+Prefill/decode (and encoder) disaggregation across instances via pluggable KV-transfer connectors (NIXL, Mooncake, MoRIIO), plus tiered KV cache offloading to CPU/RAM/object stores/disk for cache reuse beyond GPU memory. Since v0.30.0, **HiSparse** adds a host-resident tier for sparse-MLA decode that spills KV pages to pinned host memory under GPU pressure and serves top-k misses from a per-request GPU hot buffer (`HiSparseConnector`). See [disaggregated prefill](https://docs.vllm.ai/en/latest/features/disagg_prefill), [KV offloading usage](https://docs.vllm.ai/en/latest/features/kv_offloading_usage), [NIXL connector](https://docs.vllm.ai/en/latest/features/nixl_connector_usage), and [disaggregated encoder](https://docs.vllm.ai/en/latest/features/disagg_encoder).
 
 ## Sleep mode
 
@@ -62,6 +62,10 @@ Drop-in OpenAI-compatible server (also Anthropic Messages API and gRPC), so exis
 ## Deterministic / batch-invariant inference
 
 Batch invariance guarantees identical results regardless of batching (useful for RL rollouts), with Cutlass FP8 and NVFP4 paths (28.9% E2E latency win since v0.22.0). See [batch invariance](https://docs.vllm.ai/en/latest/features/batch_invariance).
+
+## Watermarking
+
+Gumbel-max and dual-key Gumbel-max watermarked generation with statistical detection (keyed PRF, per-request opt-out, example detection endpoint); dual-key mode is compatible with speculative decoding, and MRV2 is required — available since v0.30.0. See [text watermarking](https://docs.vllm.ai/en/latest/features/watermarking).
 
 ## Observability
 
