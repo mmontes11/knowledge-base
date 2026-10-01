@@ -1,11 +1,20 @@
 ---
 upstream: https://github.com/kserve/kserve
-last_updated: 2026-08-22
+last_updated: 2026-10-01
 ---
 
 # kserve — releases
 
 Latest 10 official releases, newest first. Check the ⚠️ entries before upgrading.
+
+## v0.21.0 — 2026-09-25
+
+[Release page](https://github.com/kserve/kserve/releases/tag/v0.21.0)
+
+- `LLMInferenceService`: direct KEDA scaling (true scale-to-zero via `idleReplicaCount=0`), `rolloutStrategy` for rolling updates, `LocalModelCache` support for LoRA adapters; the UDS tokenizer sidecar was replaced by a vLLM render deployment; samples moved to `v1alpha2`.
+- ⚠️ WVA autoscaling migrated from VA CRDs to annotation-based discovery: WVA >= v0.8.0 is now required and legacy VA CRs are deleted on first reconcile.
+- `InferenceService`: new OpenTelemetry `spec.tracing` configuration; canary traffic splitting for RawDeployment `HTTPRoute`. `ServingRuntime` gained `resourceClaims` (DRA) support; new signed Model Cache Vault (`kernelcache/mcv`); storage adds `oci+fetch://` KServe-side pull and ModelScope (`ms://`) downloads; Python 3.13.
+- Dependency upgrades: Envoy AI Gateway v1.1.0, KEDA v2.20.2, llm-d 0.10, Go 1.26.
 
 ## v0.20.0 — 2026-08-06
 
@@ -71,10 +80,3 @@ Latest 10 official releases, newest first. Check the ⚠️ entries before upgra
 
 - vLLM V1 support + LMCache integration in the Hugging Face serving runtime; NumPy 2.x; bumped Go to 1.24.
 - Model cache no longer deletes PVC/PV after `InferenceService` deletion; stop/resume of models (serverless) via annotation; vLLM upgrades for Llama 4 and Qwen 3.
-
-## v0.15.0 — 2025-03-31
-
-[Release page](https://github.com/kserve/kserve/releases/tag/v0.15.0)
-
-- **Multi-node inference** implementation (vLLM / Ray); `LocalModelNode` CR; vLLM tools (function calling) support.
-- HF-transfer download acceleration; GCS single-file downloads; bumped vLLM to 0.6.3.
