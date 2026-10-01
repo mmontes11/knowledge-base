@@ -1,11 +1,18 @@
 ---
 upstream: https://github.com/rook/rook
-last_updated: 2026-09-03
+last_updated: 2026-10-01
 ---
 
 # rook — releases
 
 Latest 10 official releases, newest first. Check the ⚠️ entries before upgrading.
+
+## v1.20.8 — 2026-09-29
+
+[Release page](https://github.com/rook/rook/releases/tag/v1.20.8)
+
+- osd: prepare pods run on the host network when a provider host is configured; the chart adds default httproute backend parameters; rgw zone pool references are now immutable.
+- security: credential values kept out of object store log lines and the lockbox secret redacted from ceph-volume logs; finalizers are patched without re-applying the whole CR default spec; crash collector/exporter daemons removed for deleted nodes.
 
 ## v1.20.7 — 2026-09-02
 
@@ -65,9 +72,3 @@ Latest 10 official releases, newest first. Check the ⚠️ entries before upgra
 [Release page](https://github.com/rook/rook/releases/tag/v1.19.8)
 
 - Object store bucket policies are now clobbered (not merged) on modification; external-cluster volume attachments deleted during unmount.
-
-## v1.20.2 — 2026-07-07
-
-[Release page](https://github.com/rook/rook/releases/tag/v1.20.2)
-
-- Ceph updated to 20.2.2 and `ceph-csi-operator` to v1.0.4; Kubernetes and Ceph version support matrix added to the docs; MGR NetworkPolicy restricted to ingress-only with example operand NetworkPolicy CRs.
