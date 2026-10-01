@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/kagent-dev/kagent
-last_updated: 2026-09-25
+last_updated: 2026-10-01
 ---
 
 # kagent — API reference
@@ -12,6 +12,8 @@ kagent's "API" is its set of **Kubernetes custom resources** (CRDs) plus the **w
 | `Agent` CRD | An agent = system prompt + tools + LLM configuration; the main building block of kagent. | [Quick Start](https://kagent.dev/docs/kagent/getting-started/quickstart) |
 | `ModelConfig` CRD | Declares an LLM provider/model (OpenAI, Azure OpenAI, Anthropic, Google Vertex AI, Ollama, or any custom provider reachable via an AI gateway). | [Supported providers](https://kagent.dev/docs/kagent/supported-providers/openai) |
 | `ToolServer` CRD | An MCP server exposing tools, usable by multiple agents (built-in tools for Kubernetes, Istio, Helm, Argo, Prometheus, Grafana, Cilium, …). | [Quick Start](https://kagent.dev/docs/kagent/getting-started/quickstart) |
+| `Sandbox` | 1.0.0-line (alpha): a standalone sandbox runtime in which agent workloads run. | [v1.0.0-alpha5 release](https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha5) |
+| `SandboxTemplate` | 1.0.0-line (alpha): reusable template that defines `Sandbox` instances. | [v1.0.0-alpha5 release](https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha5) |
 | Controller | Watches the kagent CRDs and creates the resources needed to run the agents. | [README — Architecture](https://github.com/kagent-dev/kagent#architecture) |
 | Web UI | Manage and inspect agents and tools. | [Installation](https://kagent.dev/docs/kagent/introduction/installation) |
 | CLI | Command-line management of agents and tools. | [README — Technical Details](https://github.com/kagent-dev/kagent#technical-details) |

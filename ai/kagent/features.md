@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/kagent-dev/kagent
-last_updated: 2026-09-25
+last_updated: 2026-10-01
 ---
 
 # kagent — features
@@ -28,4 +28,10 @@ kagent is a CNCF Kubernetes-native framework for building, deploying, and managi
 ## Runtime
 
 - **ADK engine**: agents are executed on the Google ADK engine. [Architecture](https://github.com/kagent-dev/kagent#architecture)
-- **Agent Substrate**: kagent can run sandboxed, stateful agent workloads on [Agent Substrate](https://github.com/agent-substrate/substrate). (announcement)
+- **A2A execution**: A2A is served per-instance (JSON-RPC + agent cards) and runs in runtimes backed by a gRPC TaskStore. (introduced in [v1.0.0-alpha4](https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha4))
+- **Agent Substrate**: kagent can run sandboxed, stateful agent workloads on [Agent Substrate](https://github.com/agent-substrate/substrate); updated to Substrate v0.3.0-alpha1 in the 1.0.0 alpha line. (announcement)
+
+## Sandbox runtimes
+
+- **MicroVM sandboxes**: the agent harness supports microVM-based sandboxes for isolated execution. (introduced in [v1.0.0-alpha4](https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha4))
+- **Standalone sandboxes + API**: new `Sandbox` and `SandboxTemplate` contracts and standalone sandbox runtimes, with sandbox workflows and grouped agent commands. (introduced in [v1.0.0-alpha5](https://github.com/kagent-dev/kagent/releases/tag/v1.0.0-alpha5))
