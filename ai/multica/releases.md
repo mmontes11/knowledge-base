@@ -1,11 +1,92 @@
 ---
 upstream: https://github.com/multica-ai/multica
-last_updated: 2026-09-08
+last_updated: 2026-10-01
 ---
 
 # multica — releases
 
 Latest 10 official releases, newest first. Multica ships daily patch releases; check the ⚠️ entries before upgrading.
+
+## v0.6.1 — 2026-10-01
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.6.1)
+
+- CLI: `multica issue status` / `issue update` can mark duplicates with `--duplicate-of`; run charts follow the pointer and a cost sparkline replaces the sidebar strip.
+- Daemon follows directory junctions when authorizing repo checkout workdirs; a 403 usage-limit failure classifies as provider quota, not auth.
+- Codex catalog gains a GPT-6.1 Sol fallback with current model pricing; working-agent refresh queries scoped to visible agents.
+
+## v0.6.0 — 2026-09-28
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.6.0)
+
+- Issue **wakeups v2**: conditions, runaway protection, check-ins and visibility, on top of the event/time wakeups from v0.5.1; a running agent can be steered from the normal composer, per recipient.
+- Issue deliverables and dynamic blocks: sidebar section, overview grid, viewer info panel, html/mermaid block frame; the attachment viewer gains CSV tables, JSON/YAML tree, numbered code and HTML viewports, every kind opening in a new tab.
+- The workspace chooses the status merged PRs move an issue to; local search index for web and desktop; settings regrouped by scope; Mermaid previews fit to the whole diagram with inline zoom.
+- Fallback catalogs list Claude Opus 5.5 and GPT-6 Sol/Luna; WeCom notices localized to the reader's language.
+
+## v0.5.3 — 2026-09-24
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.5.3)
+
+- Issues auto-complete when every linked PR merges — and only a closing keyword completes an issue on PR merge.
+- Telegram sends and receives photos, videos and files; Grok gains live-run steering via Grok Build ACP; Antigravity streams live tool execution events.
+- Full-window attachment viewer pages through every file; French documentation added; mobile Simplified Chinese localization; `MULTICA_LLM_DISABLE_THINKING` env supported.
+
+## v0.5.2 — 2026-09-23
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.5.2)
+
+- **Duplicate marking**: new column, markable from the status picker, one click from the original and traceable; issues can be created atomically with custom properties.
+- Messages can be sent to active Claude Code and Codex runs to steer them (task supplements); Windows CLI installer offered alongside curl.
+- Telegram inlines recent group context on @mentions; invitation-based signup restored; OpenClaw `agents.entries` per-agent workspaces supported.
+
+## v0.5.1 — 2026-09-21
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.5.1)
+
+- Issue **event and time wakeups** added: an agent run triggers off issue events or a schedule; repositories can set their checkout ref from the UI.
+- Steering active agent turns from comments landed and was **reverted** within this release; OpenCode 2.x runtimes supported.
+- CLI supports self-hosted Gitea as a release source; copy-link-to-a-single-comment; self-hosting passes `MULTICA_TELEGRAM_SECRET_KEY` / `MULTICA_DINGTALK_SECRET_KEY` through to the backend.
+
+## v0.5.0 — 2026-09-18
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.5.0)
+
+- CLI: `multica issue comment update` command and skill label commands (label filtering in skill lists) added.
+- Issues filterable by the parent project's status; UI session expiry now slides instead of forcing a re-login every 30 days.
+- Issue status category model completed (four lifecycle categories over the 7 canonical keys); archived inbox paginated; French locale added; OpenCode >= 1.1.54 required.
+
+## v0.4.44 — 2026-09-15
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.44)
+
+- ⚠️ **Schema**: issue lifecycle unified into four stored categories (unstarted / started / done / closed) over the 7 canonical status keys; a reserved **Triage** status key was introduced and withdrawn within this release. A resumable internal backfill API migrates existing data.
+- DingTalk gains contextual replies and task lifecycle reactions; the daemon supports self-hosted DeepSeek Harness (`dsh`) desktop; anonymous self-hosting telemetry added.
+- Reference-only PR links retired (column dropped); Alpine OpenSSL packages upgraded in the web image.
+
+## v0.4.43 — 2026-09-11
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.43)
+
+- Self-hosting: universal Redis clients and **cluster mode** supported; desktop gains navigation history menus.
+- Comments and descriptions can be annotated; agent conversation starters exposed in CLI agent create/update; the transcript flags truncated tool outputs.
+- gpt-6-astra added to the Codex fallback catalog with published rates; Next.js CVE-2026-75604 patched; unused issue-description search indexes retired.
+
+## v0.4.42 — 2026-09-09
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.42)
+
+- Agent executions render inline in comment threads; thread navigation consolidated in the sidebar outline.
+- Issue search statement timeout extended to eight seconds; obsolete comment-content search indexes retired.
+- Daemon records task phase latency; claim-path attachment and runtime lookups batched.
+
+## v0.4.41 — 2026-09-07
+
+[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.41)
+
+- CLI: `issue list` JSON output gains `--fields`, and custom property names resolve in issue JSON; agent task history exposes usage.
+- Issue search refactored to a candidate-first pipeline with a 5-second statement timeout; GitHub PR refresh lookups routed to the read replica.
+- Sidebar navigation reorganized by work vs AI team; settings navigation and integration settings regrouped.
 
 ## v0.4.40 — 2026-09-04
 
@@ -79,11 +160,4 @@ Latest 10 official releases, newest first. Multica ships daily patch releases; c
 - Telegram channel integration; Dim (DimCode) ACP runtime; `multica issue timeline` CLI command.
 - Plugin system rebuilt in four PRs (foundations, Action API + Surface + SDK, hook engine, agent integration).
 - ⚠️ **Schema**: comment search indexes made mutually exclusive (`pg_bigm` and `pg_trgm` no longer coexist) and the issue last-activity index retired; UUIDv7 primary keys introduced for append-heavy tables.
-- Custom issue statuses synced over the realtime channel; insecure JWT secret defaults now fail fast in production.
-
-## v0.4.30 — 2026-08-19
-
-[Release page](https://github.com/multica-ai/multica/releases/tag/v0.4.30)
-
- - Custom issue status UI (picker, board, filters, settings); revision-aware concurrency guards on issues; entitlement-backed autopilot quotas with a fail-open policy provider.
-- Plugin system rebuild (parts 1/2); semantic issue activity timestamps; provider secrets redacted from command logs.
+ - Custom issue statuses synced over the realtime channel; insecure JWT secret defaults now fail fast in production.

@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/multica-ai/multica
-last_updated: 2026-09-03
+last_updated: 2026-10-01
 ---
 
 # multica — features
@@ -21,19 +21,27 @@ Work executes on runtimes you control: the `multica` CLI runs a **daemon** on a 
 
 - [Daemon and runtimes](https://multica.ai/docs/daemon-runtimes); [CLI and daemon guide](https://github.com/multica-ai/multica/blob/main/CLI_AND_DAEMON.md)
 - **Retry and timeout handling** with automatic retries and a failure monitor: [tasks docs](https://multica.ai/docs/tasks)
+- **Steering running agents** — a message lands in the in-flight run, not the next one (Claude Code, Codex, Grok): [v0.5.2](https://github.com/multica-ai/multica/releases/tag/v0.5.2) and [v0.6.0](https://github.com/multica-ai/multica/releases/tag/v0.6.0) releases
 
 ## Issues, review gates, and planning
 
-Full issue lifecycle: per-workspace custom statuses over 7 canonical categories, labels, typed custom properties, KV metadata, sub-issues, timeline, board/table/grouped views, quick actions, batch operations, reruns. Completed work lands in review rather than main; humans decide what ships.
+Full issue lifecycle: per-workspace custom statuses over the 7 canonical status keys grouped into four lifecycle categories (unstarted, started, done, closed — since v0.4.44), labels, typed custom properties, KV metadata, sub-issues, duplicate marking, timeline, board/table/grouped views, quick actions, batch operations, reruns. An issue can auto-complete when its linked PRs merge (a closing keyword is required, and the workspace chooses the target status); comments and descriptions are annotatable; issue deliverables and dynamic blocks (html/mermaid frames, CSV, JSON/YAML tree, HTML viewports) carry the produced artifacts. Completed work lands in review rather than main; humans decide what ships.
 
 - [Issues](https://multica.ai/docs/issues); [Projects](https://multica.ai/docs/projects)
 - Execution log with token usage per agent and per issue: [tasks docs](https://multica.ai/docs/tasks)
+- Status category model, duplicate marking, and PR auto-complete: [v0.4.44](https://github.com/multica-ai/multica/releases/tag/v0.4.44), [v0.5.2](https://github.com/multica-ai/multica/releases/tag/v0.5.2), [v0.5.3](https://github.com/multica-ai/multica/releases/tag/v0.5.3), [v0.6.0](https://github.com/multica-ai/multica/releases/tag/v0.6.0) releases
 
 ## Autopilots
 
 Run standups, audits, and reports on a schedule: cron and webhook triggers, delivery logging with replay, collaborators, and quota enforcement.
 
 - [Autopilots](https://multica.ai/docs/autopilots)
+
+## Wakeups
+
+Trigger an agent run off an issue event or a time condition without filing a new comment; v2 adds conditions, runaway protection, check-ins, and visibility.
+
+- Event and time wakeups in [v0.5.1](https://github.com/multica-ai/multica/releases/tag/v0.5.1); conditions, runaway protection and check-ins in [v0.6.0](https://github.com/multica-ai/multica/releases/tag/v0.6.0)
 
 ## Skills
 
@@ -110,6 +118,6 @@ Workspaces isolate agents, issues, and settings; roles are `owner`, `admin`, `me
 
 ## Self-hosting and clients
 
-Docker Compose or Helm on your own infrastructure; web, desktop (macOS/Windows/Linux), and mobile (iOS from source) clients all against the same API.
+Docker Compose or Helm on your own infrastructure; Redis supports universal clients and cluster mode (since v0.4.43); a Windows CLI installer is offered alongside curl (since v0.5.2); web, desktop (macOS/Windows/Linux), and mobile (iOS from source) clients all against the same API, with a French UI/locale and Simplified Chinese mobile localization.
 
 - [Self-Hosting guide](https://github.com/multica-ai/multica/blob/main/SELF_HOSTING.md); [Desktop app](https://multica.ai/docs/desktop-app); [CLI reference](https://multica.ai/docs/cli)

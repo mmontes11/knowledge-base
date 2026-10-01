@@ -1,11 +1,11 @@
 ---
 upstream: https://github.com/multica-ai/multica
-last_updated: 2026-08-23
+last_updated: 2026-10-01
 ---
 
 # multica — API reference
 
-Multica has no CRDs. Its API surface is a Go REST/WebSocket backend, the `multica` CLI, and a local agent daemon. Route catalog: [server/cmd/server/router.go](https://github.com/multica-ai/multica/blob/main/server/cmd/server/router.go) (~2.4k lines, chi router). CLI reference: [CLI_AND_DAEMON.md](https://github.com/multica-ai/multica/blob/main/CLI_AND_DAEMON.md) and [multica.ai/docs/cli](https://multica.ai/docs/cli).
+Multica has no CRDs. Its API surface is a Go REST/WebSocket backend, the `multica` CLI, and a local agent daemon. Route catalog: [server/cmd/server/router.go](https://github.com/multica-ai/multica/blob/main/server/cmd/server/router.go) (~2.7k lines, chi router). CLI reference: [CLI_AND_DAEMON.md](https://github.com/multica-ai/multica/blob/main/CLI_AND_DAEMON.md) and [multica.ai/docs/cli](https://multica.ai/docs/cli).
 
 ## CLI commands (`multica`)
 
@@ -44,9 +44,10 @@ All paths below are relative to the server root; the canonical list is [router.g
 | `POST /auth/send-code`, `/auth/verify-code`, `/auth/google`, `/auth/logout` | Passwordless email auth and Google OAuth. |
 | `GET/PATCH /api/me`, `/api/me/onboarding` *(auth)* | Identity, profile, onboarding state. |
 | `/api/workspaces` *(auth)* | Workspace CRUD; members and invitations, VCS connections, workspace MCP servers, plugins, share links, runtime profiles. |
-| `/api/issues` *(auth)* | Issue CRUD and `POST /query`; comments, timeline, subscribers, metadata, labels, properties, attachments, pull-requests, rerun, quick-actions, task-runs, usage; board/table grouping (`/table/groups`, `/table/rows`, `/table/facets`); `POST /quick-create`; batch update/delete. |
+| `/api/issues` *(auth)* | Issue CRUD and `POST /query`; comments, timeline, subscribers, metadata, labels, properties, attachments, pull-requests, rerun, quick-actions, task-runs, usage; wakeups (CRUD, enable/disable, instruction, trigger, check-in, runs) and per-issue system-wakeups; duplicates; `PUT /pr-auto-complete`; task supplements (message an active run); board/table grouping (`/table/groups`, `/table/rows`, `/table/facets`); `POST /quick-create`; batch update/delete. |
+| `/api/issue-wakeups`, `/api/system-wakeups` *(auth)* | Workspace-level issue-wakeup listing and system-wakeup rules (event/time-triggered agent runs, since v0.5.1). |
 | `GET /api/issues/search`, `/api/projects/search`, `/api/skills/search` *(auth)* | Full-text search over issues (+comments), projects, skills — implementation in [features.md](features.md#pgvector-postgresql-image--search). |
-| `/api/issue-statuses`, `/api/issue-views`, `/api/issue-view-preferences` *(auth)* | Per-workspace custom issue statuses (7 canonical categories), saved issue views. |
+| `/api/issue-statuses`, `/api/issue-views`, `/api/issue-view-preferences` *(auth)* | Per-workspace custom issue statuses over the 7 canonical status keys grouped into four lifecycle categories (unstarted/started/done/closed, since v0.4.44), saved issue views. |
 | `/api/projects` *(auth)* | Projects CRUD + attached resources. |
 | `/api/squads` *(auth)* | Squads CRUD + member status. |
 | `/api/labels`, `/api/properties` *(auth)* | Shared label catalog; custom issue property definitions. |
@@ -54,7 +55,7 @@ All paths below are relative to the server root; the canonical list is [router.g
 | `/api/agent-runtimes`, `/api/cloud-runtime` *(auth)* | Runtime listing/usage/activity, in-place runtime updates, model discovery, local skill sync; cloud runtime node lifecycle. |
 | `/api/tasks/{id}/cancel`, `/api/tasks/{id}/messages`, `/api/agent-task-snapshot`, `/api/working-agents` *(auth)* | Task control and execution-log reads. |
 | `/api/chat/sessions` *(auth)* | Chat sessions with agents: CRUD, pin, archive, messages. |
-| `/api/autopilots` *(auth)* | Autopilot CRUD + runs, deliveries (with replay), triggers (cron/webhook), collaborators, `/cron-preview`, quota `/usage`. |
+| `/api/autopilots` *(auth)* | Autopilot CRUD + runs, deliveries (with replay), triggers (cron/webhook) with webhook-token rotation and signing secrets, collaborators, `/cron-preview`, quota `/usage`. |
 | `/api/skills` *(auth)* | Skill CRUD + import from source, refresh, files, labels. |
 | `/api/comments/{id}` *(auth)* | Comment edit/delete, resolve/unresolve, reactions. |
 | `/api/attachments/{id}` *(auth)* | Attachment fetch/content/delete; `/signed-download` capability URLs. |
