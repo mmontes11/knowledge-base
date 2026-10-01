@@ -1,13 +1,13 @@
 ---
 upstream: https://github.com/github/github-mcp-server
-last_updated: 2026-09-03
+last_updated: 2026-10-01
 ---
 
 # github-mcp-server — API reference
 
 The API surface is the set of MCP **tools** the server exposes, grouped into **toolsets**. The canonical, auto-generated catalog (tool names, descriptions, and input parameters) is the [Tools section of the upstream README](https://github.com/github/github-mcp-server#tools); parameter-level documentation is intentionally not duplicated here — the catalog is authoritative. Toolsets are selected with `--toolsets`/`GITHUB_TOOLSETS` or the per-tool allow-list `--tools`/`GITHUB_TOOLS`; see the [Server Configuration Guide](https://github.com/github/github-mcp-server/blob/main/docs/server-configuration.md).
 
-As of 2026-09-03 the local (stdio/HTTP) catalog lists **87 tools across 21 toolsets**; the [remote server](https://api.githubcopilot.com/mcp/) adds 4 more (see below).
+As of 2026-09-16 the local (stdio/HTTP) catalog lists **91 tools across 21 toolsets**; the [remote server](https://api.githubcopilot.com/mcp/) adds 4 more (see below). The count reflects the default, non-feature-gated catalog — granular toolset tools added behind a feature flag are not included.
 
 ## Toolsets
 
@@ -120,6 +120,9 @@ The `default` toolset (used when none is specified) is `context`, `repos`, `issu
 | `list_issues` | List issues in a repository with state/label/date filters | [catalog](https://github.com/github/github-mcp-server#tools) |
 | `search_issues` | Search issues (semantic search by default since v1.9.0) with rich filters | [catalog](https://github.com/github/github-mcp-server#tools) |
 | `sub_issue_write` | Add/remove/reprioritize sub-issues of a parent issue | [catalog](https://github.com/github/github-mcp-server#tools) |
+| `update_issue_comment` | Update (replace the body of) an existing issue or PR comment (since v1.12.2) | [catalog](https://github.com/github/github-mcp-server#tools) |
+| `remove_issue_reaction` *(granular issues toolset)* | Remove a reaction from an issue or PR (since v1.12.2) | [catalog](https://github.com/github/github-mcp-server#tools) |
+| `remove_issue_comment_reaction` *(granular issues toolset)* | Remove a reaction from an issue or PR comment (since v1.12.2) | [catalog](https://github.com/github/github-mcp-server#tools) |
 
 ### Labels
 
@@ -169,6 +172,7 @@ The `default` toolset (used when none is specified) is `context`, `repos`, `issu
 | `search_pull_requests` | Search pull requests with rich filters | [catalog](https://github.com/github/github-mcp-server#tools) |
 | `update_pull_request` | Edit a pull request (title, body, reviewers, draft, state) | [catalog](https://github.com/github/github-mcp-server#tools) |
 | `update_pull_request_branch` | Update a PR branch with the base branch's latest changes | [catalog](https://github.com/github/github-mcp-server#tools) |
+| `remove_pull_request_review_comment_reaction` *(granular pull-requests toolset)* | Remove a reaction from a PR review comment (since v1.12.2) | [catalog](https://github.com/github/github-mcp-server#tools) |
 
 ### Repositories
 
@@ -221,6 +225,7 @@ Notes:
 
 - Tool names are stable contract: renamed tools keep old names as aliases for backward compatibility — [tool-renaming policy](https://github.com/github/github-mcp-server/blob/main/docs/tool-renaming.md).
 - Write tools can be disabled fleet-wide with read-only mode, and destructive tools advertise that behavior in their metadata (e.g. notification subscription tools since v1.10.0).
+- Granular toolsets: the feature-gated granular issues and pull-requests toolsets add reaction-removal tools (`remove_issue_reaction`, `remove_issue_comment_reaction`, `remove_pull_request_review_comment_reaction`) in v1.12.2; they are not part of the default catalog counted above.
 
 ## CLI surface
 

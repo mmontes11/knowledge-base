@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/github/github-mcp-server
-last_updated: 2026-09-07
+last_updated: 2026-10-01
 ---
 
 # github-mcp-server — Releases
@@ -8,6 +8,20 @@ last_updated: 2026-09-07
 Official release pages live in the [upstream repository](https://github.com/github/github-mcp-server/releases). The table below tracks the 10 most recent releases; check the upstream page for older history. Full patch notes are kept on the release page — only high-signal changes are summarized here, with ⚠️ marking breaking or behavior-changing items.
 
 > Operator note: the homelab deployment (`k8s-ai/infrastructure/mcp-github`) is pinned to `ghcr.io/github/github-mcp-server:1.0.4`, which predates every release listed below.
+
+## v1.12.2 — 2026-09-16
+
+[Release page](https://github.com/github/github-mcp-server/releases/tag/v1.12.2)
+
+- New `update_issue_comment` tool replaces the body of an existing issue or PR comment ([PR #3284](https://github.com/github/github-mcp-server/pull/3284)).
+- The granular issues and pull-requests toolsets gain reaction-removal tools — `remove_issue_reaction`, `remove_issue_comment_reaction`, and `remove_pull_request_review_comment_reaction` — marked destructive and feature-gated like their add-reaction counterparts ([PR #3285](https://github.com/github/github-mcp-server/pull/3285)).
+
+## v1.12.1 — 2026-09-08
+
+[Release page](https://github.com/github/github-mcp-server/releases/tag/v1.12.1)
+
+- Bugfix release: OAuth protected-resource metadata now advertises only the default supported scopes, tightening the previously over-permissive scope list ([PR #3251](https://github.com/github/github-mcp-server/pull/3251)).
+- Copilot assignment tools now return a clear error when `owner`/`repo`/`issue_number` are missing ([PR #3221](https://github.com/github/github-mcp-server/pull/3221)); runtime bumped to Go 1.27.1-alpine ([PR #3239](https://github.com/github/github-mcp-server/pull/3239)).
 
 ## v1.12.0 — 2026-09-03
 
@@ -69,19 +83,3 @@ Official release pages live in the [upstream repository](https://github.com/gith
 - Insiders mode: new `fields` parameter on `search_code`, `get_file_contents`, and six more list/search tools to shrink tool responses.
 - Issue writes now accept `rationale`, `confidence`, and `is_suggestion` hints; `issue_read` exposes parent/child hierarchy signals.
 - Project tools resolve project fields by name; improved GitHub App auth diagnostics.
-
-## v1.5.0 — 2026-06-27
-
-[Release page](https://github.com/github/github-mcp-server/releases/tag/v1.5.0)
-
-- ⚠️ stdio now has built-in OAuth 2.1 login for `github.com` — no PAT required; the token lives in memory only. `GITHUB_PERSONAL_ACCESS_TOKEN` still takes precedence when set.
-- New reaction capabilities for issues, PRs, and comments (exposed via `add_issue_comment`).
-- `issue_read` gains a `get_parent` method and sub-issue read/write in the issue tools.
-
-## v1.4.0 — 2026-06-18
-
-[Release page](https://github.com/github/github-mcp-server/releases/tag/v1.4.0)
-
-- ⚠️ `create_repository` defaults to private when no visibility is provided ([PR #2694](https://github.com/github/github-mcp-server/pull/2694)).
-- MCP Apps: explicit `show_ui` parameter on UI-capable write tools and additional app features ([PR #1974](https://github.com/github/github-mcp-server/pull/1974)).
-- New code-quality findings tool; custom listen address for `http` mode; repository-scoped `list_issue_types`.

@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/github/github-mcp-server
-last_updated: 2026-09-03
+last_updated: 2026-10-01
 ---
 
 # github-mcp-server — Features
@@ -46,6 +46,8 @@ Write tools can render interactive UIs instead of blind argument entry: forms fo
 ## Issues & sub-issues
 
 - **Atomic parent + sub-issue creation** — `issue_write` (create) accepts `parent_issue_number` (plus `parent_owner`/`parent_repo`), creating a new issue and attaching it to its parent in a single operation (since [v1.11.0](https://github.com/github/github-mcp-server/releases/tag/v1.11.0)).
+- **Comment editing** — `update_issue_comment` replaces the body of an existing issue or PR comment (since [v1.12.2](https://github.com/github/github-mcp-server/releases/tag/v1.12.2)).
+- **Reaction removal** — the granular issues and pull-requests toolsets add `remove_issue_reaction`, `remove_issue_comment_reaction`, and `remove_pull_request_review_comment_reaction` to undo a previously added reaction (since [v1.12.2](https://github.com/github/github-mcp-server/releases/tag/v1.12.2)).
 
 ## Copilot integration
 
