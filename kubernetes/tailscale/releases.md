@@ -1,11 +1,20 @@
 ---
 upstream: https://github.com/tailscale/tailscale
-last_updated: 2026-09-03
+last_updated: 2026-10-01
 ---
 
 # tailscale — releases
 
 Latest 10 official releases of the `tailscale/tailscale` project (the upstream for the Kubernetes operator), newest first. Scan the ⚠️ entries before upgrading. The Kubernetes operator itself ships separately as the `tailscale-operator` Helm chart; the version deployed in this repository is `1.96.5`.
+
+## v1.102.5 — 2026-09-29
+[Release page](https://github.com/tailscale/tailscale/releases/tag/v1.102.5)
+- **Container image**: the container no longer stops `tailscaled` when it falls behind on status updates and the connection is closed (common on large tailnets) — it reconnects instead, exiting only if it cannot reconnect within a minute.
+
+## v1.102.4 — 2026-09-10
+[Release page](https://github.com/tailscale/tailscale/releases/tag/v1.102.4)
+- **Kubernetes operator**: the [ProxyGroup](https://tailscale.com/docs/kubernetes-operator/concepts/proxygroup) reconciler no longer triggers on incorrect events.
+- **Client**: fixed a loss of connectivity when a netmap update occurs near the time of reauthentication; exit nodes appear correctly on macOS/iOS/tvOS with a custom coordination server; the tvOS VPN tunnel auto-starts on cold boot.
 
 ## v1.102.3 — 2026-08-20
 [Release page](https://github.com/tailscale/tailscale/releases/tag/v1.102.3)
@@ -44,12 +53,3 @@ Latest 10 official releases of the `tailscale/tailscale` project (the upstream f
 ## v1.98.3 — 2026-05-21
 [Release page](https://github.com/tailscale/tailscale/releases/tag/v1.98.3)
 - **Linux**: fixed a netfilter mode-change inconsistency.
-
-## v1.98.2 — 2026-05-18
-[Release page](https://github.com/tailscale/tailscale/releases/tag/v1.98.2)
-- **Dependency**: Go `1.26.3`.
-- **Fix**: 1.98.0 MagicDNS regression after network changes (Windows unaffected).
-
-## v1.96.4 — 2026-03-27
-[Release page](https://github.com/tailscale/tailscale/releases/tag/v1.96.4)
-- **Linux**: fork fallback-on-`ENOSYS` fix; **MIPS**: startup segfault fixed; **Android**: disconnect deadlock fixed; **Synology**: fork updated.
