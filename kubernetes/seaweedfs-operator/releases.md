@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/seaweedfs/seaweedfs-operator
-last_updated: 2026-09-08
+last_updated: 2026-10-01
 ---
 
 # seaweedfs-operator — releases
@@ -8,6 +8,33 @@ last_updated: 2026-09-08
 Latest 10 official releases, newest first. The repository publishes two release lines interleaved on the same timeline: **operator** releases (`1.0.x`, shipping the operator image) and **Helm chart** releases (`seaweedfs-operator-0.1.x`, packaging the [`deploy/helm`](https://github.com/seaweedfs/seaweedfs-operator/tree/master/deploy/helm) chart as a `.tgz` release asset). Chart releases are fully automated: every `1.0.x` tag push triggers the [chart workflow](https://github.com/seaweedfs/seaweedfs-operator/blob/master/.github/workflows/helm_chart_release.yml), which sets the chart `appVersion` to that operator tag, bumps the chart patch, and publishes the chart a few minutes later — so each chart release pairs with the operator tag published right before it, with a constant patch offset of 3 (`0.1.41` = `appVersion 1.0.38`, per the [Helm repo index](https://github.com/seaweedfs/seaweedfs-operator/blob/gh-pages/helm/index.yaml)). The chart is installed from `https://seaweedfs.github.io/seaweedfs-operator/` ([upstream README](https://github.com/seaweedfs/seaweedfs-operator/blob/master/README.md#helm)); when picking a chart version, match it by `appVersion`, not by its own version number. Check the ⚠️ entries before upgrading.
 
 Since 1.0.26 the operator has shipped with a uniform cadence: each tagged release bumps the [SeaweedFS](https://github.com/seaweedfs/seaweedfs) data-plane dependency (see the per-release compare links); since 1.0.36 it has also gained additive `Seaweed` spec fields — see the per-release entries.
+
+## seaweedfs-operator-0.1.43 — 2026-09-29 (Helm chart)
+
+[Release page](https://github.com/seaweedfs/seaweedfs-operator/releases/tag/seaweedfs-operator-0.1.43)
+
+- Version-bump release: chart `0.1.43` ships `appVersion: 1.0.40` ([Helm repo index](https://github.com/seaweedfs/seaweedfs-operator/blob/gh-pages/helm/index.yaml)); chart releases carry no release notes.
+
+## 1.0.40 — 2026-09-29 (operator)
+
+[Release page](https://github.com/seaweedfs/seaweedfs-operator/releases/tag/1.0.40)
+
+- **PVC in-place expansion**: when the StorageClass allows it, growing a master/volume/filer storage request now resizes the existing PVCs in place instead of blocking on the immutable `volumeClaimTemplates`; the controller adds the expansion RBAC and warns when the StorageClass forbids it. [PR #394](https://github.com/seaweedfs/seaweedfs-operator/pull/394)
+- **S3Credentials GitOps adoption**: a complete, user-managed `Secret` (both keys present) is now adopted read-only and registered on the identity — GitOps/Sealed credentials work without the controller ever writing or deleting the `Secret`. [PR #399](https://github.com/seaweedfs/seaweedfs-operator/pull/399)
+- **S3 gRPC TLS**: the standalone S3 gateway's `security.toml` gains a `[grpc.s3]` TLS section and the S3 service's DNS name is added to the server certificate SAN. [PR #391](https://github.com/seaweedfs/seaweedfs-operator/pull/391)
+- SeaweedFS dependency: `v0.0.0-20260914013409-ea179963c0a4` → `v0.0.0-20260928155340-530be3e37337`. [Data-plane compare](https://github.com/seaweedfs/seaweedfs/compare/ea179963c0a4...530be3e37337)
+
+## seaweedfs-operator-0.1.42 — 2026-09-14 (Helm chart)
+
+[Release page](https://github.com/seaweedfs/seaweedfs-operator/releases/tag/seaweedfs-operator-0.1.42)
+
+- Version-bump release: chart `0.1.42` ships `appVersion: 1.0.39` ([Helm repo index](https://github.com/seaweedfs/seaweedfs-operator/blob/gh-pages/helm/index.yaml)); chart releases carry no release notes.
+
+## 1.0.39 — 2026-09-14 (operator)
+
+[Release page](https://github.com/seaweedfs/seaweedfs-operator/releases/tag/1.0.39)
+
+- SeaweedFS dependency: `v0.0.0-20260908034521-d997fba15755` → `v0.0.0-20260914013409-ea179963c0a4`. [Data-plane compare](https://github.com/seaweedfs/seaweedfs/compare/d997fba15755...ea179963c0a4)
 
 ## seaweedfs-operator-0.1.41 — 2026-09-08 (Helm chart)
 
@@ -50,30 +77,6 @@ Since 1.0.26 the operator has shipped with a uniform cadence: each tagged releas
 - **Listener bind addresses**: new `ipBind` on master, volume servers, and filer (default `0.0.0.0`) removes the cold-start CoreDNS race that made every component restart once at boot. [README — Key fields explained](https://github.com/seaweedfs/seaweedfs-operator/blob/1.0.36/README.md#key-fields-explained)
 - **S3 credentials rotation**: changing an adopted `S3Credentials` `Secret` now rotates the identity — a new access key is registered and the superseded pair revoked. [README — Declarative IAM](https://github.com/seaweedfs/seaweedfs-operator/blob/1.0.36/README.md#declarative-iam-identities-credentials-policies)
 - SeaweedFS dependency: `v0.0.0-20260817070407-5c43c03b76c0` → `v0.0.0-20260821064632-8a532cc0cffd`. [Data-plane compare](https://github.com/seaweedfs/seaweedfs/compare/5c43c03b76c0...8a532cc0cffd)
-
-## seaweedfs-operator-0.1.38 — 2026-08-17 (Helm chart)
-
-[Release page](https://github.com/seaweedfs/seaweedfs-operator/releases/tag/seaweedfs-operator-0.1.38)
-
-- Version-bump release: chart `0.1.38` ships `appVersion: 1.0.35` ([Helm repo index](https://github.com/seaweedfs/seaweedfs-operator/blob/gh-pages/helm/index.yaml)); chart releases carry no release notes.
-
-## 1.0.35 — 2026-08-17 (operator)
-
-[Release page](https://github.com/seaweedfs/seaweedfs-operator/releases/tag/1.0.35)
-
-- SeaweedFS dependency: `v0.0.0-20260806065542-c01fe1493dc5` → `v0.0.0-20260817070407-5c43c03b76c0`. [Data-plane compare](https://github.com/seaweedfs/seaweedfs/compare/c01fe1493dc5...5c43c03b76c0)
-
-## seaweedfs-operator-0.1.37 — 2026-08-06 (Helm chart)
-
-[Release page](https://github.com/seaweedfs/seaweedfs-operator/releases/tag/seaweedfs-operator-0.1.37)
-
-- Version-bump release: chart `0.1.37` ships `appVersion: 1.0.34` ([Helm repo index](https://github.com/seaweedfs/seaweedfs-operator/blob/gh-pages/helm/index.yaml)); chart releases carry no release notes.
-
-## 1.0.34 — 2026-08-06 (operator)
-
-[Release page](https://github.com/seaweedfs/seaweedfs-operator/releases/tag/1.0.34)
-
-- SeaweedFS dependency: `v0.0.0-20260719061107-eb6d8ebd5f68` → `v0.0.0-20260806065542-c01fe1493dc5`. [Data-plane compare](https://github.com/seaweedfs/seaweedfs/compare/eb6d8ebd5f68...c01fe1493dc5)
 
 Notes:
 
