@@ -1,11 +1,18 @@
 ---
 upstream: https://github.com/NVIDIA/dcgm-exporter
-last_updated: 2026-08-23
+last_updated: 2026-10-01
 ---
 
 # nvidia-dcgm-exporter — releases
 
-Latest 10 official releases of `NVIDIA/dcgm-exporter`, newest first. Tags follow `<DCGM version>-<exporter version>`; scan the ⚠️ entries before upgrading. The version deployed in this repository (Helm chart pin) is `4.8.2` (release `4.5.3-4.8.2`).
+Latest 10 official releases of `NVIDIA/dcgm-exporter`, newest first. Tags follow `<DCGM version>-<exporter version>` (release `4.8.4` dropped the DCGM prefix); scan the ⚠️ entries before upgrading. The version deployed in this repository (Helm chart pin) is `4.8.2` (release `4.5.3-4.8.2`).
+
+## 4.8.4 — 2026-09-18
+[Release page](https://github.com/NVIDIA/dcgm-exporter/releases/tag/4.8.4)
+- DCGM 4.6.1 + go-dcgm v1.4611.2 (Go 1.27.1); YAML schema v2 with plural `collections` (v1-compatible), configurable DCGM field-watch retention limits, limits and request coalescing for concurrent `/metrics` scrapes, and support for metric configurations with more than 128 DCGM fields.
+- ⚠️ Retired PCIe throughput fields removed from the supplied metric configurations — custom configurations using them now fail; use `DCGM_FI_PROF_PCIE_TX_BYTES` / `DCGM_FI_PROF_PCIE_RX_BYTES` instead.
+- Optional GPU bind/unbind detection that resets DCGM/NVML and rebuilds metrics for the new topology ([#716](https://github.com/NVIDIA/dcgm-exporter/pull/716)); opt-in exporter self-metrics via `--enable-exporter-metrics`; opt-in GPU fabric-health and power-limit fields; MIG compute-instance-scoped fields with a `GPU_CI_ID` label; optional `pod_uid` label on DRA-attributed metrics ([#738](https://github.com/NVIDIA/dcgm-exporter/pull/738)).
+- Helm: DaemonSet annotation and probe timing/failure-threshold values; dynamic linker cache fix for the distroless image ([#724](https://github.com/NVIDIA/dcgm-exporter/pull/724)); DRA MIG pod attribution refreshed when ResourceSlices change ([#714](https://github.com/NVIDIA/dcgm-exporter/issues/714)).
 
 ## 4.6.0-4.8.3 — 2026-07-15
 [Release page](https://github.com/NVIDIA/dcgm-exporter/releases/tag/4.6.0-4.8.3)
@@ -56,8 +63,3 @@ Latest 10 official releases of `NVIDIA/dcgm-exporter`, newest first. Tags follow
 [Release page](https://github.com/NVIDIA/dcgm-exporter/releases/tag/4.4.0-4.5.0)
 - DCGM 4.4 and CUDA 13.0.
 - Kubernetes pod-UID support; created the distroless container target.
-
-## 4.3.1-4.4.0 — 2025-08-07
-[Release page](https://github.com/NVIDIA/dcgm-exporter/releases/tag/4.3.1-4.4.0)
-- DCGM 4.3.1; podapi updated for DRA.
-- Enabled `DCGM_EXP_P2P_STATUS` for GPU peer-to-peer NVLink status; InitContainer support; empty HPC directory fix.

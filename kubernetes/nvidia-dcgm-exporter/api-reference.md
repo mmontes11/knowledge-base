@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/NVIDIA/dcgm-exporter
-last_updated: 2026-08-23
+last_updated: 2026-10-01
 ---
 
 # nvidia-dcgm-exporter — API reference
@@ -27,7 +27,7 @@ DCGM Exporter is not a CRD project: the `dcgm-exporter` Helm chart (deployed at 
 
 ## Metric label surface
 
-Baseline labels on every device series: `gpu` (index), `UUID` (GPU UUID), `hostname` (⚠️ renamed from `Hostname` in release `4.6.0-4.8.3`), plus `dcgm_exporter_build_metadata`. Optional enrichment labels: `kubernetes_pod`, `kubernetes_namespace`, `kubernetes_container` (pod mapping), `container` (host container runtime, added in `4.6.0-4.8.3`), `cpu_serial` (Grace CPU serials, `4.6.0-4.8.3`). See [README](https://github.com/NVIDIA/dcgm-exporter) and [llms.txt metrics contract](https://github.com/NVIDIA/dcgm-exporter/blob/main/llms.txt).
+Baseline labels on every device series: `gpu` (index), `UUID` (GPU UUID), `hostname` (⚠️ renamed from `Hostname` in release `4.6.0-4.8.3`), plus `dcgm_exporter_build_metadata`. Optional enrichment labels: `kubernetes_pod`, `kubernetes_namespace`, `kubernetes_container` (pod mapping), `pod_uid` (DRA-attributed metrics, added in `4.8.4`), `container` (host container runtime, added in `4.6.0-4.8.3`), `cpu_serial` (Grace CPU serials, `4.6.0-4.8.3`), `GPU_CI_ID` (MIG compute-instance-scoped fields, added in `4.8.4`). See [README](https://github.com/NVIDIA/dcgm-exporter) and [llms.txt metrics contract](https://github.com/NVIDIA/dcgm-exporter/blob/main/llms.txt).
 
 ## Configuration surface (CLI flags / environment)
 
@@ -46,6 +46,7 @@ The chart passes through `arguments: []` and `extraEnv`; the most relevant switc
 | `DCGM_EXPORTER_P2P_STATUS` | Enable P2P/NVLink peer-to-peer status metrics (`DCGM_EXP_P2P_STATUS`). |
 | `--hpc-job-mapping-dir` / `DCGM_HPC_JOB_MAPPING_DIR` | Map GPUs to HPC job IDs from job-mapping files. |
 | `--web-config-file` | exporter-toolkit TLS/basic auth via [exporter-toolkit](https://github.com/prometheus/exporter-toolkit) web configuration. |
-| YAML config file (chart `config.*`) | Startup configuration: metric file path and collection interval (added in `4.6.0-4.8.3`). |
+| `--enable-exporter-metrics` / `DCGM_EXPORTER_ENABLE_EXPORTER_METRICS` | Opt-in Go runtime, process, and HTTP handler metrics (added in `4.8.4`). |
+| YAML config file (chart `config.*`) | Startup configuration: metric file path and collection interval (added in `4.6.0-4.8.3`); schema v2 with plural `collections` and field-watch retention limits (added in `4.8.4`, v1-compatible). |
 
 In `mmontes11/k8s-infrastructure`, `infrastructure/nvidia-dcgm-exporter/nvidia-dcgm-exporter-helmrelease.yaml` pins chart version `4.8.2`, enables the ServiceMonitor with a `job`→`instance` relabeling, sets `runtimeClassName: nvidia`, node affinity on `nvidia.com/gpu.present`, tolerates `nvidia.com/gpu`/`node.mmontes.io/type=compute-xlarge`, and post-render patches the DaemonSet to set `DCGM_EXPORTER_KUBERNETES=false` so a single metric set per GPU is exported instead of per-pod series. `alerts/gpu-rules.yaml` defines the `HighGpuUsage` and `HighGpuTemperature` `PrometheusRule`s.
