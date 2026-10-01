@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/prometheus-community/helm-charts
-last_updated: 2026-09-08
+last_updated: 2026-10-01
 ---
 
 # kube-prometheus-stack — features
@@ -11,6 +11,7 @@ Feature areas of the `kube-prometheus-stack` chart, each linked to the upstream 
 
 - **Deployments and high availability** — a managed `Prometheus` instance with its TSDB on a PVC; `replicas` > 1 yields an HA setup where one instance alerts and the rest replicate state via the [HA peer](https://prometheus.io/docs/prometheus/latest/high-availability-persistent-storage/) mechanism. [README: Prometheus HA](https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/README.md#prometheus-high-availability-ha)
 - **Agent mode** — `prometheus.agentMode: true` switches the deployment to [Prometheus agent mode](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/prometheus-agent.md): remote-write only, no local TSDB, no rule evaluation.
+- **prometheus-operator v0.94 spec fields** — chart 91.1.0 exposes the `Prometheus`/`Alertmanager` spec fields added by prometheus-operator v0.94.0: `prometheus.prometheusSpec.retentionPercentage` (volume-capacity-based retention, requires Prometheus ≥ v3.11.0) and `alertmanager.alertmanagerSpec.clusterPeerName` (peer-name override, requires Alertmanager ≥ v0.30.0); chart 91.2.0 adds the `rules` engine parameters (`alert.forOutageTolerance`, `alert.forGracePeriod`, `alert.resendDelay`), `tsdb.chunkEncoding`/`tsdb.staleSeriesCompactionThreshold`, and `thanosRuler.thanosRulerSpec.schedulerName`. Both default to unset and are omitted from the rendered spec. ([#7270](https://github.com/prometheus-community/helm-charts/pull/7270), [#7272](https://github.com/prometheus-community/helm-charts/pull/7272))
 - **Remote read/write, Thanos sidecar** — `prometheus.remoteReadSpec`, `prometheus.remoteWriteSpec` and the `thanos` sidecar block in the `Prometheus` CR are exposed through values for object-storage and remote-store integration.
 - **PrometheusRules admission webhooks** — the operator runs a validating webhook that rejects invalid `PrometheusRule` specs (e.g. malformed PromQL) at admission time; configurable and can be disabled, with documented limitations. [README: admission webhooks](https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/README.md#prometheusrules-admission-webhooks)
 
@@ -20,6 +21,7 @@ Feature areas of the `kube-prometheus-stack` chart, each linked to the upstream 
 - **Probe** — blackbox probe configuration for network reachability checks.
 - **ScrapeConfig** — pass raw, Kubernetes-independent scrape configuration (`monitoring.coreos.com/v1alpha1`) for static targets and non-k8s service discovery.
 - **Default service monitors** — `kubernetesServiceMonitors.enabled` plus per-component toggles (`kubeApiServer`, `kubelet`, `kubeControllerManager`, `coreDns`, `kubeEtcd`, `kubeScheduler`, `kubeProxy`) ship ready-made monitors for the core cluster components.
+- **Node exporter annotations** — `nodeExporter.prometheusScrape` (default `false` since chart 91.8.1) enables scraping the node-exporter service via `prometheus.io/scrape` annotations; off by default because the ServiceMonitor already scrapes it ([#7306](https://github.com/prometheus-community/helm-charts/pull/7306)).
 
 ## Alerting and rules
 
