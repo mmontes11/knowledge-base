@@ -1,11 +1,20 @@
 ---
 upstream: https://github.com/cert-manager/trust-manager
-last_updated: 2026-08-16
+last_updated: 2026-10-01
 ---
 
 # trust-manager — releases
 
 Latest 10 official releases, newest first. Check the ⚠️ entries before upgrading.
+
+## v0.25.0 — 2026-09-11
+
+[Release page](https://github.com/cert-manager/trust-manager/releases/tag/v0.25.0)
+
+- ⚠️ **Debian Bullseye trust bundle removed**: the trust bundle image based on now-EOL Debian Bullseye is no longer updated; migrate to the Bookworm- or Trixie-based bundle images (Trixie is the current default).
+- **Webhook TLS curve preferences**: new `--tls-curve-preferences` flag configures the TLS curve priorities of the webhook server.
+- **PKCS#12 profile in target hash**: changing the PKCS#12 cipher `profile` of a target now correctly triggers an update.
+- Applied `data`/`binaryData` keys are logged when syncing bundle targets; the target version suffix is reused in exact mode; webhook CAs are injected directly from the Certificate Secret.
 
 ## v0.24.0 — 2026-06-27
 
@@ -69,11 +78,3 @@ Latest 10 official releases, newest first. Check the ⚠️ entries before upgra
 [Release page](https://github.com/cert-manager/trust-manager/releases/tag/v0.20.1)
 
 - ⚠️ **Fix for v0.20.0 known issue**: Go downgraded `1.25.2` → `1.25.1` to work around a backward-incompatible change to Go's X.509 verification (golang/go#75828) that affected trust-manager in v0.20.0.
-
-## v0.20.0 — 2025-10-09
-
-[Release page](https://github.com/cert-manager/trust-manager/releases/tag/v0.20.0)
-
-- **Target namespace list**: the operator can now be restricted to an explicit list of target namespaces.
-- ⚠️ **Known issue**: a backward-incompatible X.509 change in Go 1.25.2 (golang/go#75828) caused a known issue in this version — upgrade to v0.20.1 or later.
-- ⚠️ **Removal**: the client-side → server-side apply migration code was removed; upgrade from very old versions incrementally.
