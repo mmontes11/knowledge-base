@@ -1,11 +1,18 @@
 ---
 upstream: https://github.com/cloudnative-pg/plugin-barman-cloud
-last_updated: 2026-09-08
+last_updated: 2026-10-01
 ---
 
 # plugin-barman-cloud — releases
 
-Latest 10 official releases, newest first. Check the ⚠️ entries before upgrading. The chart in `ghcr.io/cloudnative-pg/charts/plugin-barman-cloud` tracks these releases (chart `0.8.0` ships plugin `v0.15.0`).
+Latest 10 official releases, newest first. Check the ⚠️ entries before upgrading. The chart in `ghcr.io/cloudnative-pg/charts/plugin-barman-cloud` tracks these releases (chart `0.8.1` ships plugin `v0.15.1`).
+
+## 0.15.1 — 2026-09-30
+
+[Release page](https://github.com/cloudnative-pg/plugin-barman-cloud/releases/tag/v0.15.1)
+
+- **Barman updated to 3.20.1**; transient connectivity errors during WAL restore are now logged. ([#1121](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/1121), [#1112](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/1112))
+- Dependency bumps: Kubernetes monorepo v0.37.1, controller-runtime v0.25.1, gRPC v1.83.2, and non-major Go dependencies. ([#1127](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/1127), [#1096](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/1096), [#1134](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/1134), [#1126](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/1126))
 
 ## 0.15.0 — 2026-09-03
 
@@ -69,10 +76,3 @@ Latest 10 official releases, newest first. Check the ⚠️ entries before upgra
 
 - **`logLevel` setting** to control log verbosity; additional sidecar container arguments support; proper gRPC error codes for expected conditions. ([#536](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/536), [#520](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/520), [#549](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/549))
 - Object cache management reliability improvements; no more panic when `serverRecoveryWindow` is unset. ([#508](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/508), [#525](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/525))
-
-## 0.6.0 — 2025-08-21
-
-[Release page](https://github.com/cloudnative-pg/plugin-barman-cloud/releases/tag/v0.6.0)
-
-- **Upstream backup and recovery metrics**, plus a last-failed-backup status field and metric. ([#459](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/459), [#467](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/467))
-- Empty WAL archive check during WAL archiving; ObjectStore-from-cache retrieval logic; `Cluster` finalizers update permission; sidecar image moved to bookworm. ([#458](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/458), [#429](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/429), [#465](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/465), [#476](https://github.com/cloudnative-pg/plugin-barman-cloud/pull/476))
