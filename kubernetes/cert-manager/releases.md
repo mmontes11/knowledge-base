@@ -1,11 +1,21 @@
 ---
 upstream: https://github.com/jetstack/cert-manager
-last_updated: 2026-08-16
+last_updated: 2026-10-01
 ---
 
 # cert-manager — releases
 
 Latest 10 official releases, newest first (alpha/beta releases omitted). See the [GitHub releases](https://github.com/jetstack/cert-manager/releases) for full notes.
+
+## v1.21.2 — 2026-09-11
+
+[Release page](https://github.com/jetstack/cert-manager/releases/tag/v1.21.2) — all users should upgrade.
+
+- Fixes controller and webhook panics: the certificates-issuing controller panicked on `CertificateRequest`s with a failure time but no `Ready` condition; the validating webhook panicked on `AdmissionReview` requests missing optional fields (requests with an unset/mismatched resource are now denied instead of silently allowed, and validation is also enforced for equivalent-converted requests on non-v1 API versions).
+- Stops the ACME and Vault issuers reflecting untrusted HTTP response bodies into `Issuer`/`Challenge` status conditions and Events (only ACME problem documents are surfaced, ACME response bodies capped at 16 MiB, other responses reported by HTTP status code alone) — prevents disclosure of internal response contents and unbounded-body DoS.
+- **Vault**: a namespaced `Issuer` no longer authenticates with the controller's ambient AWS credentials for AWS IAM auth unless explicitly enabled via `--issuer-ambient-credentials` (`ClusterIssuer` and explicit `serviceAccountRef`/IRSA are unaffected).
+- Other fixes: `dnsNames` de-duplication when multiple Gateway/ListenerSet listeners share a Secret, renewal windows with February-29 cron schedules across non-leap century years, HTTP-01 solver cleanup no longer failing with NotFound for already-deleted Ingress/pod/Service, `replaces` populated for the wrong issuer on issuer changes, and data races (HTTP-01 self-check with custom DNS servers, scheduler timer cleanup).
+- Dependency bumps fixing reported vulnerabilities: Go 1.26.8, grpc 1.83.2, x/crypto 0.56.0.
 
 ## v1.21.1 — 2026-07-29
 
@@ -29,6 +39,15 @@ Latest 10 official releases, newest first (alpha/beta releases omitted). See the
 - ⚠️ **Possibly breaking**: `cert-manager-edit` no longer grants `create` for `challenges` or `create`/`patch`/`update` for `orders` (GHSA-8rvj-mm4h-c258; already present in v1.20.3/v1.19.6).
 - ⚠️ **Breaking**: Helm values `prometheus.servicemonitor.targetPort`, `prometheus.servicemonitor.path`, `prometheus.podmonitor.path` removed; metrics port renamed `tcp-prometheus-servicemonitor` → `http-metrics` — residual keys fail schema validation on upgrade.
 - ⚠️ **Known issues**: controller crash-loops on any Certificate with `renewal.policy: Disabled`, cosmetic Secret-event log spam, and Issuers can stick at `InvalidSolver` — all fixed in v1.21.1; run v1.21.1 instead.
+
+## v1.20.4 — 2026-09-16
+
+[Release page](https://github.com/jetstack/cert-manager/releases/tag/v1.20.4) — all users should upgrade.
+
+- Security: Go 1.26.5/1.26.6 (go command and stdlib `net` packages), x/net 0.58.0, x/text 0.41.0, x/crypto 0.55.0 (CVE-2026-46600, CVE-2026-56852, CVE-2026-56854), grpc 1.83.2 (CVE-2026-84303, CVE-2026-84304, CVE-2026-84445, GHSA-hrxh-6v49-42gf), cel-go 0.30.0, go-pkcs12 0.7.2.
+- Fixes the ingress-shim removing the `applyset` label from cached Ingress and Gateway objects.
+- Note: three `golang.org/x/crypto` scanner findings remain but do not affect cert-manager (SSH connection-multiplexer deadlocks — cert-manager never opens an SSH connection — and the unmaintained `openpgp` package — not imported); the 1.21 line already uses x/crypto 0.56.0, so upgrade to 1.21 for a clean scan.
+- Release staging now signs `metadata.json` with cosign so the publish step can verify its authenticity.
 
 ## v1.20.3 — 2026-06-25
 
@@ -75,15 +94,3 @@ Latest 10 official releases, newest first (alpha/beta releases omitted). See the
 [Release page](https://github.com/jetstack/cert-manager/releases/tag/v1.19.5)
 
 - Patch release for reported vulnerabilities: Go 1.25.8/1.25.9 and dependency bumps. Upgrade recommended.
-
-## v1.19.4 — 2026-02-24
-
-[Release page](https://github.com/jetstack/cert-manager/releases/tag/v1.19.4) — all users should upgrade.
-
-- Fixes [CVE-2026-24051](https://nvd.nist.gov/vuln/detail/CVE-2026-24051) and [CVE-2025-68121](https://nvd.nist.gov/vuln/detail/CVE-2025-68121) via Go bump; otel SDK bump for GO-2026-4394.
-
-## v1.18.6 — 2026-02-24
-
-[Release page](https://github.com/jetstack/cert-manager/releases/tag/v1.18.6)
-
-- Fixes [CVE-2025-68121](https://nvd.nist.gov/vuln/detail/CVE-2025-68121) via Go bump. CVE-2026-24051 not patched — it affects macOS only, so cert-manager is unaffected.
