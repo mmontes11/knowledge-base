@@ -1,11 +1,30 @@
 ---
 upstream: https://github.com/traefik/traefik
-last_updated: 2026-09-03
+last_updated: 2026-10-01
 ---
 
 # traefik — releases
 
 Latest 10 official releases, newest first. Traefik maintains **three supported version lines** (e.g. `v3.7.x`, `v3.6.x`, `v2.11.x`); patches for CVEs and Kubernetes-provider fixes land on all of them, so watch the whole set, not just the newest line. Check ⚠️ entries before upgrading. Version-line migration guides: [v3.7](https://doc.traefik.io/traefik/v3.7/migrate/v3/), [v3.6](https://doc.traefik.io/traefik/v3.6/migrate/v3/), [v2.11](https://doc.traefik.io/traefik/v2.11/migration/v2/).
+
+## v3.7.13 — 2026-09-04
+
+[Release page](https://github.com/traefik/traefik/releases/tag/v3.7.13)
+
+- Security fixes: [GHSA-qqjf-53cj-pwvv](https://github.com/advisories/GHSA-qqjf-53cj-pwvv), [GHSA-f52w-8j3h-j724](https://github.com/advisories/GHSA-f52w-8j3h-j724), [GHSA-v67p-phpq-fc8x](https://github.com/advisories/GHSA-v67p-phpq-fc8x), [GHSA-w4v4-9rw7-5326](https://github.com/advisories/GHSA-w4v4-9rw7-5326), [GHSA-8fcf-v89g-xpg6](https://github.com/advisories/GHSA-8fcf-v89g-xpg6).
+- ⚠️ **`Upgrade: h2c` / `HTTP2-Settings` request headers are no longer forwarded to backends**: Traefik does not implement the deprecated h2c-upgrade mechanism, so forwarding the headers let a backend accept an upgrade Traefik never negotiated with the client; such a backend now serves those requests over HTTP/1.1. To reach a backend over unencrypted HTTP/2, declare its servers with the `h2c` scheme (Kubernetes CRD `scheme: h2c`, label `traefik.http.services.<name>.loadbalancer.server.scheme=h2c`, or Ingress annotation `traefik.ingress.kubernetes.io/service.serversscheme: h2c`). [v3.7 migration guide](https://doc.traefik.io/traefik/v3.7/migrate/v3/#v3713)
+- ⚠️ **Requests with a "rootless" request target are rejected with `400 Bad Request`**: a scheme followed by a non-`/` target (e.g. `http:example.com/admin`) is none of the four forms allowed by [RFC 9112 §3.2](https://www.rfc-editor.org/rfc/rfc9112#section-3.2); the check runs before routing, so rejected requests are not in access logs (DEBUG level only) and the rejection cannot be disabled. [v3.7 migration guide](https://doc.traefik.io/traefik/v3.7/migrate/v3/#v3713)
+- Consul Catalog / Nomad providers: service instances are now identified unambiguously, so configurations that were silently discarded are merged; a conflicting router or middleware is removed with an error (a router served before the upgrade can disappear) and load-balancer server order may change.
+- Bug fixes: Ingress NGINX sticky-session cookies ([#13496](https://github.com/traefik/traefik/pull/13496), [#13456](https://github.com/traefik/traefik/pull/13456)) and `ssl-passthrough` + `force-ssl-redirect` redirect router ([#13457](https://github.com/traefik/traefik/pull/13457)), basic-auth user enumeration via the singleflight key ([#13816](https://github.com/traefik/traefik/pull/13816)), HTTP/3 transport per client connection ([#13812](https://github.com/traefik/traefik/pull/13812)), opaque request-target denial ([#13796](https://github.com/traefik/traefik/pull/13796)), h2c upgrade-header forwarding ([#13797](https://github.com/traefik/traefik/pull/13797)), request-trailer forwarding ([#13822](https://github.com/traefik/traefik/pull/13822)), ACME DNS-01 recursive NSS propagation ([#13710](https://github.com/traefik/traefik/pull/13710), [#13830](https://github.com/traefik/traefik/pull/13830)), lego v5.4.1 ([#13759](https://github.com/traefik/traefik/pull/13759)), quic-go v0.62.0 ([#13807](https://github.com/traefik/traefik/pull/13807)).
+
+## v2.11.57 — 2026-09-04
+
+[Release page](https://github.com/traefik/traefik/releases/tag/v2.11.57)
+
+- Security fixes: [GHSA-qqjf-53cj-pwvv](https://github.com/advisories/GHSA-qqjf-53cj-pwvv), [GHSA-f52w-8j3h-j724](https://github.com/advisories/GHSA-f52w-8j3h-j724), [GHSA-w4v4-9rw7-5326](https://github.com/advisories/GHSA-w4v4-9rw7-5326).
+- ⚠️ **`Upgrade: h2c` / `HTTP2-Settings` request headers are no longer forwarded to backends** — same change as in v3.7.13; a backend that accepted such an upgrade now serves those requests over HTTP/1.1 (declare the `h2c` server scheme for unencrypted HTTP/2). [v2.11 migration guide](https://doc.traefik.io/traefik/v2.11/migration/v2/#v21157)
+- ⚠️ **Requests with a "rootless" request target are rejected with `400 Bad Request`** — same change as in v3.7.13 (checked before routing, not in access logs, DEBUG logs only, not configurable). [v2.11 migration guide](https://doc.traefik.io/traefik/v2.11/migration/v2/#v21157)
+- Bug fixes: ACME DNS-01 recursive NSS propagation ([#13830](https://github.com/traefik/traefik/pull/13830)), HTTP/3 transport per client connection ([#13812](https://github.com/traefik/traefik/pull/13812)), opaque request-target denial ([#13796](https://github.com/traefik/traefik/pull/13796)), h2c upgrade-header forwarding ([#13797](https://github.com/traefik/traefik/pull/13797)).
 
 ## v3.7.12 — 2026-08-26
 
@@ -76,19 +95,3 @@ Latest 10 official releases, newest first. Traefik maintains **three supported v
 - Security fix: [GHSA-3ccp-42pg-hgv6](https://github.com/advisories/GHSA-3ccp-42pg-hgv6).
 - ⚠️ **HTTP/1 `CONNECT` requests are now rejected with `501 Not Implemented`** (they were non-functional before, the rejection makes it explicit). [v3.7 migration guide](https://doc.traefik.io/traefik/v3.7/migrate/v3/#v379)
 - Deprecates Zstd in `gzhttp` (HTTP/2 + Zstd); defers `CONNECT` payload handling; fixes `use-regex` redirect handling in the Ingress NGINX provider.
-
-## v3.6.24 — 2026-07-24
-
-[Release page](https://github.com/traefik/traefik/releases/tag/v3.6.24)
-
-- Security fix: [GHSA-3ccp-42pg-hgv6](https://github.com/advisories/GHSA-3ccp-42pg-hgv6).
-- ⚠️ Kubernetes CRDs updated: adds the previously-missing `Errors.middleware.errorRequestHeaders` option to the `Middleware` CRD — **apply the v3.6 CRD manifest in-cluster before upgrading** (the option is only usable once the CRDs are updated).
-- Mirrors the v3.7.9 HTTP/1 `CONNECT` → `501` behavior on the v3.6 line.
-
-## v2.11.53 — 2026-07-24
-
-[Release page](https://github.com/traefik/traefik/releases/tag/v2.11.53)
-
-- Security fix: [GHSA-3ccp-42pg-hgv6](https://github.com/advisories/GHSA-3ccp-42pg-hgv6).
-- ⚠️ **Kubernetes CRDs must be updated before upgrading**: the `Errors` middleware `errorRequestHeaders` option (introduced in v2.11.44) is now exposed on the `Middleware` CRD. [v2.11 migration guide](https://doc.traefik.io/traefik/v2.11/migration/v2/#v21153)
-- ⚠️ HTTP/1 `CONNECT` requests rejected with `501 Not Implemented`. [v2.11 migration guide](https://doc.traefik.io/traefik/v2.11/migration/v2/#v21153)
