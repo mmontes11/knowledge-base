@@ -1,11 +1,27 @@
 ---
 upstream: https://github.com/cloudnative-pg/cloudnative-pg
-last_updated: 2026-08-22
+last_updated: 2026-10-01
 ---
 
 # cloudnative-pg — releases
 
 Latest 10 official releases, newest first. Check the ⚠️ entries before upgrading.
+
+## 1.30.1 — 2026-09-23
+
+[Release page](https://github.com/cloudnative-pg/cloudnative-pg/releases/tag/v1.30.1)
+
+- ⚠️ **Security fixes**: `CVE-2026-84304` (gRPC-Go updated to v1.83.1, fixing heap memory exhaustion via HTTP/2 DATA-frame fragmentation; [GHSA-vp52-pcj8-j9qc](https://github.com/advisories/GHSA-vp52-pcj8-j9qc)) and a webhook validation bypass that accepted absolute extension paths with embedded `..` traversal, escaping the extension's mount point once resolved at runtime. ([#11394](https://github.com/cloudnative-pg/cloudnative-pg/pull/11394), [#11210](https://github.com/cloudnative-pg/cloudnative-pg/pull/11210))
+- **New options**: `restoreAdditionalCommandArgs` in `.barmanObjectStore.data` (forwards custom flags to `barman-cloud-restore` on in-tree recoveries), `auth_user` in `spec.pgbouncer.parameters` (overrides the user used for PgBouncer's `auth_query`), `ssl_ecdh_curve` allowed in `.spec.postgresql.parameters`, and a `--dry-run` option for the `cnpg` plugin `backup` command. ([#11278](https://github.com/cloudnative-pg/cloudnative-pg/pull/11278), [#10899](https://github.com/cloudnative-pg/cloudnative-pg/pull/10899), [#11308](https://github.com/cloudnative-pg/cloudnative-pg/pull/11308), [#11233](https://github.com/cloudnative-pg/cloudnative-pg/pull/11233))
+- **Failover fixes and image updates**: an unreachable old primary is now demoted immediately instead of waiting on checkpoint/fast-shutdown attempts that can never complete, and fenced instances no longer stall failover or Pod recreation (they are recognized and skipped); default PostgreSQL images updated to 18.6-system-trixie and the operator base image moved from Debian 12 to Debian 13 (trixie). ([#11347](https://github.com/cloudnative-pg/cloudnative-pg/pull/11347), [#11274](https://github.com/cloudnative-pg/cloudnative-pg/pull/11274), [#11257](https://github.com/cloudnative-pg/cloudnative-pg/pull/11257), [#11193](https://github.com/cloudnative-pg/cloudnative-pg/pull/11193))
+
+## 1.29.3 — 2026-09-23
+
+[Release page](https://github.com/cloudnative-pg/cloudnative-pg/releases/tag/v1.29.3)
+
+- ⚠️ **Final release of the `1.29.x` series**; the minor is no longer supported.
+- ⚠️ **Security fixes** (same as 1.30.1): `CVE-2026-84304` (gRPC-Go updated to v1.83.1) and the extension `..`-traversal webhook validation bypass. ([#11394](https://github.com/cloudnative-pg/cloudnative-pg/pull/11394), [#11210](https://github.com/cloudnative-pg/cloudnative-pg/pull/11210))
+- Backports the 1.30.1 option additions (`restoreAdditionalCommandArgs`, `auth_user`, `ssl_ecdh_curve`, `backup --dry-run`), the failover fixes, and the image updates (default PostgreSQL 18.6-system-trixie; operator base image on Debian 13). ([#11278](https://github.com/cloudnative-pg/cloudnative-pg/pull/11278), [#10899](https://github.com/cloudnative-pg/cloudnative-pg/pull/10899), [#11347](https://github.com/cloudnative-pg/cloudnative-pg/pull/11347), [#11274](https://github.com/cloudnative-pg/cloudnative-pg/pull/11274), [#11257](https://github.com/cloudnative-pg/cloudnative-pg/pull/11257), [#11193](https://github.com/cloudnative-pg/cloudnative-pg/pull/11193))
 
 ## 1.30.0 — 2026-06-29
 
@@ -70,19 +86,3 @@ Latest 10 official releases, newest first. Check the ⚠️ entries before upgra
 - ⚠️ **Final release of the `1.27.x` series**; the minor is no longer supported.
 - ⚠️ **Native Barman Cloud deprecation: schedule changed** — removal moved from `1.29.0` to `1.30.0`. ([#10167](https://github.com/cloudnative-pg/cloudnative-pg/pull/10167))
 - Backports the 1.28.2 security and supply-chain hardening (password-leak prevention, SLSA provenance, SBOMs).
-
-## 1.28.1 — 2026-02-05
-
-[Release page](https://github.com/cloudnative-pg/cloudnative-pg/releases/tag/v1.28.1)
-
-- **Azure `DefaultAzureCredential`** support for backup/recovery (`azureCredentials.useDefaultAzureCredentials: true`). ([#9468](https://github.com/cloudnative-pg/cloudnative-pg/pull/9468))
-- Critical fix: **`TimelineID` is no longer reset after an in-place major version upgrade**, which previously could leave replicas erroring with "requested timeline is not a child of this server's history". ([#9830](https://github.com/cloudnative-pg/cloudnative-pg/pull/9830))
-- Fixed **stale `Pooler` TLS status** after an upgrade to 1.28.0 (could block all client connections), replica crash loops caused by stale WAL timeline history files, and a "no primary" race in `replica_cluster` transitions. ([#9397](https://github.com/cloudnative-pg/cloudnative-pg/pull/9397), [#9650](https://github.com/cloudnative-pg/cloudnative-pg/pull/9650), [#9601](https://github.com/cloudnative-pg/cloudnative-pg/pull/9601))
-
-## 1.27.3 — 2026-02-05
-
-[Release page](https://github.com/cloudnative-pg/cloudnative-pg/releases/tag/v1.27.3)
-
-- **Azure `DefaultAzureCredential`** support for backup/recovery. ([#9468](https://github.com/cloudnative-pg/cloudnative-pg/pull/9468))
-- Fixed the `TimelineID` reset after major upgrades, replica crash loops caused by future-timeline history files, and the "no primary" race in `replica_cluster` transitions. ([#9830](https://github.com/cloudnative-pg/cloudnative-pg/pull/9830), [#9650](https://github.com/cloudnative-pg/cloudnative-pg/pull/9650), [#9601](https://github.com/cloudnative-pg/cloudnative-pg/pull/9601))
-- The `cnpg` kubectl plugin `status` command now reports **Disabled** (instead of a misleading state) when the `skipWalArchiving` annotation is set. ([#9709](https://github.com/cloudnative-pg/cloudnative-pg/pull/9709))
