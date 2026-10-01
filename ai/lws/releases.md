@@ -1,11 +1,19 @@
 ---
 upstream: https://github.com/kubernetes-sigs/lws
-last_updated: 2026-08-22
+last_updated: 2026-10-01
 ---
 
 # lws — releases
 
 Latest 10 official releases, most recent first. Check the ⚠️ entries before upgrading. Full notes are maintained at the [GitHub releases](https://github.com/kubernetes-sigs/lws/releases).
+
+## v0.11.0 — 2026-09-23
+
+[Release page](https://github.com/kubernetes-sigs/lws/releases/tag/v0.11.0)
+
+- **`LeaderWorkerSet.spec.groupIdentity`** (new, immutable): `Ordinal` (default, current StatefulSet-based behavior) or `Hash`, which manages leaders through a `Deployment` — hash-suffixed group names, scale down preferring unscheduled/not-ready groups, and rollouts paced by a group readiness gate on leader pods; paired with **`spec.groupReplacementPolicy`** (`PostTermination` default / `Immediate`, Hash-only) that gates when a replacement group may start scheduling.
+- **Workload-aware scheduling (KEP-666, phase 1)**: new immutable `LeaderWorkerSet.spec.scheduling` field embedding `scheduling.x-k8s.io/v1alpha3` composite PodGroup scheduling policy, constraints, and disruption mode (LWS-wide, per-replica, and per-leader/worker PodGroup, with dynamic resource claims).
+- `DisaggregatedSet` now populates `status` from its owned LWS objects (`roleStatuses`, `Available`/`Progressing` conditions, `observedGeneration`); managed StatefulSets and pods gain a `leaderworkerset.sigs.k8s.io/role` (leader/worker) label. ⚠️ Kubernetes dependencies bumped to v1.37.
 
 ## v0.10.0 — 2026-08-11
 
@@ -71,10 +79,3 @@ Latest 10 official releases, most recent first. Check the ⚠️ entries before 
 
 - Backported fixes: removed the UPDATE operation from the pod mutating webhook and added nil-revision handling in the pod controller.
 
-## v0.5.0 — 2025-01-08
-
-[Release page](https://github.com/kubernetes-sigs/lws/releases/tag/v0.5.0)
-
-- **ControllerRevision (KEP-238)**: each template revision is now recorded as a `ControllerRevision`, enabling revision tracking of `LeaderWorkerSet`s.
-- The `kube-rbac-proxy` metrics sidecar was replaced (metrics served directly) and the first `lws` Helm chart shipped.
-- Installable into an arbitrary (non-default) namespace; `TPU_NAME` environment variable injection for vLLM TPU multi-host.

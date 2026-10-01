@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/kubernetes-sigs/lws
-last_updated: 2026-08-22
+last_updated: 2026-10-01
 ---
 
 # lws — features
@@ -11,6 +11,7 @@ Key feature areas, each linked to the upstream documentation covering it. The [l
 
 - **Core model**: each `LeaderWorkerSet.replica` is a *group* of one **leader** pod plus `size-1` **worker** pods, implemented as two backing `StatefulSet`s behind a stable, domain-scoped DNS name. Pods get injected labels (`leaderworkerset.sigs.k8s.io/name`, `-worker-index`, `-group-index`, `-leader-name`) and env vars (`LWS_WORKER_INDEX`, `LWS_GROUP_SIZE`, `LWS_LEADER_ADDRESS`). [overview](https://lws.sigs.k8s.io/docs/overview/), [labels/annotations/env](https://lws.sigs.k8s.io/docs/reference/labels-annotations-and-environment-variables/)
 - **SubGroups** (KEP-257, v0.6.0+): partition a group's workers into `subGroupPolicy` subgroups (including `LeaderExcluded`, which drops the leader, and per-subgroup `size`/`LeaderOnly`) for topology-bounded or per-chunk workloads, with `subgroup-index/size/key` labels. [concepts](https://lws.sigs.k8s.io/docs/concepts/rollout-strategy/), [API](https://lws.sigs.k8s.io/docs/reference/leaderworkerset.v1/#leaderworkerset-x-k8s-io-v1-LeaderWorkerSetSpec)
+- **Group identity modes** (v0.11.0): `spec.groupIdentity` selects `Ordinal` (default; StatefulSet-managed leaders, contiguous ordinals) or `Hash` (Deployment-managed leaders, hash-suffixed group names, scale down preferring unscheduled/not-ready groups, rollouts paced by a `group-ready` readiness gate on leader pods); `spec.groupReplacementPolicy` (`PostTermination` default / `Immediate`, Hash-only) controls when a replacement group may start scheduling. [release v0.11.0](https://github.com/kubernetes-sigs/lws/releases/tag/v0.11.0)
 
 ## Scaling and autoscaling
 
@@ -35,10 +36,12 @@ Key feature areas, each linked to the upstream documentation covering it. The [l
 - **Slices** (v0.10.0): `spec.slices` creates independent copies of the whole role topology that scale and roll out independently. [API reference](https://lws.sigs.k8s.io/docs/reference/disaggregatedset.v1/#disaggregatedset-x-k8s-io-v1-DisaggregatedSetSpec)
 - **Placement policy** (v0.10.0): `spec.placementPolicy` co-locates a slice's roles and spreads slices across topology domains by injecting pod affinity/anti-affinity. [API reference](https://lws.sigs.k8s.io/docs/reference/disaggregatedset.v1/#disaggregatedset-x-k8s-io-v1-PlacementPolicy)
 - **External scaling**: per-role `scaling.mode: External` auto-creates the `DisaggregatedSetRoleScaler`. [API reference](https://lws.sigs.k8s.io/docs/reference/disaggregatedset.v1/#disaggregatedset-x-k8s-io-v1-RoleScaling)
+- **Status** (v0.11.0): `status.roleStatuses` (replicas/ready/updated per role) and `Available`/`Progressing` conditions (plus `observedGeneration`) are now populated from the owned LWS objects. [release v0.11.0](https://github.com/kubernetes-sigs/lws/releases/tag/v0.11.0), [API reference](https://lws.sigs.k8s.io/docs/reference/disaggregatedset.v1/#disaggregatedset-x-k8s-io-v1-DisaggregatedSet)
 
 ## Scheduling
 
 - **Gang scheduling** (v0.7.0, KEP-407) and **topology-aware scheduling** with Kueue (via the `exclusive-topology` / `subgroup-exclusive-topology` annotations and `leaderworkerset.sigs.k8s.io/exclusive-topology` label). [TAS with Kueue](https://lws.sigs.k8s.io/docs/examples/tas/)
+- **Workload-aware scheduling** (v0.11.0, KEP-666 phase 1): new immutable `spec.scheduling` embeds `scheduling.x-k8s.io/v1alpha3` composite PodGroup scheduling policy, constraints, and disruption mode at the LWS-wide, per-replica, and per-leader/worker PodGroup levels, with up to 4 dynamic resource claims per leader/worker PodGroup. [release v0.11.0](https://github.com/kubernetes-sigs/lws/releases/tag/v0.11.0)
 
 ## Storage
 
