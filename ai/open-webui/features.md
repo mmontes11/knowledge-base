@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/open-webui/open-webui
-last_updated: 2026-09-03
+last_updated: 2026-10-01
 ---
 
 # open-webui — features
@@ -17,7 +17,7 @@ Open WebUI fronts any Ollama or OpenAI-compatible API (plus first-party adapters
 
 ## Chat and conversations
 
-Multi-model conversations (mention `@model` in one chat), web search with many providers (Bing, Brave, Exa, Firecrawl, SearXNG, ...), image generation and editing (ComfyUI, Automatic1111, OpenAI, Gemini, ...), audio (TTS, speech-to-text, Voice Mode with real-time voice calls), reasoning-model display, automatic context compaction (v0.10.0), and human-in-the-loop tool approval that asks before each tool call (v0.11.1).
+Multi-model conversations (mention `@model` in one chat), web search with many providers (Bing, Brave, Exa with a per-result length cap, Firecrawl, SearXNG, Staan — an EU-hosted option added in v0.11.4, ...), image generation and editing (ComfyUI, Automatic1111, OpenAI, Gemini, ...), audio (TTS, speech-to-text, Voice Mode with real-time voice calls), reasoning-model display, automatic context compaction (v0.10.0), and human-in-the-loop tool approval that asks before each tool call (v0.11.1).
 
 - [Chat features](https://docs.openwebui.com/features/chat-conversations/)
 - [Web search](https://docs.openwebui.com/features/chat-conversations/web-search)
@@ -28,7 +28,7 @@ Multi-model conversations (mention `@model` in one chat), web search with many p
 
 ## RAG and knowledge bases
 
-User- and admin-managed knowledge bases with chunking, multiple extraction backends (Docling, Apache Tika, Mistral OCR, PaddleOCR-vl), several vector stores (Chroma, PGVector, Qdrant, Milvus, LanceDB, ...), folder structure (v0.9.6), and incremental sync via the `oikb` companion tool (directories, GitHub, S3, Confluence, 40+ sources).
+User- and admin-managed knowledge bases with chunking, multiple extraction backends (Docling, Apache Tika, Mistral OCR, PaddleOCR-vl), several vector stores (Chroma, PGVector, Qdrant, Milvus, LanceDB, ...), folder structure (v0.9.6), custom file metadata carried into the retrieved sources the model sees (v0.11.4, selectable via `RAG_SOURCE_METADATA_KEYS`), and incremental sync via the `oikb` companion tool (directories, GitHub, S3, Confluence, 40+ sources).
 
 - [RAG overview](https://docs.openwebui.com/features/chat-conversations/rag/)
 - [Document extraction backends](https://docs.openwebui.com/features/chat-conversations/rag/document-extraction/)
@@ -52,7 +52,7 @@ Team collaboration surfaces: `@model`-aware channels, shared notes, and a calend
 
 ## Extensibility: plugins, pipelines, tools, MCP
 
-Python plugin system with **Filters** (pre/post-process requests; a `request` step added in v0.11.2 adjusts the payload before each model call), **Actions** (intercept), **Pipes** (custom LLM backends), and **Tools** (server-side function calling, with Rich UI); tool servers over OpenAPI and MCP (Model Context Protocol) so external MCP servers can be plugged in directly.
+Python plugin system with **Filters** (pre/post-process requests; a `request` step added in v0.11.2 adjusts the payload before each model call), **Actions** (intercept), **Pipes** (custom LLM backends), and **Tools** (server-side function calling, with Rich UI); tool servers over OpenAPI and MCP (Model Context Protocol) so external MCP servers can be plugged in directly. **Skills** are reusable instruction sets listed to the model by name and opened on demand — v0.11.4 adds automatic skill discovery, skills offered by a connected terminal server, `/skills:create` to author one from a workflow just run, and the terminal's `AGENTS.md` handed to the model each turn. Models, tools, skills and functions also gained per-language names/descriptions (and admin rewording of the interface text itself) in v0.11.4.
 
 - [Plugin system](https://docs.openwebui.com/features/extensibility/plugin/)
 - [Functions (filter/action/event/pipe)](https://docs.openwebui.com/features/extensibility/plugin/functions/)

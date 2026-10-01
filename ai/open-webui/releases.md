@@ -1,11 +1,19 @@
 ---
 upstream: https://github.com/open-webui/open-webui
-last_updated: 2026-09-03
+last_updated: 2026-10-01
 ---
 
 # open-webui — releases
 
 Latest 10 official releases, newest first. Check the ⚠️ entries before upgrading.
+
+## v0.11.4 — 2026-09-21
+
+[Release page](https://github.com/open-webui/open-webui/releases/tag/v0.11.4)
+
+- ⚠️ **Much smaller images, with a constrained "slim" build.** The slim image comes down to ~175 MB (about 89% smaller than the previous release) by dropping the local models and the tooling around them; the standard image also shed ~170 MB. The slim build only supports SQLite/PostgreSQL (MySQL/MariaDB or AWS RDS IAM logins stop it with an error) and local file storage (S3/GCS/Azure buckets stop it with an error), uses pgvector for knowledge search, and requires external embeddings, a reranker, and STT/TTS engines; it has no headless browser, git, DDGS metasearch, or the code-interpreter packages. It also drops `langchain-community` and several previously-bundled packages (nltk, pymongo, the Google Drive client, the Gemini SDK) that a tool or function must now name in its own requirements. Deployments relying on any of those need the standard image.
+- **Skills and terminal work.** Skills a connected terminal server offers now sit beside workspace skills (marked Terminal) and a model can auto-discover and open any reachable skill by name; `/skills:create` turns a just-run workflow into a reusable skill written under the terminal's root, a model is handed the terminal's `AGENTS.md` each turn, and the terminal pane gained a tab per running command, folder uploads, and side-by-side file comparison.
+- **Multilingual, RAG and search.** Per-language names/descriptions (and starter prompts/valve labels) for models, tools, skills, functions, banners and arena entries, plus admin rewording of the interface text itself; model background images; custom file metadata that flows into RAG retrieved sources (`RAG_SOURCE_METADATA_KEYS`); a new EU web-search provider (Staan); and an Exa per-result length cap (`EXA_MAX_CONTENT_LENGTH`). The image-generation connection-check endpoint moved and now takes the connection to test in the request, so old callers need updating.
 
 ## v0.11.3 — 2026-08-31
 
@@ -74,9 +82,3 @@ Latest 10 official releases, newest first. Check the ⚠️ entries before upgra
 - **Security**: redirect-based SSRF protection — all outbound HTTP requests block 3xx redirects by default (`AIOHTTP_CLIENT_ALLOW_REDIRECTS`), covering web fetch, image loading, OAuth discovery, tool server execution, and code interpreter login.
 - **Security**: `IFRAME_CSP` environment variable to set a Content-Security-Policy on all srcdoc iframes (Artifacts, tool embeds, file previews).
 - Granular markdown rendering toggles (user vs assistant); `TERMINAL_PROXY_HEADERS` for injecting response headers on terminal proxy; Channel streaming and full chat tool support on model mentions.
-
-## v0.9.4 — 2026-05-09
-
-[Release page](https://github.com/open-webui/open-webui/releases/tag/v0.9.4)
-
-- Fix: chat scroll position on load (regression from `content-visibility: auto` prevented initial scroll to bottom).

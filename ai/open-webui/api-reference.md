@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/open-webui/open-webui
-last_updated: 2026-08-18
+last_updated: 2026-10-01
 ---
 
 # open-webui — API reference
@@ -33,3 +33,5 @@ The OpenAI client integration exposes `POST /api/chat/completions` and `POST /ap
 - `/ws` — SvelteKit socket app for UI realtime features (message streaming state, presence).
 
 Notable admin endpoints beyond the groups above: `POST /api/v1/models/sync` (declarative model reconciliation; admin-only, [API Endpoints guide](https://docs.openwebui.com/reference/api-endpoints)) and `GET /api/models` (full model list for the workspace).
+
+Since v0.11.4 the image-generation connection-check endpoint moved and now takes the connection to test in the request body rather than as part of the old path, so clients calling the previous address need updating (see the [release notes](https://github.com/open-webui/open-webui/releases/tag/v0.11.4)).
