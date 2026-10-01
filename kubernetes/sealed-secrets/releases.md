@@ -1,11 +1,20 @@
 ---
 upstream: https://github.com/bitnami-labs/sealed-secrets
-last_updated: 2026-09-03
+last_updated: 2026-10-01
 ---
 
 # sealed-secrets — Releases
 
 Latest 10 official application releases, newest first. The Helm chart ships on its own `helm-v2.x` tag series (interleaved in the release list), so chart upgrades are versioned separately from the controller. Full per-version notes: [RELEASE-NOTES.md](https://github.com/bitnami/sealed-secrets/blob/main/RELEASE-NOTES.md) and [releases on GitHub](https://github.com/bitnami/sealed-secrets/releases).
+
+## v0.40.0 — 2026-09-10
+
+[Release page](https://github.com/bitnami/sealed-secrets/releases/tag/v0.40.0)
+
+- ⚠️ **Security fix**: the `/v1/rotate` endpoint no longer behaves as a decryption oracle — `Rotate()` now decrypts `spec.encryptedData` without executing the `spec.template.data` template, closing the same oracle class fixed for `/v1/verify` in v0.39.0 — [bitnami/sealed-secrets#2049](https://github.com/bitnami/sealed-secrets/pull/2049).
+- `spec.template.data` values can now be `null`: a `null` template key omits that key from the materialized `Secret`, so its `spec.encryptedData` entry may be left out — useful for templated secrets with an exact key set (backwards compatible) — [bitnami/sealed-secrets#1871](https://github.com/bitnami/sealed-secrets/pull/1871).
+- Carvel package 2.19.3 released ([#2032](https://github.com/bitnami/sealed-secrets/pull/2032)).
+- Dependency bumps: Go 1.26.8 ([#2050](https://github.com/bitnami/sealed-secrets/pull/2050)), `k8s.io/client-go` 0.37.0 ([#2041](https://github.com/bitnami/sealed-secrets/pull/2041)), `k8s.io/api`/`code-generator` 0.36.4→0.37.0 ([#2037](https://github.com/bitnami/sealed-secrets/pull/2037), [#2042](https://github.com/bitnami/sealed-secrets/pull/2042)), `golang.org/x/crypto` 0.56.0 ([#2048](https://github.com/bitnami/sealed-secrets/pull/2048)), gomega 1.43.0 ([#2044](https://github.com/bitnami/sealed-secrets/pull/2044)), `prometheus/client_model` 0.6.3 ([#2047](https://github.com/bitnami/sealed-secrets/pull/2047)), distroless/static base image ([#2038](https://github.com/bitnami/sealed-secrets/pull/2038)).
 
 ## v0.39.1 — 2026-08-20
 
@@ -72,11 +81,5 @@ Latest 10 official application releases, newest first. The Helm chart ships on i
 ## v0.36.6 — 2026-04-09
 
 [Release page](https://github.com/bitnami/sealed-secrets/releases/tag/v0.36.6)
-
-- Incomplete release cut to work around Docker Hub publisher credential problems; no functional changes.
-
-## v0.36.5 — 2026-04-09
-
-[Release page](https://github.com/bitnami/sealed-secrets/releases/tag/v0.36.5)
 
 - Incomplete release cut to work around Docker Hub publisher credential problems; no functional changes.

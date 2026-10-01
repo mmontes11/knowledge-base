@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/bitnami-labs/sealed-secrets
-last_updated: 2026-08-18
+last_updated: 2026-10-01
 ---
 
 # sealed-secrets — API Reference
@@ -17,7 +17,7 @@ Sealed Secrets registers exactly one custom resource kind, `SealedSecret`, under
 - `data` (deprecated, `format: byte`): legacy whole-`Secret` payload sealed as one base64 string. Superseded by per-key `encryptedData`; use per-key sealing for new work.
 - `template` (optional): declares the `Secret` the controller materializes:
   - `metadata`: name/namespace/labels/annotations/finalizers of the created `Secret` (`x-kubernetes-preserve-unknown-fields` — arbitrary metadata keys are accepted).
-  - `data`: `map[string]string` — extra keys whose values are Go-template strings evaluated at unseal-time against the decrypted values, allowing derived keys (plaintext `template.data` became visible in the template context in v0.37.0, [#1940](https://github.com/bitnami/sealed-secrets/pull/1940)).
+  - `data`: `map[string]string` — extra keys whose values are Go-template strings evaluated at unseal-time against the decrypted values, allowing derived keys (plaintext `template.data` became visible in the template context in v0.37.0, [#1940](https://github.com/bitnami/sealed-secrets/pull/1940)); since v0.40.0 a value may be `null`, which omits that key from the materialized `Secret` so its `spec.encryptedData` entry can be left out ([#1871](https://github.com/bitnami/sealed-secrets/pull/1871)).
   - `immutable`: mark the created `Secret` immutable (only metadata then changeable).
   - `type`: `Secret` type, e.g. `Opaque`, `kubernetes.io/tls`.
 

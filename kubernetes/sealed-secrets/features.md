@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/bitnami-labs/sealed-secrets
-last_updated: 2026-08-18
+last_updated: 2026-10-01
 ---
 
 # sealed-secrets — Features
@@ -11,7 +11,7 @@ Significant feature areas, each with a short explanation and the upstream [READM
 
 - **`kubeseal` CLI**: local binary that fetches the controller's public certificate at seal time and seals a JSON/YAML `Secret` definition into a `SealedSecret`; the output is safe for public repositories. Supports `--from-file`, `--cert`, `--controller-namespace`, `--raw` (experimental), and patching/updating of previously sealed files. [Usage](https://github.com/bitnami/sealed-secrets#usage)
 - **Controller / operator**: watches for `SealedSecret`s and unseals them with the private key, creating or updating a same-named plain `Secret` in the target namespace; progress is reported via `status.conditions` (`Synced`) and `status.observedGeneration`. [Overview](https://github.com/bitnami/sealed-secrets#overview)
-- **`SealedSecret`s as secret templates**: `spec.template` carries the created `Secret`'s metadata, `type`, `immutable` flag, and `data` keys expressed as Go templates evaluated against the decrypted values, so one sealed value can materialize several derived keys (plaintext `template.data` visible in the render context since v0.37.0, [PR #1940](https://github.com/bitnami/sealed-secrets/pull/1940)). [SealedSecrets as templates for secrets](https://github.com/bitnami/sealed-secrets#sealedsecrets-as-templates-for-secrets)
+- **`SealedSecret`s as secret templates**: `spec.template` carries the created `Secret`'s metadata, `type`, `immutable` flag, and `data` keys expressed as Go templates evaluated against the decrypted values, so one sealed value can materialize several derived keys; a `null` `template.data` value omits that key from the created `Secret` (since v0.40.0, [PR #1871](https://github.com/bitnami/sealed-secrets/pull/1871)), and plaintext `template.data` is visible in the render context (since v0.37.0, [PR #1940](https://github.com/bitnami/sealed-secrets/pull/1940)). [SealedSecrets as templates for secrets](https://github.com/bitnami/sealed-secrets#sealedsecrets-as-templates-for-secrets)
 
 ## Sealing scopes
 
@@ -42,6 +42,7 @@ Significant feature areas, each with a short explanation and the upstream [READM
 
 ## Security hardening
 
+- v0.40.0: `/v1/rotate` fixed so it can no longer be used as a decryption oracle — `Rotate()` now decrypts `spec.encryptedData` without executing the `spec.template.data` template ([PR #2049](https://github.com/bitnami/sealed-secrets/pull/2049)).
 - v0.39.0: `/v1/verify` fixed so it can no longer be used as a decryption oracle ([PR #2019](https://github.com/bitnami/sealed-secrets/pull/2019)).
 - v0.38.0: controller Pod security contexts default to the `restricted` Pod Security Standard ([PR #1981](https://github.com/bitnami/sealed-secrets/pull/1981)).
 - Trust model: a sealed payload is useless without the controller's private key — it cannot be decrypted from a repo leak, cluster backup (absent the key `Secret`), or by anyone with cluster read access, including cluster admins. [Crypto details](https://github.com/bitnami/sealed-secrets#details-advanced)
