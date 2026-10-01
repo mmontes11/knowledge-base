@@ -1,11 +1,11 @@
 ---
 upstream: https://github.com/n8n-io/n8n
-last_updated: 2026-09-08
+last_updated: 2026-10-01
 ---
 
 # n8n — features
 
-Key feature areas, each linked to the upstream documentation (2.39 line) covering it. n8n sits between iPaaS-style automation (visual canvas, 400+ integrations, webhooks/schedules) and application servers (REST API, CLI, data tables, RBAC), with first-class AI agent building on both directions: agents that consume external tools (MCP) and n8n itself exposed as a tool/MCP server to external agents.
+Key feature areas, each linked to the upstream documentation (2.42 line) covering it. n8n sits between iPaaS-style automation (visual canvas, 400+ integrations, webhooks/schedules) and application servers (REST API, CLI, data tables, RBAC), with first-class AI agent building on both directions: agents that consume external tools (MCP) and n8n itself exposed as a tool/MCP server to external agents.
 
 ## AI capabilities
 
@@ -14,6 +14,7 @@ Key feature areas, each linked to the upstream documentation (2.39 line) coverin
 - **MCP Trigger (n8n as MCP server)**: expose n8n workflows/tools to outside MCP clients (Claude Desktop, opencode, Cursor, …); see the [node docs](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-langchain.mcptrigger) and [how to connect](https://docs.n8n.io/connect/connect-to-n8n-mcp-server). A companion [n8n-docs MCP server](https://docs.n8n.io/connect/connect-to-n8n-docs-mcp-server) serves the documentation itself to AI clients.
 - **AI Assistant**: generate and edit whole workflows by chat (with credential setup, live canvas lock, and publish gating). [docs](https://docs.n8n.io/build/ways-of-building-workflows/ai-assistant)
 - **Build and manage agents**: workflow-level agent building, channels, and agent runtime behavior. [docs](https://docs.n8n.io/build/build-and-manage-agents)
+- **Agents (on by default from 2.42)**: n8n agents are now enabled by default (#39312) and run on a durable agent message queue (#39435) that connects Preview and integrations to the queue (#39468), with shared Agent context access (#38930) so agent sessions survive restarts. [release](https://github.com/n8n-io/n8n/releases/tag/n8n%402.42.0)
 
 ## Integrations
 
