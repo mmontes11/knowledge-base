@@ -1,11 +1,43 @@
 ---
 upstream: https://github.com/comfyanonymous/ComfyUI
-last_updated: 2026-09-03
+last_updated: 2026-10-01
 ---
 
 # comfyui — Releases
 
-ComfyUI tags versions in `v0.x.y` form on the `master` branch (default branch). Releases are frequent — roughly every 1–3 weeks — combining core sampling/model support, performance work (comfy-kitchen, comfy-aimdo), and third-party "partner" node updates. The ten most recent releases as of 2026-09-03:
+ComfyUI tags versions in `v0.x.y` form on the `master` branch (default branch). Releases are frequent — roughly every 1–3 weeks — combining core sampling/model support, performance work (comfy-kitchen, comfy-aimdo), and third-party "partner" node updates. The ten most recent releases as of 2026-10-01:
+
+## v0.38.0 (2026-09-29)
+
+Release notes: [v0.38.0](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.38.0)
+
+- ⚠️ **Removes the `torchaudio` dependency** from the core; audio processing no longer requires it.
+- Qwen-Image 2.1 support completes (union Fun-ControlNet, tiny VAE, KV-cache and compiled-transformer-block speedups); new ming-image model line; ID-V2V Wan 2.1/VACE identity-preservation video (CORE-426); w6a8 quantization format.
+- `TextGenerate` gains a `system_prompt` input and a separate thinking output (CORE-460); MiniMax-H3 Fun-ControlNet-Union 2.0 (CORE-462); partner-node refresh — GPT-6 Sol/Luna, Claude Opus 5.5, Seedream 5.0 Flash + Seedance 2.5 Draft, Recraft V4.1 Flash, Tencent Hunyuan Image 3.5, Quiver Arrow 2 — and removal of the deprecated Sora nodes.
+
+## v0.37.0 (2026-09-21)
+
+Release notes: [v0.37.0](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.37.0)
+
+- **Fast disk**: `--fast-disk` is now auto-detected and enabled when the disk is fast (CORE-440); comfy-aimdo 0.5.5.
+- Qwen-Image 2.1 support (CORE-423); MoGe 3 (CORE-443); CUDA Graphs + w4a8 GEMV for Qwen3/3.5/3.8 (CORE-390).
+- Partner nodes: Meshy 7.1, transparent-background output for GPT Image 2; frontend bump to 1.53.6.
+
+## v0.36.0 (2026-09-15)
+
+Release notes: [v0.36.0](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.36.0)
+
+- **Generic Loops** (CORE-14): loop-control nodes with loop boundaries declared in the node schema (`executionList` marked strictly internal) — control flow inside a graph.
+- New nodes: Video Concatenate (CORE-436) and Marigold v2 depth (CORE-431); Yue2 music model support.
+- Partner refresh: Tripo migrates to the v3 API with the new Tripo P2 nodes (Smart Segment added, dead widgets retired); GeminiNodeV3 (V2 deprecated); Bria image-edit + Video Eraser; BFL Flux Video Edit; Pruna P-Video-2.
+
+## v0.35.0 (2026-09-09)
+
+Release notes: [v0.35.0](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.35.0)
+
+- **Comfy Compiler introduced** (CORE-389) — compiles model transformer blocks for faster execution; new Sparse Attention node.
+- New models: SenseNova U1.5 (CORE-411), Pixal3D multiview (CORE-421); HDR/high-bit-depth support documented; AVIF output in Save Image Advanced.
+- ⚠️ Memory: ComfyUI now respects the container **cgroup memory limit** instead of host RAM (CORE-394) — containerized deployments now size against the container; new VideoTrim/VideoCrop and File3DToMesh nodes; drops the retiring Veo 2/3.0 partner models.
 
 ## v0.34.0 (2026-08-26)
 
@@ -49,31 +81,3 @@ Release notes: [v0.30.0](https://github.com/comfyanonymous/ComfyUI/releases/tag/
 Release notes: [v0.29.2](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.29.2)
 
 - Frontend fixes and new API/partner nodes.
-
-## v0.29.0 (2026-07-29)
-
-Release notes: [v0.29.0](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.29.0)
-
-- **Trainer video support (CORE-81)**: video processing nodes, video support in image-processing nodes, and LoRA/DiT datasets built from video.
-- Streamed video transcode (no full-frame RAM buffering); Gemma4 12B and JoyImageEdit native model support; native Uni3C ControlNet for Wan models; numerous partner-node additions (GPT-5.6 class LLMs, Gemini 3.5 Flash, HeyGen).
-
-## v0.28.0 (2026-07-15)
-
-Release notes: [v0.28.0](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.28.0)
-
-- ⚠️ **Falls out of Python/PyTorch guarantee**: drops PyTorch 2.4 support (GQA works on all attention backends); ⚠️ **removes** the Ideogram and StabilityAI partner-node families.
-- Security release: fixes four vulnerabilities in one advisory ([GHSA-779p-m5rp-r4h4](https://github.com/Comfy-Org/ComfyUI/security/advisories/GHSA-779p-m5rp-r4h4)).
-
-## v0.27.0 (2026-06-30)
-
-Release notes: [v0.27.0](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.27.0)
-
-- Big performance release: **int8 (convrot) model support** — int8 checkpoints run faster and use less memory, including int8 LoRA application and Turing-generation GPUs.
-- Model weights can now be loaded from a `models/` directory on non-default model paths; bounding-box canvas and asset hashing introduced.
-
-## v0.26.0 (2026-06-23)
-
-Release notes: [v0.26.0](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.26.0)
-
-- New job-management surface: `POST /api/jobs/{job_id}/cancel` and `POST /api/jobs/cancel` (cancel one job or all non-running jobs in a namespace).
-- New model support (SCAIL-2 multireference, Qwen3-VL as text encoders, Boogu-Image); node renames and model blueprint updates.
