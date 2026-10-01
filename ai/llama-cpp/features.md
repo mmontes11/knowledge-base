@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/ggml-org/llama.cpp
-last_updated: 2026-09-03
+last_updated: 2026-10-01
 ---
 
 # llama.cpp — features
@@ -22,7 +22,7 @@ Key feature areas, each linked to the upstream documentation covering it. The [D
 
 ## Serving and clients
 
-- **`llama-server`**: OpenAI-compatible HTTP API server for chat completions, completions, etc. [tools/server/README.md](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
+- **`llama-server`**: OpenAI-compatible HTTP API server for chat completions, completions, etc.; since [v0.5.0](https://github.com/ggml-org/llama.cpp/releases/tag/v0.5.0) it can bind to multiple addresses — `--host` accepts comma-separated TCP addresses and UNIX sockets ([#28690](https://github.com/ggml-org/llama.cpp/pull/28690)). [tools/server/README.md](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md)
 - **Built-in web UI**: served by `llama-server`, shipped as a release asset. [README — Quick start](https://github.com/ggml-org/llama.cpp#quick-start), [tools/ui/](https://github.com/ggml-org/llama.cpp/tree/master/tools/ui)
 - **CLI chat (`llama-cli`)**: interactive terminal client, including VLM sessions. [tools/cli/README.md](https://github.com/ggml-org/llama.cpp/blob/master/tools/cli/README.md)
 - **Docker deployment**: official images on `ghcr.io/ggml-org/llama.cpp` (CPU/CUDA/ROCm/Vulkan variants). [docs/docker.md](https://github.com/ggml-org/llama.cpp/blob/master/docs/docker.md)
@@ -32,7 +32,7 @@ Key feature areas, each linked to the upstream documentation covering it. The [D
 
 - **Multimodal (mtmd)**: vision (and audio) inference via mmproj adapters, covering VLMs across backends. [docs/multimodal.md](https://github.com/ggml-org/llama.cpp/blob/master/docs/multimodal.md), [tools/mtmd/README.md](https://github.com/ggml-org/llama.cpp/blob/master/tools/mtmd/README.md)
 - **Speculative decoding**: draft-model and multi-token-prediction (MTP) acceleration of generation. [docs/speculative.md](https://github.com/ggml-org/llama.cpp/blob/master/docs/speculative.md)
-- **Function calling and structured output**: tool/function calling plus GBNF grammar-constrained generation. [docs/function-calling.md](https://github.com/ggml-org/llama.cpp/blob/master/docs/function-calling.md), [grammars/](https://github.com/ggml-org/llama.cpp/blob/master/grammars/README.md)
+- **Function calling and structured output**: tool/function calling — since [v0.5.0](https://github.com/ggml-org/llama.cpp/releases/tag/v0.5.0) function-call outputs can carry images via `input_image` ([#22575](https://github.com/ggml-org/llama.cpp/pull/22575)) — plus GBNF grammar-constrained generation. [docs/function-calling.md](https://github.com/ggml-org/llama.cpp/blob/master/docs/function-calling.md), [grammars/](https://github.com/ggml-org/llama.cpp/blob/master/grammars/README.md)
 - **Presets**: named bundles of generation parameters. [docs/preset.md](https://github.com/ggml-org/llama.cpp/blob/master/docs/preset.md)
 - **LoRA**: loading, merging, and exporting LoRA adapters. [tools/export-lora/](https://github.com/ggml-org/llama.cpp/tree/master/tools/export-lora)
 
