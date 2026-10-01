@@ -1,11 +1,11 @@
 ---
 upstream: https://github.com/SynologyOpenSource/synology-csi
-last_updated: 2026-08-17
+last_updated: 2026-10-01
 ---
 
 # synology-csi — API reference
 
-synology-csi is a CSI driver, not an operator: it defines no CRDs and exposes no API group of its own. Its API surface is the CSI protocol under the driver name `csi.san.synology.com` plus the standard Kubernetes objects it consumes for configuration. The tables below reflect the current upstream README at [v1.3.1](https://github.com/SynologyOpenSource/synology-csi/tree/v1.3.1); link out, don't copy.
+synology-csi is a CSI driver, not an operator: it defines no CRDs and exposes no API group of its own. Its API surface is the CSI protocol under the driver name `csi.san.synology.com` plus the standard Kubernetes objects it consumes for configuration. The tables below reflect the current upstream README at [v1.4.0](https://github.com/SynologyOpenSource/synology-csi/tree/v1.4.0); link out, don't copy.
 
 | Surface | Kind / object | Purpose | Upstream documentation |
 | ------- | ------------- | ------- | ---------------------- |
@@ -39,7 +39,7 @@ Provisioner `csi.san.synology.com` ([parameter table](https://github.com/Synolog
 | --------- | ---- | ------- | ------------------- | ----------- |
 | `dsm` | string | — | iSCSI, SMB, NFS | DSM endpoint that must exist in `client-info.yml` |
 | `location` | string | — | iSCSI, SMB, NFS | DSM volume path (e.g. `/volume1`); if blank, the driver picks a volume with available storage |
-| `fsType` | string | `ext4` | iSCSI | Filesystem used to format the LUN (`ext4` or `btrfs`); SMB volumes are always `cifs` |
+| `fsType` | string | `ext4` | iSCSI | Filesystem used to format the LUN (`ext4` or `xfs`; `btrfs` no longer supported since v1.4.0 — the UBI9 image lacks `mkfs.btrfs`); SMB volumes are always `cifs` |
 | `protocol` | string | `iscsi` | iSCSI, SMB, NFS, NVMe | `iscsi` creates LUNs, `nvme` creates NVMe/TCP namespaces, `smb`/`nfs` create shared folders |
 | `formatOptions` | string | — | iSCSI | Extra arguments passed to `mkfs.*` |
 | `enableSpaceReclamation` | string | `false` | iSCSI | Space reclamation for thin-provisioned Btrfs LUNs; may impact performance and space display |
@@ -59,4 +59,4 @@ Driver `csi.san.synology.com` — all parameters are optional ([README](https://
 | `description` | string | `""` | iSCSI | Description of the snapshot created on DSM |
 | `is_locked` | string | `false` | iSCSI, SMB, NFS | Locks the snapshot on DSM |
 
-Prerequisites: Kubernetes 1.19+ (the [image matrix](https://github.com/SynologyOpenSource/synology-csi/blob/main/README.md) lists 1.20+ for v1.3.1), DSM 7.0+ / DSM UC 3.1+ / DSME 1.0+, an initialized storage pool and volume on DSM, and — for snapshots — the [external-snapshotter](https://github.com/kubernetes-csi/external-snapshotter) CRDs plus the common snapshot controller ([Prerequisites](https://github.com/SynologyOpenSource/synology-csi/blob/main/README.md#prerequisites)).
+Prerequisites: Kubernetes 1.19+ (the [image matrix](https://github.com/SynologyOpenSource/synology-csi/blob/main/README.md) lists 1.20+ for v1.4.0), DSM 7.0+ / DSM UC 3.1+ / DSME 1.0+, an initialized storage pool and volume on DSM, and — for snapshots — the [external-snapshotter](https://github.com/kubernetes-csi/external-snapshotter) CRDs plus the common snapshot controller ([Prerequisites](https://github.com/SynologyOpenSource/synology-csi/blob/main/README.md#prerequisites)).

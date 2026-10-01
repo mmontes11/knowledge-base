@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/SynologyOpenSource/synology-csi
-last_updated: 2026-08-17
+last_updated: 2026-10-01
 ---
 
 # synology-csi — Features
@@ -9,7 +9,7 @@ Feature areas of the Synology CSI driver, with links to the upstream documentati
 
 ## Storage protocols
 
-- **iSCSI LUNs (default)** — Provisions thin-provisioned LUNs on DSM, formatted `ext4` or `btrfs` (`fsType`), and exposes them as RWO block volumes; LUN description is populated from PVC info (v1.1.3+). See [Creating Storage Classes](https://github.com/SynologyOpenSource/synology-csi/blob/main/README.md#creating-storage-classes).
+- **iSCSI LUNs (default)** — Provisions thin-provisioned LUNs on DSM, formatted `ext4` or `xfs` (`fsType`; `btrfs` is no longer supported since v1.4.0 because the UBI9 image lacks `mkfs.btrfs`), and exposes them as RWO block volumes; LUN description is populated from PVC info (v1.1.3+). See [Creating Storage Classes](https://github.com/SynologyOpenSource/synology-csi/blob/main/README.md#creating-storage-classes).
 - **SMB / CIFS** — Provisions shared folders as RWX file volumes; requires a node stage secret with share credentials. See [example StorageClass](https://github.com/SynologyOpenSource/synology-csi/blob/main/deploy/example/storageclass-smb.yaml).
 - **NFS** — Provisions shared folders over NFS with optional per-node addresses (v1.2.0+) and `mountPermissions` `chmod` after mount. See [example StorageClass](https://github.com/SynologyOpenSource/synology-csi/blob/main/deploy/example/storageclass-nfs.yaml).
 - **NVMe/TCP namespaces (v1.3.0+)** — `protocol: nvme` on NVMe-capable hardware (e.g. PAS7700); driver picks the NAS and subsystem automatically. See [example StorageClass](https://github.com/SynologyOpenSource/synology-csi/blob/main/deploy/example/storageclass-nvme.yaml).
@@ -40,5 +40,6 @@ Feature areas of the Synology CSI driver, with links to the upstream documentati
 - **Kubernetes manifests** — Per-version manifests under `deploy/kubernetes/` for manual installation on Kubernetes v1.19 and v1.20+ ([manifests](https://github.com/SynologyOpenSource/synology-csi/tree/main/deploy/kubernetes)).
 - **Helm** — The cluster typically consumes the driver through the community Helm chart `christian-schlichtherle/synology-csi-chart` (used by the install script since v1.1.2) ([chart repo](https://github.com/christian-schlichtherle/synology-csi-chart)).
 - **Node containment** — chroot is enabled only for the node side and DSM commands execute through a tool executor (v1.2.1+); pod-security labels are applied to the driver namespace ([commits](https://github.com/SynologyOpenSource/synology-csi/tree/v1.2.1)).
+- **UBI9 runtime / OpenShift (v1.4.0+)** — the image is Red Hat UBI9-based and runs as a non-root user (USER 1000) for certification; the node DaemonSet overrides this with `securityContext.runAsUser: 0` alongside `privileged: true`, so custom node manifests must keep `runAsUser: 0` ([commit](https://github.com/SynologyOpenSource/synology-csi/commit/c643d62), [README notice](https://github.com/SynologyOpenSource/synology-csi/blob/main/README.md#notice)).
 - **synocli** — Bundled developer tool for ad-hoc DSM storage operations (e.g. `lun list`, v1.1.1+) ([README, Building](https://github.com/SynologyOpenSource/synology-csi/blob/main/README.md#building)).
 - **Supported CSI sidecars** — Standard `external-snapshotter`, `livenessprobe`, `node-driver-registrar`, and `resizer` images, pinned per release in the manifests ([manifests](https://github.com/SynologyOpenSource/synology-csi/tree/main/deploy/kubernetes)).

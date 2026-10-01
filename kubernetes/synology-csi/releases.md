@@ -1,11 +1,20 @@
 ---
 upstream: https://github.com/SynologyOpenSource/synology-csi
-last_updated: 2026-08-17
+last_updated: 2026-10-01
 ---
 
 # synology-csi — Releases
 
 The latest 10 official releases, newest first. Upstream does not create GitHub Releases; versions are git tags on `main` pointing at the version-bump commit, so entries link to the tag and dates are the dates of those commits.
+
+## 1.4.0 — 2026-09-14
+
+[Tag v1.4.0](https://github.com/SynologyOpenSource/synology-csi/tree/v1.4.0)
+
+- **OpenShift certification:** the runtime image is now UBI9-based (`ubi9/ubi-minimal`) and runs as a non-root user (USER 1000); the node DaemonSet overrides this with `securityContext.runAsUser: 0` alongside `privileged: true` because mount, `iscsiadm`, and the host `chroot` need root — custom node manifests must keep `runAsUser: 0` ([commit](https://github.com/SynologyOpenSource/synology-csi/commit/c643d62), [README notice](https://github.com/SynologyOpenSource/synology-csi/blob/main/README.md#notice)).
+- **Breaking (btrfs):** `fsType: btrfs` is no longer supported — the UBI9 image does not ship `btrfs-progs`, so the driver can no longer run `mkfs.btrfs`; use `ext4` (default) or `xfs`. DSM-side btrfs LUNs are unaffected, but on RHEL-based nodes (OpenShift/RHCOS) the driver also cannot mount existing btrfs volumes ([commit](https://github.com/SynologyOpenSource/synology-csi/commit/c643d62), [README notice](https://github.com/SynologyOpenSource/synology-csi/blob/main/README.md#creating-storage-classes)).
+- Reliability: iSCSI verifies a resolved device really is the volume's LUN and fsyncs before logout; provisioning retries while DSM reports its subsystem busy and rolls back partially created resources; NFS export rules are confirmed to have taken effect and a lost export is restored before failing the mount ([commit](https://github.com/SynologyOpenSource/synology-csi/commit/c643d62)).
+- Correctness: XFS is mounted with `nouuid` so clones can coexist with their source, snapshots can restore into a larger target volume, `volumeMode: Block` is rejected on share-backed protocols, and explicit timeouts are set on the provisioner, resizer, and snapshotter ([commit](https://github.com/SynologyOpenSource/synology-csi/commit/c643d62)).
 
 ## 1.3.1 — 2026-07-29
 
@@ -76,10 +85,4 @@ The latest 10 official releases, newest first. Upstream does not create GitHub R
 
 - iSCSI target now logs out on Unstage, avoiding stale sessions ([commit](https://github.com/SynologyOpenSource/synology-csi/commit/7ba1bd8)).
 - `btrfs-progs` added to the image ([commit](https://github.com/SynologyOpenSource/synology-csi/commit/228cbaa)).
-- Deployment script improvements ([PR #24](https://github.com/SynologyOpenSource/synology-csi/pull/24)).
-
-## 1.0.0 — 2021-08-31
-
-[Tag v1.0.0](https://github.com/SynologyOpenSource/synology-csi/tree/v1.0.0)
-
-- First public release: iSCSI, SMB/CIFS, and NFS protocols with cloning, expansion, and snapshot support ([initial commit](https://github.com/SynologyOpenSource/synology-csi/commit/dc05a79), [README](https://github.com/SynologyOpenSource/synology-csi/blob/main/README.md)).
+ - Deployment script improvements ([PR #24](https://github.com/SynologyOpenSource/synology-csi/pull/24)).

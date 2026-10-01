@@ -1,11 +1,11 @@
 ---
 upstream: https://github.com/SynologyOpenSource/synology-csi
-last_updated: 2026-08-17
+last_updated: 2026-10-01
 ---
 
 # synology-csi
 
-The official [Container Storage Interface](https://github.com/container-storage-interface) (CSI) driver for Synology NAS, maintained by Synology. It provisions Kubernetes `PersistentVolume`s on DSM storage as thin-provisioned iSCSI LUNs (formatted `ext4` or `btrfs`), shared SMB/CIFS or NFS folders, and — since v1.3.0 — NVMe/TCP namespaces, with a single `client-info` secret covering one or many NAS endpoints. The driver advertises Read/Write Many access modes, cloning, expansion, and snapshots ([README](https://github.com/SynologyOpenSource/synology-csi/blob/main/README.md)).
+The official [Container Storage Interface](https://github.com/container-storage-interface) (CSI) driver for Synology NAS, maintained by Synology. It provisions Kubernetes `PersistentVolume`s on DSM storage as thin-provisioned iSCSI LUNs (formatted `ext4` or `xfs`), shared SMB/CIFS or NFS folders, and — since v1.3.0 — NVMe/TCP namespaces, with a single `client-info` secret covering one or many NAS endpoints. The driver advertises Read/Write Many access modes, cloning, expansion, and snapshots ([README](https://github.com/SynologyOpenSource/synology-csi/blob/main/README.md)).
 
 - Upstream repository: [SynologyOpenSource/synology-csi](https://github.com/SynologyOpenSource/synology-csi)
 - Documentation: [README](https://github.com/SynologyOpenSource/synology-csi/blob/main/README.md) (installation, CSI configuration, building, uninstall), manifests per Kubernetes version under [`deploy/kubernetes/`](https://github.com/SynologyOpenSource/synology-csi/tree/main/deploy/kubernetes)
