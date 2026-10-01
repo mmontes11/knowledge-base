@@ -1,6 +1,6 @@
 ---
 upstream: https://github.com/mariadb-operator/mariadb-operator
-last_updated: 2026-08-15
+last_updated: 2026-10-01
 ---
 
 # mariadb-operator — features
@@ -18,16 +18,20 @@ Key feature areas, each linked to the upstream documentation covering it. The [d
 
 - **Failover and update ordering**: `ReplicasFirstPrimaryLast` default update strategy, replica recovery, and automatic primary failover. [docs/high_availability.md](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/high_availability.md), [docs/updates.md](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/updates.md)
 - **Maintenance mode** (new in 26.6.0): composable cordon, drain-connections, and read-only modes for planned maintenance windows. [docs/maintenance.md](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/maintenance.md)
+- **MariaDB 12.3** (26.10.0): the 12.3 LTS release is supported and is the default — the default `mariadb` image is `mariadb:12.3.3`.
+- **MariaDB major-version auto-upgrade** (26.10.1): optional `updateStrategy.mariadbAutoUpgradeEnabled` makes the image entrypoint run `mariadb-upgrade` on start, required when bumping `spec.image` across a major version. [release notes](https://github.com/mariadb-operator/mariadb-operator/releases/tag/26.10.1)
 
 ## MaxScale proxy
 
 - **MaxScale**: provisions and runs a MaxScale instance in front of a `MariaDB`, with servers and listeners routed to the current primary automatically. [docs/maxscale.md](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/maxscale.md)
+- **MaxScale filters** (new in 26.10.1): declare MaxScale [filters](https://mariadb.com/docs/maxscale/reference/maxscale-filters) in `spec.filters` and reference them per service (`spec.services[].filters`) to reject, alter, or log requests before they reach the router. [docs/maxscale.md](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/maxscale.md#filter-configuration)
 
 ## Backup and disaster recovery
 
 - **Logical backups** (`Backup`): scheduled, on-demand, and retention-managed dump-based backups to cloud or in-cluster storage. [docs/logical_backup.md](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/logical_backup.md)
 - **Physical backups** (`PhysicalBackup`): xtrabackup-based backups with scheduling, retention, and per-job `Replica`/`PreferReplica` target policies (25.10.3+). On-demand execution added in 26.3.0. [docs/physical_backup.md](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/physical_backup.md)
 - **Point-in-time recovery** (26.3.0, `PointInTimeRecovery` + `Restore`): automatic binary-log archival and recovery of a `MariaDB` to a specific time, built on `PhysicalBackup` base backups. [docs/pitr.md](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/pitr.md)
+- **Compression**: `Backup`, `PhysicalBackup` and `PointInTimeRecovery` support `none`, `bzip2`, `gzip` and — since 26.10.0 — `zstd`, with a `compressionThreads` field to cap compression CPU threads. [docs/physical_backup.md](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/physical_backup.md)
 - **Storage backends**: S3-compatible object storage, Azure Blob (26.3.0+), in-cluster PVCs, and `VolumeSnapshot`. [docs/storage.md](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/storage.md)
 
 ## SQL objects

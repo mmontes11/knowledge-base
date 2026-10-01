@@ -1,11 +1,34 @@
 ---
 upstream: https://github.com/mariadb-operator/mariadb-operator
-last_updated: 2026-08-15
+last_updated: 2026-10-01
 ---
 
 # mariadb-operator — releases
 
 Latest 10 official releases, newest first. Check the ⚠️ entries before upgrading; for major upgrades also read the [upstream upgrade guides](https://github.com/mariadb-operator/mariadb-operator/tree/main/docs/releases).
+
+## 26.10.1 — 2026-09-21
+
+[Release page](https://github.com/mariadb-operator/mariadb-operator/releases/tag/26.10.1)
+
+- Patch release on top of [26.10.0](https://github.com/mariadb-operator/mariadb-operator/releases/tag/26.10.0) — see that entry for the full `26.10.x` changelog.
+- **MariaDB major-version upgrades**: new optional field `updateStrategy.mariadbAutoUpgradeEnabled` (disabled by default) sets `MARIADB_AUTO_UPGRADE=true` in the `mariadb` container so the image entrypoint runs `mariadb-upgrade` on start. Set it **before** bumping `spec.image` across a major version (e.g. `mariadb:11.8` → `mariadb:12.3`); without it the Pods restart in place against an unmigrated datadir and every query touching `mysql.proc` fails. [PR #1921](https://github.com/mariadb-operator/mariadb-operator/pull/1921)
+- **MaxScale filters**: MaxScale now supports [filters](https://mariadb.com/docs/maxscale/reference/maxscale-filters) — declare them in `spec.filters` and reference them by name (in application order) from `spec.services[].filters`; declared filters are applied only when referenced by a service. `spec.volumes` was also added to the MaxScale Pod template, pairing with the existing `spec.volumeMounts`. [docs/maxscale.md](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/maxscale.md#filter-configuration), [PR #1923](https://github.com/mariadb-operator/mariadb-operator/pull/1923)
+- ⚠️ **Upgrade**: read the [UPGRADE guide](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/releases/UPGRADE_26.10.1.md).
+
+## 26.10.0 — 2026-09-18
+
+[Release page](https://github.com/mariadb-operator/mariadb-operator/releases/tag/26.10.0)
+
+- ⚠️ A patch release is available — **skip `26.10.0` and upgrade to [26.10.1](https://github.com/mariadb-operator/mariadb-operator/releases/tag/26.10.1) instead.**
+- **MariaDB 12.3 support**: 12.3 LTS is supported and is now the default — the default `mariadb` image is bumped to `mariadb:12.3.3` (existing clusters keep the image pinned in their spec and are unaffected). [PR #1899](https://github.com/mariadb-operator/mariadb-operator/pull/1899)
+- **Replication topology hardening**: no more `RESET MASTER` when configuring replicas (binary-log history is now preserved for PITR and multi-cluster); rejoining nodes with self-owned GTIDs are demoted with `MASTER_DEMOTE_TO_SLAVE`; correct `rpl_semi_sync_master_enabled` is enforced on every node; new fields `replication.semiSyncBootAsReplica` (boot `read_only` with semi-sync disabled) and `replication.semiSyncWaitNoSlave`; the liveness probe no longer restarts the Pod on an error-free administrative SQL-thread stop. [docs/replication.md](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/replication.md)
+- ⚠️ **Galera behavior change**: the operator no longer recovers a Galera cluster where all members present an empty state (`00000000-0000-0000-0000-000000000000` UUID, `seqno: -1`); choose the bootstrap node explicitly via `forceClusterBootstrapInPod`. [docs/galera.md](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/galera.md#force-cluster-bootstrap)
+- **Galera logical backups are restorable**: dumps exclude the Galera-managed `mysql.wsrep_*` system tables.
+- **ZSTD compression**: `Backup`, `PhysicalBackup` and `PointInTimeRecovery` now support `compression: zstd` alongside `none`, `bzip2` and `gzip`, with a new `compressionThreads` field to cap the CPU threads used for compression. [PR #1874](https://github.com/mariadb-operator/mariadb-operator/pull/1874)
+- **Helm**: the `mariadb-cluster` chart now supports `MaxScale` resources; chart releases include generated release notes for Renovate/Dependabot.
+- Bug fixes: repeatable `mariadb-dump` flags in `spec.args` are no longer silently dropped; `PhysicalBackup` jobs inherit `podSecurityContext.seLinuxOptions` from the `MariaDB`; failed scheduled `Backup`/`SqlJob` runs report `CronJobFailed` instead of `CronJobScheduled`.
+- ⚠️ **Upgrade**: read the [UPGRADE guide](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/releases/UPGRADE_26.10.0.md).
 
 ## 26.6.0 — 2026-06-06
 
@@ -70,15 +93,3 @@ Latest 10 official releases, newest first. Check the ⚠️ entries before upgra
 
 - **New `ExternalMariaDB` kind**: declares an externally hosted MariaDB instance as a target for `User`, `Grant`, `Database`, `SqlJob`, and `Backup`. [docs/external_mariadb.md](https://github.com/mariadb-operator/mariadb-operator/blob/main/docs/external_mariadb.md)
 - `VolumeSnapshot` locking optimization: the operator locks until the snapshot is created by the storage system rather than waiting for full data replication.
-
-## 25.8.3 — 2025-08-08
-
-[Release page](https://github.com/mariadb-operator/mariadb-operator/releases/tag/25.8.3)
-
-- Fixes regressions from 25.8.2: `VolumeSnapshot`-based `PhysicalBackup`s are synchronous and consistent again; lower grant reconcile time.
-
-## 25.8.2 — 2025-07-30
-
-[Release page](https://github.com/mariadb-operator/mariadb-operator/releases/tag/25.8.2)
-
-- Fixes regressions from 25.8.1: Galera failover fix and a fix for the v25 package transition.
