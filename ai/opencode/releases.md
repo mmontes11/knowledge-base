@@ -1,11 +1,49 @@
 ---
 upstream: https://github.com/anomalyco/opencode
-last_updated: 2026-09-08
+last_updated: 2026-10-01
 ---
 
 # opencode — releases
 
 Latest 10 official releases, newest first. OpenCode ships small, frequent patch releases (roughly every few days); note the API-generation ("v1" vs "v2") entries before upgrading an embedded or remote setup.
+
+## v1.18.34 — 2026-09-30
+
+[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.34)
+
+- Model requests now send namespaced session and parent-session identity headers.
+- macOS: locally compiled binaries are re-signed so they run reliably on macOS 27+, and release CLI binaries are signed with a Developer ID.
+
+## v1.18.33 — 2026-09-28
+
+[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.33)
+
+- Cloudflare AI Gateway models now honor provider response and stream timeouts.
+- Debug configuration output now redacts credentials and sensitive headers, and MCP browser launch failures are reported when the launcher exits immediately.
+- Gemini thinking defaults and effort options now match the supported controls across model generations.
+
+## v1.18.32 — 2026-09-21
+
+[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.32)
+
+- Bedrock image attachments are only hoisted for Claude, Nova, and Llama 4 models.
+- Together AI streaming usage reporting fixed.
+
+## v1.18.31 — 2026-09-14
+
+[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.31)
+
+- ACP session model, effort, mode, and reasoning chunk boundaries restored when loading, resuming, or forking sessions.
+- TUI: remote config authentication errors are shown at startup and the app exits with a failure status.
+- GitHub Copilot models now request summarized adaptive thinking.
+
+## v1.18.30 — 2026-09-09
+
+[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.30)
+
+- Astra system prompt added for GPT-6 models.
+- Bedrock DeepSeek model IDs (including ARN-based IDs) are preserved so they resolve correctly, and reasoning-effort variants were added for supported GitLab GPT and Claude models.
+- Azure and OpenAI provider SDKs updated for compatibility fixes.
 
 ## v1.18.29 — 2026-09-04
 
@@ -42,43 +80,3 @@ Latest 10 official releases, newest first. OpenCode ships small, frequent patch 
 [Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.25)
 
 - Azure CLI sign-in fixed to work without requiring Bun (follow-up to the Azure CLI auth path added in v1.18.24).
-
-## v1.18.24 — 2026-08-28
-
-[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.24)
-
-- The Azure provider can now sign in with Microsoft Entra ID through the Azure CLI instead of requiring an API key.
-- V1 now reads supported V2 config fields so newer config files keep working in more mixed setups.
-- Bedrock reasoning responses no longer get cached into unreplayable empty messages.
-- Desktop: archived sessions disappear from the Home list immediately.
-
-## v1.18.23 — 2026-08-25
-
-[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.23)
-
-- Cloudflare AI Gateway now routes third-party (non-Workers) models through the REST API, and converts Anthropic dotted model IDs (e.g. `claude-haiku-4.5`) to the dashed slug the provider expects.
-- Parent session IDs no longer sent in request headers for session-aware providers.
-- TUI: GitHub auth fixed for immutable OIDC subject tokens.
-
-## v1.18.22 — 2026-08-24
-
-[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.22)
-
-- OpenCode device-login links fixed when servers return relative verification URLs or use a base path; outdated OpenCode Go first-month discount messaging and pricing removed.
-- Amazon Bedrock provider updated for compatibility fixes; `textVerbosity` no longer sent to OpenAI-compatible providers that do not support it.
-- Desktop: model provider headers stay visible while scrolling the model picker.
-
-## v1.18.21 — 2026-08-21
-
-[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.21)
-
-- Continue responses when a model reports an unknown finish reason instead of stopping early; Vertex AI `eu`/`us` multi-region Gemini requests routed through REP endpoints.
-- Desktop: file search results stay visible while the next search loads; archive session command registered in both layouts.
-
-## v1.18.20 — 2026-08-21
-
-[Release page](https://github.com/anomalyco/opencode/releases/tag/v1.18.20)
-
-- Failed subagent tool calls are surfaced with a resumable `task_id` instead of returning empty results.
-- Wider network-error retry coverage (`finish_reason: network_error` variants, xAI capacity/unavailability); Cerebras `max_completion_tokens` preserved.
-- Permission requests triggered by subagents during `opencode run` are now answered interactively.
