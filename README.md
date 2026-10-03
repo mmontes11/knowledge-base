@@ -135,6 +135,7 @@ For each tracked project, in order:
 | `kubernetes` | [external-snapshotter](kubernetes/external-snapshotter/) | [kubernetes-csi/external-snapshotter](https://github.com/kubernetes-csi/external-snapshotter) |
 | `kubernetes` | [gateway-api](kubernetes/gateway-api/)                   | [kubernetes-sigs/gateway-api](https://github.com/kubernetes-sigs/gateway-api)                 |
 | `ai`         | [github-mcp-server](ai/github-mcp-server/)               | [github/github-mcp-server](https://github.com/github/github-mcp-server)                       |
+| `kubernetes` | [hami](kubernetes/hami/)                                 | [Project-HAMi/HAMi](https://github.com/Project-HAMi/HAMi)                                     |
 | `ai`         | [kagent](ai/kagent/)                                     | [kagent-dev/kagent](https://github.com/kagent-dev/kagent)                                     |
 | `ai`         | [kserve](ai/kserve/)                                     | [kserve/kserve](https://github.com/kserve/kserve)                                             |
 | `kubernetes` | [kube-prometheus-stack](kubernetes/kube-prometheus-stack/) | [prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts) |
